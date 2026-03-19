@@ -427,6 +427,7 @@ const GATE_HASH='c4a96f8348dde33e47adc1c6baf6ef1989ea904d80e0c4699788090defa1a55
 // ── 접속 추적 ──────────────────────────────────────────
 const TRACKER_URL='https://script.google.com/macros/s/AKfycbwkN7ckgCH9OMXp1eRD4E2gc6G4WqGFp38-7ynk5MwFL-sX2q_Rs8JLXX7K9Og5HWU7wQ/exec';
 const _loginTime=Date.now();
+let _ipCache={};  // IP 정보 캐시 (페이지 로드 시 1회 조회)
 
 function _parseBrowser(ua){
   if(/Edg\//.test(ua)) return 'Edge';
@@ -444,32 +445,53 @@ function _parseOS(ua){
   if(/Linux/.test(ua)) return 'Linux';
   return 'Other';
 }
-async function _track(event,dur){
+
+// 페이지 로드 시 IP 미리 조회 (캐시)
+(async function(){
   try{
-    const ip=await fetch('https://ipinfo.io/json').then(r=>r.json()).catch(()=>({}));
-    await fetch(TRACKER_URL,{
-      method:'POST',
-      body:JSON.stringify({
-        ts:new Date().toISOString(),
-        ip:ip.ip||'',
-        country:ip.country||'',
-        city:ip.city||'',
-        browser:_parseBrowser(navigator.userAgent),
-        os:_parseOS(navigator.userAgent),
-        event,
-        dur:dur||''
-      })
-    });
-  }catch(e){}
+    const r=await fetch('https://ipinfo.io/json');
+    _ipCache=await r.json();
+  }catch(e){
+    try{
+      // fallback: ipify
+      const r2=await fetch('https://api.ipify.org?format=json');
+      const d=await r2.json();
+      _ipCache={ip:d.ip,country:'',city:''};
+    }catch(e2){}
+  }
+})();
+
+function _sendToSheet(payload){
+  // GAS CORS 우회: no-cors + text/plain (simple request → preflight 없음)
+  const body=JSON.stringify(payload);
+  fetch(TRACKER_URL,{
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'text/plain'},
+    body
+  }).catch(()=>{
+    // fetch 실패 시 sendBeacon으로 재시도
+    navigator.sendBeacon(TRACKER_URL,body);
+  });
+}
+
+function _track(event,dur){
+  _sendToSheet({
+    ts:new Date().toISOString(),
+    ip:_ipCache.ip||'',
+    country:_ipCache.country||'',
+    city:_ipCache.city||'',
+    browser:_parseBrowser(navigator.userAgent),
+    os:_parseOS(navigator.userAgent),
+    event,
+    dur:dur||''
+  });
 }
 // 탭 닫기/이동 시 체류 시간 기록
 window.addEventListener('visibilitychange',()=>{
   if(document.visibilityState==='hidden'&&sessionStorage.getItem('gi_auth')==='1'){
     const sec=Math.round((Date.now()-_loginTime)/1000);
-    navigator.sendBeacon(TRACKER_URL,JSON.stringify({
-      ts:new Date().toISOString(),ip:'',country:'',city:'',browser:_parseBrowser(navigator.userAgent),
-      os:_parseOS(navigator.userAgent),event:'exit',dur:sec
-    }));
+    _track('exit',sec);
   }
 });
 // ────────────────────────────────────────────────────────
