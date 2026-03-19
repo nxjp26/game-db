@@ -103,6 +103,34 @@ h1{font-size:15px;font-weight:600;color:#1a1a1a;letter-spacing:-.3px;}
 .anchor-hl{animation:hlpulse 1.5s ease;}
 @keyframes hlpulse{0%{box-shadow:0 0 0 0 rgba(26,86,196,.4);}70%{box-shadow:0 0 0 8px rgba(26,86,196,0);}100%{box-shadow:none;}}
 footer{text-align:center;padding:20px;font-size:11px;color:#bbb;border-top:1px solid #eae9e4;margin-top:20px;}
+/* ── 재무 차트 ── */
+.chart-panel{background:#fff;border:1px solid #eae9e4;border-radius:12px;padding:14px 16px;margin-bottom:14px;}
+.chart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;cursor:pointer;}
+.chart-title{font-size:12px;font-weight:700;color:#333;}
+.chart-toggle{font-size:10px;color:#aaa;}
+.chart-body{overflow:hidden;transition:max-height .25s ease;}
+.chart-body.collapsed{max-height:0;}
+.chart-tabs{display:flex;gap:6px;margin-bottom:10px;}
+.chart-tab{font-size:11px;padding:4px 10px;border-radius:6px;cursor:pointer;border:1px solid #ddd;color:#666;background:#fafafa;}
+.chart-tab.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a;}
+.chart-svg-wrap{width:100%;overflow-x:auto;}
+.chart-row{display:flex;align-items:center;margin-bottom:5px;gap:6px;}
+.chart-label{font-size:10.5px;color:#333;width:120px;min-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right;}
+.chart-bar-wrap{flex:1;position:relative;}
+.chart-bar{height:16px;border-radius:4px;transition:width .4s ease;min-width:2px;}
+.chart-val{font-size:10px;color:#666;margin-left:4px;white-space:nowrap;}
+@media(max-width:480px){.chart-label{width:80px;min-width:80px;font-size:10px;}}
+/* ── 비밀번호 게이트 ── */
+.gate-overlay{display:flex;position:fixed;inset:0;background:#1a1a1a;z-index:2000;align-items:center;justify-content:center;}
+.gate-box{background:#fff;border-radius:16px;padding:36px 32px;width:100%;max-width:360px;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,.3);}
+.gate-logo{font-size:28px;margin-bottom:8px;}
+.gate-title{font-size:16px;font-weight:700;color:#1a1a1a;margin-bottom:4px;}
+.gate-sub{font-size:12px;color:#aaa;margin-bottom:24px;}
+.gate-input{width:100%;box-sizing:border-box;padding:11px 14px;border:1.5px solid #ddd;border-radius:9px;font-size:15px;outline:none;margin-bottom:10px;transition:border-color .15s;}
+.gate-input:focus{border-color:#1a56c4;}
+.gate-btn{width:100%;padding:11px;background:#1a1a1a;color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s;}
+.gate-btn:hover{background:#333;}
+.gate-err{font-size:12px;color:#c0392b;margin-top:8px;min-height:18px;}
 /* ── 모달 ── */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;align-items:flex-end;justify-content:center;}
 .modal-overlay.open{display:flex;}
@@ -140,7 +168,7 @@ footer{text-align:center;padding:20px;font-size:11px;color:#bbb;border-top:1px s
 @media(max-width:480px){header{padding:10px 14px;}.hbadge{display:none;}.wrap{padding:8px;}.strow{grid-template-columns:repeat(2,1fr);}.mets{grid-template-columns:repeat(2,1fr);}.criteria-grid{grid-template-columns:1fr;}.ctrl{padding:10px 12px;}.ctrl-top{flex-wrap:wrap;}#sort-sel{width:100%;margin-top:6px;}.stv{font-size:17px;}#srch{font-size:16px;min-height:44px;}#sort-sel{min-height:44px;font-size:15px;}.stab{padding:7px 12px;min-height:40px;font-size:11px;}.fp{padding:7px 11px;min-height:40px;font-size:11px;}.ctb{gap:8px 6px;}.fgrp{gap:5px;}}
 @media(max-width:390px){.wrap{padding:6px 8px;}.strow{grid-template-columns:1fr 1fr;}.strow .stcard:last-child:nth-child(odd){grid-column:span 2;}.mets{grid-template-columns:1fr 1fr;}.cc{padding:11px 10px;}.cn{font-size:12.5px;}.cn-jp{font-size:10px;}.dl{font-size:9px;}.stl{font-size:9px;}.stv{font-size:16px;}h1{font-size:13.5px;}header .hbadge{display:none;}.fp{font-size:10px;padding:6px 9px;}.stab{font-size:10px;padding:6px 9px;}}
 @media print{
-  header,.criteria-panel,.ctrl,.ctb,.modal-overlay{display:none!important;}
+  header,.criteria-panel,.ctrl,.ctb,.modal-overlay,.gate-overlay{display:none!important;}
   body{background:#fff;}
   .wrap{padding:8px;}
   .strow{grid-template-columns:repeat(6,1fr);margin-bottom:10px;}
@@ -154,6 +182,18 @@ footer{text-align:center;padding:20px;font-size:11px;color:#bbb;border-top:1px s
 </head>
 <body>
 
+<!-- 비밀번호 게이트 -->
+<div class="gate-overlay" id="gate-overlay">
+  <div class="gate-box">
+    <div class="gate-logo">🎮</div>
+    <div class="gate-title">기업 인텔리전스 DB</div>
+    <div class="gate-sub">Nexon Japan · 기업개발팀 내부 자료</div>
+    <input class="gate-input" id="gate-input" type="password" placeholder="비밀번호 입력"
+      autocomplete="current-password" />
+    <button class="gate-btn" id="gate-btn" onclick="gateCheck()">확인</button>
+    <div class="gate-err" id="gate-err"></div>
+  </div>
+</div>
 
 <header>
   <div class="header-inner">
@@ -201,6 +241,19 @@ footer{text-align:center;padding:20px;font-size:11px;color:#bbb;border-top:1px s
   </div>
 
   <div class="strow" id="stats"></div>
+  <div class="chart-panel" id="chart-panel">
+    <div class="chart-header" onclick="toggleChart()">
+      <span class="chart-title">📊 시총 / 매출 상위 기업 (데이터 있는 기업 기준)</span>
+      <span class="chart-toggle" id="chart-arr">▼ 펼치기</span>
+    </div>
+    <div class="chart-body collapsed" id="chart-body">
+      <div class="chart-tabs">
+        <span class="chart-tab on" onclick="setChartMode('mk')">시가총액</span>
+        <span class="chart-tab" onclick="setChartMode('rv')">매출</span>
+      </div>
+      <div id="chart-bars"></div>
+    </div>
+  </div>
   <div class="ctrl">
     <div class="ctrl-top">
       <input id="srch" type="text" placeholder="회사명(한국어·일본어) · 타이틀 · 특징 · 판단근거 검색..." />
@@ -330,6 +383,36 @@ footer{text-align:center;padding:20px;font-size:11px;color:#bbb;border-top:1px s
 <footer>Nexon Japan — 기업 조사 자료 | 서브 45사 + 비서브 41사 + 판권 8사 + AI기술 6사 = 총 100사 | 설계서: 설계서_v2.0.md</footer>
 
 <script>
+
+// ── 비밀번호 게이트 (SHA-256 해시만 저장, 평문 없음) ──
+// 비밀번호 변경 방법: node -e "require('crypto').createHash('sha256').update('새비밀번호').digest('hex')" | pbcopy
+const GATE_HASH='c4a96f8348dde33e47adc1c6baf6ef1989ea904d80e0c4699788090defa1a55a';
+
+async function gateCheck(){
+  const pw=document.getElementById('gate-input').value;
+  if(!pw){document.getElementById('gate-err').textContent='비밀번호를 입력하세요.';return;}
+  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pw));
+  const hash=Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  if(hash===GATE_HASH){
+    sessionStorage.setItem('gi_auth','1');
+    document.getElementById('gate-overlay').style.display='none';
+  } else {
+    document.getElementById('gate-err').textContent='비밀번호가 올바르지 않습니다.';
+    document.getElementById('gate-input').value='';
+    document.getElementById('gate-input').focus();
+  }
+}
+// Enter 키 지원
+document.addEventListener('DOMContentLoaded',()=>{
+  const inp=document.getElementById('gate-input');
+  if(inp) inp.addEventListener('keydown',e=>{if(e.key==='Enter') gateCheck();});
+  // 이미 인증된 세션이면 게이트 숨기기
+  if(sessionStorage.getItem('gi_auth')==='1'){
+    document.getElementById('gate-overlay').style.display='none';
+  } else {
+    document.getElementById('gate-input').focus();
+  }
+});
 
 // ── 데이터 ──
 const D=[
@@ -630,6 +713,62 @@ document.getElementById('srch').addEventListener('input',e=>{fs.q=e.target.value
 renderStats();
 renderFilters();
 renderCards();
+
+// ── 재무 차트 ──
+let chartMode='mk';
+let chartOpen=false;
+
+const CHART_COLORS={O:'#1a7a4a',T:'#b56a00',X:'#c0392b',N:'#888'};
+
+function renderChart(){
+  const field=chartMode;
+  const data=DD.filter(c=>c[field]!=null&&c[field]>0)
+    .sort((a,b)=>b[field]-a[field])
+    .slice(0,12);
+  if(!data.length){document.getElementById('chart-bars').innerHTML='<div style="font-size:12px;color:#aaa;padding:8px 0">데이터 없음</div>';return;}
+  const max=data[0][field];
+  const bars=data.map(c=>{
+    const pct=Math.round((c[field]/max)*100);
+    const label=c.nk||c.n;
+    const val=fy(c[field]);
+    const color=CHART_COLORS[c.ma]||'#888';
+    return `<div class="chart-row">
+      <div class="chart-label" title="${label}">${label}</div>
+      <div class="chart-bar-wrap">
+        <div class="chart-bar" style="width:${pct}%;background:${color}"></div>
+      </div>
+      <span class="chart-val">${val}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('chart-bars').innerHTML=bars;
+}
+
+function toggleChart(){
+  chartOpen=!chartOpen;
+  const body=document.getElementById('chart-body');
+  const arr=document.getElementById('chart-arr');
+  if(chartOpen){
+    body.classList.remove('collapsed');
+    body.style.maxHeight=body.scrollHeight+'px';
+    arr.textContent='▲ 접기';
+    renderChart();
+  } else {
+    body.style.maxHeight='0';
+    body.classList.add('collapsed');
+    arr.textContent='▼ 펼치기';
+  }
+}
+
+function setChartMode(mode){
+  chartMode=mode;
+  document.querySelectorAll('.chart-tab').forEach(el=>{
+    el.classList.toggle('on',el.getAttribute('onclick').includes(`'${mode}'`));
+  });
+  renderChart();
+  // 높이 재조정
+  const body=document.getElementById('chart-body');
+  body.style.maxHeight=body.scrollHeight+'px';
+}
 
 // URL 앵커 처리 (#co-N 형식)
 (function(){
