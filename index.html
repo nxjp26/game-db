@@ -197,6 +197,11 @@ footer{text-align:center;padding:20px;font-size:11px;color:#bbb;border-top:1px s
 .modal-reason.r{background:#fdf0ef;color:#8a2020;border-left:3px solid #c0392b;}
 .modal-reason.d{background:#f7f6f1;color:#555;border-left:3px solid #bbb;}
 .modal-fix{font-size:10.5px;background:#fffbe6;border:1px solid #ffe566;border-radius:6px;padding:5px 9px;margin-bottom:10px;color:#7a5a00;}
+.modal-links{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.modal-link-btn{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;border:1px solid;transition:opacity .12s;white-space:nowrap;line-height:1;}
+.modal-link-btn:hover{opacity:.7;}
+.modal-link-btn.site{background:#f0f4ff;color:#1a56c4;border-color:#c0d0f0;}
+.modal-link-btn.stock{background:#edf7f1;color:#1a7a4a;border-color:#b3dfc5;}
 .modal-tt{font-size:12px;color:#777;line-height:1.55;background:#fafafa;border-radius:7px;padding:7px 10px;margin-bottom:12px;}
 @media(max-width:390px){.modal-fin{grid-template-columns:repeat(2,1fr);}.modal-name{font-size:15px;}}
 @media(max-width:900px){.strow{grid-template-columns:repeat(4,1fr);}}
@@ -633,6 +638,108 @@ const D=[
   {n:'ポケットRD',nk:'포켓RD',ct:'일본',bz:'AI기술',gn:'AI기술',ma:'N',mk:null,rv:null,mg:null,rep:'미파악',tt:'VTuber 기술, AI 버추얼 휴먼 솔루션',ch:'VTuber·AI 버추얼 휴먼 기술 전문 스타트업. 비상장. 캐릭터 IP와 AI 결합 기술력 보유.',pr:'VTuber·AI 버추얼 휴먼 기술. 게임 캐릭터 IP 활성화에 직접 활용 가능.',cn:'비상장 초기. 재무·팀·주주 미공개. 기술 성숙도 불확실.',sh:'미파악 (비공개)',src:'add',ip:false,iv:null,emp:null,fix:null,mr:'VTuber·AI 버추얼 휴먼 기술 전문 비상장 스타트업. 재무·주주 미공개. 게임 캐릭터 IP 가상 인플루언서화 등 응용 가능. 추가 조사 후 재분류.'},
 ];
 
+// ── 회사 링크 (공식 사이트 + 주가) ──
+const COMPANY_LINKS={
+  'LINEヤフー':{url:'https://www.lycorp.co.jp/',stock:'https://finance.yahoo.co.jp/quote/4689.T'},
+  'バンダイナムコエンタ':{url:'https://www.bandainamcoent.co.jp/'},
+  'スクウェア・エニックス':{url:'https://www.jp.square-enix.com/',stock:'https://finance.yahoo.co.jp/quote/9684.T'},
+  'セガ':{url:'https://www.sega.co.jp/',stock:'https://finance.yahoo.co.jp/quote/6460.T'},
+  'TOHO Games':{url:'https://www.tohogames.jp/',stock:'https://finance.yahoo.co.jp/quote/9602.T'},
+  'コナミデジタルエンタ':{url:'https://www.konami.com/games/jp/ja/',stock:'https://finance.yahoo.co.jp/quote/9766.T'},
+  'KADOKAWA':{url:'https://www.kadokawa.co.jp/',stock:'https://finance.yahoo.co.jp/quote/9468.T'},
+  'カプコン':{url:'https://www.capcom.co.jp/',stock:'https://finance.yahoo.co.jp/quote/9697.T'},
+  'DeNA':{url:'https://dena.com/jp/',stock:'https://finance.yahoo.co.jp/quote/2432.T'},
+  'MIXI':{url:'https://mixi.co.jp/',stock:'https://finance.yahoo.co.jp/quote/2121.T'},
+  'アニプレックス':{url:'https://www.aniplex.co.jp/'},
+  'Cygames':{url:'https://www.cygames.co.jp/'},
+  'ガンホー':{url:'https://www.gungho.co.jp/',stock:'https://finance.yahoo.co.jp/quote/3765.T'},
+  'コーエーテクモゲームス':{url:'https://www.koeitecmo.co.jp/',stock:'https://finance.yahoo.co.jp/quote/3635.T'},
+  'EXNOA (DMM)':{url:'https://exnoa.dmm.com/'},
+  'ブシロード':{url:'https://bushiroad.com/',stock:'https://finance.yahoo.co.jp/quote/7803.T'},
+  'グッドスマイルカンパニー':{url:'https://www.goodsmile.info/'},
+  'フリュー':{url:'https://www.furyu.jp/',stock:'https://finance.yahoo.co.jp/quote/6238.T'},
+  'Pearl Abyss':{url:'https://www.pearlabyss.com/ja-JP'},
+  'マーベラス':{url:'https://www.marv.jp/',stock:'https://finance.yahoo.co.jp/quote/7844.T'},
+  'WFS':{url:'https://www.wfs.games/'},
+  'コロプラ':{url:'https://colopl.co.jp/',stock:'https://finance.yahoo.co.jp/quote/3668.T'},
+  'アカツキゲームス':{url:'https://aktsk.jp/',stock:'https://finance.yahoo.co.jp/quote/3932.T'},
+  'DONUTS':{url:'https://www.donuts.ne.jp/'},
+  'Aiming':{url:'https://aiming-inc.com/',stock:'https://finance.yahoo.co.jp/quote/3911.T'},
+  'ケイブ':{url:'https://www.cave.co.jp/',stock:'https://finance.yahoo.co.jp/quote/3760.T'},
+  'ドリコム':{url:'https://www.drecom.co.jp/',stock:'https://finance.yahoo.co.jp/quote/3793.T'},
+  'バンク・オブ・イノベーション':{url:'https://www.bank-of-innovation.co.jp/',stock:'https://finance.yahoo.co.jp/quote/4393.T'},
+  'でらゲー':{url:'https://deragee.co.jp/'},
+  'gumi':{url:'https://gu3.co.jp/',stock:'https://finance.yahoo.co.jp/quote/3903.T'},
+  'KLab':{url:'https://www.klab.com/jp/',stock:'https://finance.yahoo.co.jp/quote/3656.T'},
+  'マイネットゲームス':{url:'https://mynet.co.jp/',stock:'https://finance.yahoo.co.jp/quote/3927.T'},
+  'トーセ':{url:'https://www.tose.co.jp/',stock:'https://finance.yahoo.co.jp/quote/4728.T'},
+  '日本一ソフトウェア':{url:'https://nippon1.jp/'},
+  'エイチームエンタ':{url:'https://www.a-team.co.jp/',stock:'https://finance.yahoo.co.jp/quote/3662.T'},
+  '日本ファルコム':{url:'https://falcom.co.jp/',stock:'https://finance.yahoo.co.jp/quote/3723.T'},
+  'f4samurai':{url:'https://f4samurai.jp/'},
+  'Yostar':{url:'https://www.yostar.co.jp/'},
+  'SHIFT UP':{url:'https://shiftup.co.kr/'},
+  'miHoYo(HoYoverse)':{url:'https://www.hoyoverse.com/'},
+  'NetEase Games':{url:'https://www.neteasegames.com/'},
+  'Level Infinite':{url:'https://www.levelinfinite.com/'},
+  'レベルファイブ':{url:'https://www.level5.co.jp/'},
+  'NHN PlayArt':{url:'https://www.nhn-playart.com/'},
+  'G2 Studios':{url:'https://www.g2studios.co.jp/'},
+  'クリーチャーズ':{url:'https://www.creatures.co.jp/'},
+  'ヘッドロック':{url:'https://www.headlock.co.jp/'},
+  'Key（ビジュアルアーツ）':{url:'https://visualarts.co.jp/key/'},
+  'アトラス':{url:'https://atlus.com/'},
+  'ポノス':{url:'https://www.ponos.jp/'},
+  'ラセングル':{url:'https://www.rasenguru.com/'},
+  'エヌ・シー・ジャパン':{url:'https://www.ncjapan.co.jp/'},
+  'アークシステムワークス':{url:'https://www.arcsystemworks.jp/',stock:'https://finance.yahoo.co.jp/quote/7875.T'},
+  'SNK':{url:'https://www.snk-corp.co.jp/'},
+  'プラチナゲームズ':{url:'https://www.platinumgames.co.jp/'},
+  'サイバーコネクトツー':{url:'https://www.cc2.co.jp/'},
+  'スパイク・チュンソフト':{url:'https://www.spike-chunsoft.co.jp/'},
+  'ディンプス':{url:'https://www.dimps.co.jp/'},
+  'ゲームフリーク':{url:'https://www.gamefreak.co.jp/'},
+  'ハル研究所':{url:'https://www.hallab.co.jp/'},
+  'ポケットペア':{url:'https://www.pocketpair.jp/'},
+  'フレイムハーツ':{url:'https://www.flamehearts.jp/'},
+  'ニトロプラス':{url:'https://www.nitroplus.co.jp/'},
+  'ドキドキグルーヴワークス':{url:'https://www.dgw.co.jp/'},
+  'サイバード':{url:'https://www.cybird.co.jp/'},
+  'インテリジェントシステムズ':{url:'https://www.intelligent-systems.co.jp/'},
+  'ポリフォニー・デジタル':{url:'https://www.polyphony.co.jp/'},
+  'ハイド':{url:'https://www.hyde-inc.jp/'},
+  'ソレイユ':{url:'https://www.soleil-inc.co.jp/'},
+  'グリー':{url:'https://corp.gree.net/',stock:'https://finance.yahoo.co.jp/quote/3632.T'},
+  'coly':{url:'https://coly.co.jp/',stock:'https://finance.yahoo.co.jp/quote/4175.T'},
+  'enish':{url:'https://www.enish.jp/',stock:'https://finance.yahoo.co.jp/quote/3562.T'},
+  'アエリア':{url:'https://corp.aeria.jp/',stock:'https://finance.yahoo.co.jp/quote/3758.T'},
+  'アピリッツ':{url:'https://appirits.com/',stock:'https://finance.yahoo.co.jp/quote/4174.T'},
+  'エディア':{url:'https://www.edia.co.jp/',stock:'https://finance.yahoo.co.jp/quote/3935.T'},
+  'ポールトゥウィン・ホールディングス':{url:'https://ptw.jp/',stock:'https://finance.yahoo.co.jp/quote/3657.T'},
+  'フロム・ソフトウェア':{url:'https://www.fromsoftware.jp/'},
+  'タイトー':{url:'https://www.taito.co.jp/'},
+  'MAGES.':{url:'https://mages.co.jp/'},
+  'NextNinja':{url:'https://www.next-ninja.com/'},
+  'イザナギゲームズ':{url:'https://izanagigames.co.jp/'},
+  'double jump.tokyo':{url:'https://doublejump.tokyo/'},
+  'ハムスター':{url:'https://www.hamster.co.jp/'},
+  'ケムコ':{url:'https://kemco.jp/'},
+  '東映アニメーション':{url:'https://www.toei-anim.co.jp/',stock:'https://finance.yahoo.co.jp/quote/4816.T'},
+  'IG Port':{url:'https://www.igport.co.jp/',stock:'https://finance.yahoo.co.jp/quote/3791.T'},
+  'TYPE-MOON':{url:'https://typemoon.com/'},
+  '集英社':{url:'https://www.shueisha.co.jp/'},
+  '講談社':{url:'https://www.kodansha.co.jp/'},
+  'スタジオカラー':{url:'https://www.khara.co.jp/'},
+  'ポニーキャニオン':{url:'https://www.ponycanyon.co.jp/'},
+  'サイエンスSARU':{url:'https://sciencesaru.com/'},
+  'HEROZ':{url:'https://heroz.co.jp/',stock:'https://finance.yahoo.co.jp/quote/4880.T'},
+  'Cluster':{url:'https://cluster.mu/'},
+  'DataGrid':{url:'https://datagrid.co.jp/'},
+  'Appier':{url:'https://www.appier.com/ja/',stock:'https://finance.yahoo.co.jp/quote/4180.T'},
+  'PKSHA Technology':{url:'https://pkshatech.com/',stock:'https://finance.yahoo.co.jp/quote/3993.T'},
+  'ポケットRD':{url:'https://www.pocketrd.co.jp/'},
+};
+
 // 중복 제거
 const seen={};const DD=[];
 for(let i=D.length-1;i>=0;i--){if(!seen[D[i].n]){seen[D[i].n]=true;DD.unshift(D[i]);}}
@@ -772,6 +879,13 @@ function openModal(idx){
   // 수정메모
   const fix=document.getElementById('m-fix');
   fix.innerHTML=c.fix?`<div class="modal-fix">📌 데이터 수정: ${c.fix}</div>`:'';
+  // 공식 사이트 / 주가 링크
+  const lnks=document.getElementById('m-links');
+  const cl=COMPANY_LINKS[c.n]||{};
+  let lh='';
+  if(cl.url) lh+=`<a class="modal-link-btn site" href="${cl.url}" target="_blank" rel="noopener">🌐 공식 사이트</a>`;
+  if(cl.stock) lh+=`<a class="modal-link-btn stock" href="${cl.stock}" target="_blank" rel="noopener">📈 주가 확인</a>`;
+  lnks.innerHTML=lh?`<div class="modal-links">${lh}</div>`:'';
   // 재무
   const fin=document.getElementById('m-fin');
   fin.innerHTML=`
@@ -1051,6 +1165,7 @@ document.addEventListener('keydown',e=>{
     </div>
     <div class="modal-body">
       <div id="m-fix"></div>
+      <div id="m-links"></div>
       <div class="modal-fin" id="m-fin"></div>
       <div id="m-tt"></div>
       <div id="m-reason"></div>
