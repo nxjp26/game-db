@@ -228,7 +228,7 @@ footer{text-align:center;padding:20px;font-size:11px;color:#bbb;border-top:1px s
   <div class="gate-box">
     <div class="gate-logo">🎮</div>
     <div class="gate-title">기업 인텔리전스 DB</div>
-    <div class="gate-sub">Nexon Japan · 기업개발팀 내부 자료</div>
+    <div class="gate-sub">Nexon Japan · 내부 자료</div>
     <input class="gate-input" id="gate-input" type="password" placeholder="비밀번호 입력"
       autocomplete="current-password" />
     <button class="gate-btn" id="gate-btn" onclick="gateCheck()">확인</button>
@@ -239,13 +239,13 @@ footer{text-align:center;padding:20px;font-size:11px;color:#bbb;border-top:1px s
 <header>
   <div class="header-inner">
     <h1>🎮 일본 게임업계 기업 인텔리전스 v3</h1>
-    <span class="hbadge">서브/비서브/판권/AI기술 통합 100사 · M&A 판단 근거 포함 · 2025–2026 IR 기준</span>
+    <span class="hbadge">서브/비서브/판권/AI기술 통합 100사 · 전략 검토 근거 포함 · 2025–2026 IR 기준</span>
   </div>
 </header>
 <div class="wrap">
   <div class="criteria-panel" id="cp">
     <div class="criteria-header" onclick="toggleCriteria()">
-      <div class="criteria-title">📋 딜 접근 유형 분류 (클릭하여 펼치기)</div>
+      <div class="criteria-title">📋 접근 유형 분류 (클릭하여 펼치기)</div>
       <span class="criteria-toggle" id="ct-arr">▼</span>
     </div>
     <div class="criteria-body">
@@ -811,7 +811,7 @@ function renderFilters(){
   document.getElementById('filters').innerHTML=
     `<div class="fgl">국가</div><div class="sf">${cts.map(c=>`<span class="fp${fs.ct==c?' on':''}" onclick="setF('ct','${c}')">${c}</span>`).join('')}</div>`+
     `<div class="fgl">장르</div><div class="sf">${gns.map(g=>`<span class="fp${fs.gn==g?' on':''}" onclick="setF('gn','${g}')">${g}</span>`).join('')}</div>`+
-    `<div class="fgl">딜 접근 유형</div><div class="sf">${mas.map(m=>`<span class="fp${fs.ma==m?' on':''}" onclick="setF('ma','${m}')">${m}</span>`).join('')}</div>`+
+    `<div class="fgl">접근 유형</div><div class="sf">${mas.map(m=>`<span class="fp${fs.ma==m?' on':''}" onclick="setF('ma','${m}')">${m}</span>`).join('')}</div>`+
     `<div class="fgl">자체 IP 보유여부</div><div class="sf" style="margin-bottom:8px;">${ips.map(i=>`<span class="fp${fs.ip==i?' on':''}" onclick="setF('ip','${i}')">${i}</span>`).join('')}</div>`;
 }
 
@@ -847,7 +847,7 @@ function renderCards(){
       <div class="ttl">${c.tt}</div>
       <div class="dtl">
         ${c.fix?`<div class="fix-note">📌 데이터 수정: ${c.fix}</div>`:''}
-        <div class="ma-reason ${mrcls(c.ma)}"><strong>M&A 판단 근거:</strong> ${c.mr||'(작성 예정)'}</div>
+        <div class="ma-reason ${mrcls(c.ma)}"><strong>전략 검토 근거:</strong> ${c.mr||'(작성 예정)'}</div>
         ${c.rep?`<div class="dr"><div class="dl">대표</div><div class="dv">${c.rep}</div></div>`:''}
         <div class="dr"><div class="dl">기업 특징</div><div class="dv">${c.ch}</div></div>
         ${c.pr?`<div class="dr"><div class="dl">장점 (M&amp;A / 퍼블리싱)</div><div class="dv pros">${c.pr}</div></div>`:''}
@@ -897,9 +897,9 @@ function openModal(idx){
   // 주요 타이틀
   const tt=document.getElementById('m-tt');
   tt.innerHTML=c.tt?`<div class="modal-tt">🎮 ${c.tt}</div>`:'';
-  // M&A 판단근거
+  // 전략 검토 근거
   const reason=document.getElementById('m-reason');
-  reason.innerHTML=`<div class="modal-reason ${mrcls(c.ma)}"><strong>M&amp;A 판단 근거</strong><br>${c.mr||'(작성 예정)'}</div>`;
+  reason.innerHTML=`<div class="modal-reason ${mrcls(c.ma)}"><strong>전략 검토 근거</strong><br>${c.mr||'(작성 예정)'}</div>`;
   // 상세 정보
   let dh='';
   if(c.rep) dh+=`<div class="modal-section"><div class="modal-sl">대표이사</div><div class="modal-sv">${c.rep}</div></div>`;
@@ -1063,7 +1063,7 @@ function openCompare(){
     {label:'장점',     fn:c=>c.pr||'—'},
     {label:'단점/리스크', fn:c=>c.cn||'—'},
     {label:'주주구조', fn:c=>c.sh||'—'},
-    {label:'M&A 판단근거', fn:c=>c.mr||'—'},
+    {label:'전략 검토 근거', fn:c=>c.mr||'—'},
   ];
   // 헤더
   const head='<tr><th>항목</th>'+cos.map(c=>`<th class="co-head">${c.nk||c.n}<br><span style="font-size:10px;font-weight:400;color:#999">${c.n}</span></th>`).join('')+'</tr>';
