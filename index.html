@@ -86,7 +86,7 @@ h1{font-size:15px;font-weight:600;color:#1a1a1a;letter-spacing:-.3px;}
 .mv.pos{color:#1a7a4a;}.mv.hi{color:#1a56c4;}.mv.lo{color:#b56a00;}.mv.neg{color:#c0392b;}
 .ttl{font-size:11px;color:#999;line-height:1.5;overflow-wrap:break-word;}
 .arr{font-size:10px;color:#aaa;transition:transform .15s;flex-shrink:0;margin-top:2px;}
-.cmp-chk{font-size:10px;padding:2px 7px;border-radius:5px;border:1px solid #ddd;background:#fafafa;color:#888;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .12s;}
+.cmp-chk{font-size:10px;padding:0 9px;border-radius:5px;border:1px solid #ddd;background:#fafafa;color:#888;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .12s;min-height:32px;display:inline-flex;align-items:center;}
 .cmp-chk:hover{background:#1a1a1a;color:#fff;border-color:#1a1a1a;}
 .cmp-chk.selected{background:#1a56c4;color:#fff;border-color:#1a56c4;}
 @media(max-width:390px){.cmp-chk{font-size:9px;padding:2px 5px;}}
@@ -130,7 +130,7 @@ footer{text-align:center;padding:20px;font-size:11px;color:#bbb;border-top:1px s
 .cmp-bar-inner{max-width:700px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .cmp-chips{display:flex;gap:6px;flex:1;flex-wrap:wrap;}
 .cmp-chip{display:inline-flex;align-items:center;gap:5px;background:#333;border-radius:20px;padding:4px 10px 4px 12px;font-size:12px;}
-.cmp-chip button{background:none;border:none;color:#aaa;cursor:pointer;font-size:14px;line-height:1;padding:0;}
+.cmp-chip button{background:none;border:none;color:#aaa;cursor:pointer;font-size:14px;line-height:1;padding:0;min-width:32px;min-height:32px;display:flex;align-items:center;justify-content:center;}
 .cmp-chip button:hover{color:#fff;}
 .cmp-btn{padding:7px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:none;white-space:nowrap;}
 .cmp-btn.run{background:#fff;color:#1a1a1a;}
@@ -158,11 +158,11 @@ footer{text-align:center;padding:20px;font-size:11px;color:#bbb;border-top:1px s
 @media(max-width:480px){.cmp-bar-inner{gap:6px;}.cmp-chip{font-size:11px;}.cmp-btn{font-size:11px;padding:6px 12px;}}
 /* ── 비밀번호 게이트 ── */
 .gate-overlay{display:flex;position:fixed;inset:0;background:#1a1a1a;z-index:2000;align-items:center;justify-content:center;}
-.gate-box{background:#fff;border-radius:16px;padding:36px 32px;width:100%;max-width:360px;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,.3);}
+.gate-box{background:#fff;border-radius:16px;padding:36px 32px;width:calc(100% - 32px);max-width:360px;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,.3);}
 .gate-logo{font-size:28px;margin-bottom:8px;}
 .gate-title{font-size:16px;font-weight:700;color:#1a1a1a;margin-bottom:4px;}
 .gate-sub{font-size:12px;color:#aaa;margin-bottom:24px;}
-.gate-input{width:100%;box-sizing:border-box;padding:11px 14px;border:1.5px solid #ddd;border-radius:9px;font-size:15px;outline:none;margin-bottom:10px;transition:border-color .15s;}
+.gate-input{width:100%;box-sizing:border-box;padding:11px 14px;border:1.5px solid #ddd;border-radius:9px;font-size:16px;outline:none;margin-bottom:10px;transition:border-color .15s;min-height:44px;}
 .gate-input:focus{border-color:#1a56c4;}
 .gate-btn{width:100%;padding:11px;background:#1a1a1a;color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s;}
 .gate-btn:hover{background:#333;}
@@ -178,10 +178,10 @@ footer{text-align:center;padding:20px;font-size:11px;color:#bbb;border-top:1px s
 .modal-title-row{display:flex;justify-content:space-between;align-items:flex-start;}
 .modal-name{font-size:17px;font-weight:700;color:#1a1a1a;line-height:1.3;}
 .modal-name-jp{font-size:12px;color:#999;margin-top:2px;}
-.modal-close{background:none;border:none;font-size:20px;color:#aaa;cursor:pointer;padding:0 0 0 12px;line-height:1;flex-shrink:0;}
+.modal-close{background:none;border:none;font-size:20px;color:#aaa;cursor:pointer;padding:0;line-height:1;flex-shrink:0;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:flex-end;}
 .modal-close:hover{color:#333;}
 .modal-badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;}
-.modal-body{overflow-y:auto;padding:14px 18px 24px;flex:1;}
+.modal-body{overflow-y:auto;padding:14px 18px 28px;flex:1;-webkit-overflow-scrolling:touch;}
 .modal-fin{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px;}
 .modal-met{background:#f7f6f1;border-radius:8px;padding:8px 10px;}
 .modal-ml{font-size:10px;color:#aaa;margin-bottom:3px;}
@@ -210,24 +210,64 @@ footer{text-align:center;padding:20px;font-size:11px;color:#bbb;border-top:1px s
 .modal-tab-pane{display:none;}
 .modal-tab-pane.on{display:block;}
 /* ── 컨택 이력 ── */
-.ct-empty{font-size:12px;color:#bbb;text-align:center;padding:24px 0;}
-.ct-item{border:1px solid #eae9e4;border-radius:10px;padding:11px 13px;margin-bottom:8px;}
-.ct-header{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
-.ct-date{font-size:11px;font-weight:700;color:#555;}
-.ct-badge{font-size:10px;padding:2px 7px;border-radius:4px;font-weight:600;}
+.ct-empty{font-size:13px;color:#bbb;text-align:center;padding:24px 0;}
+.ct-item{border:1px solid #eae9e4;border-radius:10px;padding:12px 14px;margin-bottom:8px;}
+.ct-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.ct-date{font-size:12px;font-weight:700;color:#555;}
+.ct-badge{font-size:11px;padding:3px 8px;border-radius:4px;font-weight:600;}
 .ct-badge.meeting{background:#e8f0fb;color:#1a56c4;}
 .ct-badge.dining{background:#fdf3e0;color:#8a5a00;}
-.ct-persons{display:flex;flex-direction:column;gap:4px;}
+.ct-persons{display:flex;flex-direction:column;gap:5px;}
 .ct-person{display:flex;align-items:baseline;gap:6px;}
-.ct-name{font-size:12.5px;font-weight:600;color:#1a1a1a;}
-.ct-role{font-size:11px;color:#999;}
-.ct-memo{font-size:11.5px;color:#666;margin-top:6px;padding-top:6px;border-top:1px solid #f0efe9;line-height:1.55;}
+.ct-name{font-size:13px;font-weight:600;color:#1a1a1a;}
+.ct-role{font-size:12px;color:#999;}
+.ct-memo{font-size:12px;color:#666;margin-top:7px;padding-top:7px;border-top:1px solid #f0efe9;line-height:1.6;}
 .ct-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#1a56c4;opacity:.35;margin-left:5px;vertical-align:middle;flex-shrink:0;}
-@media(max-width:390px){.modal-fin{grid-template-columns:repeat(2,1fr);}.modal-name{font-size:15px;}}
+.ct-filter-btn{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid #dddcd5;background:#fff;color:#555;cursor:pointer;user-select:none;transition:all .12s;}
+.ct-filter-btn.on{background:#1a56c4;color:#fff;border-color:#1a56c4;}
 @media(max-width:900px){.strow{grid-template-columns:repeat(4,1fr);}}
 @media(max-width:700px){.strow{grid-template-columns:repeat(3,1fr);}.cgrid{grid-template-columns:1fr;}.wrap{padding:12px;}.criteria-grid{grid-template-columns:1fr 1fr;}}
-@media(max-width:480px){header{padding:10px 14px;}.hbadge{display:none;}.wrap{padding:8px;}.strow{grid-template-columns:repeat(2,1fr);}.mets{grid-template-columns:repeat(2,1fr);}.criteria-grid{grid-template-columns:1fr;}.ctrl{padding:10px 12px;}.ctrl-top{flex-wrap:wrap;}#sort-sel{width:100%;margin-top:6px;}.stv{font-size:17px;}#srch{font-size:16px;min-height:44px;}#sort-sel{min-height:44px;font-size:15px;}.stab{padding:7px 12px;min-height:40px;font-size:11px;}.fp{padding:7px 11px;min-height:40px;font-size:11px;}.ctb{gap:8px 6px;}.fgrp{gap:5px;}}
-@media(max-width:390px){.wrap{padding:6px 8px;}.strow{grid-template-columns:1fr 1fr;}.strow .stcard:last-child:nth-child(odd){grid-column:span 2;}.mets{grid-template-columns:1fr 1fr;}.cc{padding:11px 10px;}.cn{font-size:12.5px;}.cn-jp{font-size:10px;}.dl{font-size:9px;}.stl{font-size:9px;}.stv{font-size:16px;}h1{font-size:13.5px;}header .hbadge{display:none;}.fp{font-size:10px;padding:6px 9px;}.stab{font-size:10px;padding:6px 9px;}}
+@media(max-width:480px){
+  header{padding:10px 14px;}
+  .hbadge{display:none;}
+  .wrap{padding:8px;}
+  .strow{grid-template-columns:repeat(2,1fr);}
+  .mets{grid-template-columns:repeat(2,1fr);}
+  .criteria-grid{grid-template-columns:1fr;}
+  .ctrl{padding:10px 12px;}
+  .ctrl-top{flex-wrap:wrap;}
+  #sort-sel{width:100%;margin-top:6px;}
+  .stv{font-size:17px;}
+  #srch{font-size:16px;min-height:44px;}
+  #sort-sel{min-height:44px;font-size:16px;}
+  .stab{padding:7px 12px;min-height:44px;font-size:12px;}
+  .fp{padding:7px 11px;min-height:44px;font-size:12px;}
+  .ctb{gap:8px 6px;}
+  .fgrp{gap:5px;}
+  .modal-head{padding:12px 14px 10px;}
+  .modal-body{padding:12px 14px 24px;}
+  .modal-tabs{margin:0 -14px 12px;padding:0 14px;}
+  .modal-tab{padding:9px 12px;font-size:12px;}
+  .gate-box{padding:28px 20px;}
+  .cmp-chk{min-height:36px;}
+}
+@media(max-width:390px){
+  .wrap{padding:6px 8px;}
+  .strow{grid-template-columns:1fr 1fr;}
+  .mets{grid-template-columns:1fr 1fr;}
+  .cc{padding:11px 10px;}
+  .cn{font-size:12.5px;}
+  .cn-jp{font-size:10px;}
+  .dl{font-size:9px;}
+  .stl{font-size:9px;}
+  .stv{font-size:16px;}
+  h1{font-size:13.5px;}
+  .fp{font-size:11px;padding:6px 9px;min-height:40px;}
+  .stab{font-size:11px;padding:6px 9px;min-height:40px;}
+  .modal-fin{grid-template-columns:repeat(2,1fr);}
+  .modal-name{font-size:15px;}
+  .gate-box{padding:24px 16px;}
+}
 @media print{
   header,.criteria-panel,.ctrl,.ctb,.modal-overlay,.gate-overlay{display:none!important;}
   body{background:#fff;}
@@ -809,7 +849,7 @@ const ivtxt=v=>v=='인수'?'M&A인수':v=='소수지분'?'소수지분':v=='JV'?
 const gncls=g=>g=='서브'?'bsub':g=='AI기술'?'bi':'bn';
 const gntxt=g=>g=='서브'?'서브컬처':g=='비서브'?'비서브컬처':g=='판권'?'IP판권':'AI기술';
 
-let fs={ct:'전체',gn:'전체',ma:'전체',ip:'전체',q:''};
+let fs={ct:'전체',gn:'전체',ma:'전체',ip:'전체',q:'',contact:false};
 let sortMode='default';
 
 const maOrder={O:0,T:0,X:1,N:2};
@@ -832,6 +872,7 @@ function filtered(){
     else if(fs.ma=='미검토'&&c.ma!='N')return false;
     if(fs.ip=='자체IP 보유'&&!c.ip)return false;
     if(fs.ip=='수탁/라이선스'&&c.ip)return false;
+    if(fs.contact&&!CONTACTS.some(ct=>ct.n===c.n))return false;
     if(fs.q){
       const q=fs.q.toLowerCase();
       const nk=(c.nk||'').toLowerCase();
@@ -864,7 +905,8 @@ function renderFilters(){
     `<div class="fgl">국가</div><div class="sf">${cts.map(c=>`<span class="fp${fs.ct==c?' on':''}" onclick="setF('ct','${c}')">${c}</span>`).join('')}</div>`+
     `<div class="fgl">장르</div><div class="sf">${gns.map(g=>`<span class="fp${fs.gn==g?' on':''}" onclick="setF('gn','${g}')">${g}</span>`).join('')}</div>`+
     `<div class="fgl">접근 유형</div><div class="sf">${mas.map(m=>`<span class="fp${fs.ma==m?' on':''}" onclick="setF('ma','${m}')">${m}</span>`).join('')}</div>`+
-    `<div class="fgl">자체 IP 보유여부</div><div class="sf" style="margin-bottom:8px;">${ips.map(i=>`<span class="fp${fs.ip==i?' on':''}" onclick="setF('ip','${i}')">${i}</span>`).join('')}</div>`;
+    `<div class="fgl">자체 IP 보유여부</div><div class="sf">${ips.map(i=>`<span class="fp${fs.ip==i?' on':''}" onclick="setF('ip','${i}')">${i}</span>`).join('')}</div>`+
+    `<div class="sf" style="margin-top:8px;margin-bottom:2px;"><span class="fp${fs.contact?' on':''}" onclick="fs.contact=!fs.contact;renderFilters();renderCards();">📋 컨택 이력 있는 기업만</span></div>`;
 }
 
 function renderCards(){
