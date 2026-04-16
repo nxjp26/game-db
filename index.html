@@ -222,6 +222,7 @@ footer{text-align:center;padding:20px;font-size:11px;color:#bbb;border-top:1px s
 .ct-name{font-size:12.5px;font-weight:600;color:#1a1a1a;}
 .ct-role{font-size:11px;color:#999;}
 .ct-memo{font-size:11.5px;color:#666;margin-top:6px;padding-top:6px;border-top:1px solid #f0efe9;line-height:1.55;}
+.ct-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#1a56c4;opacity:.35;margin-left:5px;vertical-align:middle;flex-shrink:0;}
 @media(max-width:390px){.modal-fin{grid-template-columns:repeat(2,1fr);}.modal-name{font-size:15px;}}
 @media(max-width:900px){.strow{grid-template-columns:repeat(4,1fr);}}
 @media(max-width:700px){.strow{grid-template-columns:repeat(3,1fr);}.cgrid{grid-template-columns:1fr;}.wrap{padding:12px;}.criteria-grid{grid-template-columns:1fr 1fr;}}
@@ -871,9 +872,10 @@ function renderCards(){
   document.getElementById('ctb').textContent=list.length+'개 기업 표시 중 (전체 '+DD.length+'개)';
   document.getElementById('grid').innerHTML=list.map((c)=>{
     const idx=DD.indexOf(c);
+    const hasContact=CONTACTS.some(ct=>ct.n===c.n);
     const nameHtml=c.nk
-      ? `${c.nk}<span class="cn-jp">${c.n}</span>`
-      : c.n;
+      ? `${c.nk}${hasContact?'<span class="ct-dot"></span>':''}<span class="cn-jp">${c.n}</span>`
+      : `${c.n}${hasContact?'<span class="ct-dot"></span>':''}`;
     return `<div class="cc" id="co-${idx}" onclick="openModal(${idx})">
       <div class="ch">
         <div class="cn">${nameHtml}</div>
