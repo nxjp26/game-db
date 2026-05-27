@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일본 게임업계 기업 인텔리전스 v3</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Malgun Gothic','맑은 고딕','Apple SD Gothic Neo',sans-serif;background:#f5f4f0;color:#1a1a1a;min-height:100vh;}
+
+
+header{background:#fff;border-bottom:1px solid #e5e4e0;padding:14px 24px;position:sticky;top:0;z-index:100;}
+.header-inner{max-width:1440px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+h1{font-size:15px;font-weight:600;color:#1a1a1a;letter-spacing:-.3px;}
+.hbadge{font-size:11px;color:#888;background:#f0efe9;padding:3px 10px;border-radius:20px;}
+.wrap{max-width:1440px;margin:0 auto;padding:16px 24px;}
+.criteria-panel{background:#fff;border:1px solid #e0dfd8;border-radius:12px;margin-bottom:14px;overflow:hidden;}
+.criteria-header{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;cursor:pointer;background:#fafaf7;border-bottom:1px solid #f0efe9;}
+.criteria-header:hover{background:#f5f4f0;}
+.criteria-title{font-size:12px;font-weight:600;color:#1a1a1a;display:flex;align-items:center;gap:6px;}
+.criteria-toggle{font-size:10px;color:#aaa;transition:transform .15s;}
+.criteria-panel.open .criteria-toggle{transform:rotate(180deg);}
+.criteria-body{display:none;padding:14px 16px;}
+.criteria-panel.open .criteria-body{display:block;}
+.criteria-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.sort-tabs{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;}
+.stab{padding:4px 11px;border-radius:20px;border:1px solid #dddcd5;font-size:11px;cursor:pointer;background:#fff;color:#555;user-select:none;transition:all .12s;}
+.stab:hover,.stab:active{border-color:#999;}
+.stab.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a;}
+.criteria-card{border-radius:9px;padding:11px 13px;border:1px solid;}
+.criteria-card.g{background:#edf7f1;border-color:#b3dfc5;}
+.criteria-card.w{background:#fffbf0;border-color:#f5d98a;}
+.criteria-card.r{background:#fdf0ef;border-color:#f5b8b4;}
+.criteria-card.d{background:#f7f6f1;border-color:#dddcd5;}
+.cc-badge{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;font-size:14px;font-weight:700;margin-bottom:6px;}
+.cc-badge.g{background:#1a7a4a;color:#fff;}
+.cc-badge.w{background:#b56a00;color:#fff;}
+.cc-badge.r{background:#c0392b;color:#fff;}
+.cc-badge.d{background:#888;color:#fff;}
+.cc-label{font-size:12px;font-weight:600;margin-bottom:5px;}
+.cc-label.g{color:#1a7a4a;}.cc-label.w{color:#b56a00;}.cc-label.r{color:#c0392b;}.cc-label.d{color:#666;}
+.cc-item{font-size:11px;color:#555;line-height:1.6;padding-left:10px;position:relative;}
+.cc-item::before{content:'·';position:absolute;left:2px;color:#aaa;}
+.strow{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:14px;}
+.stc{background:#fff;border-radius:10px;padding:11px 13px;border:1px solid #eae9e4;cursor:pointer;}
+.stc:hover,.stc:active{border-color:#bbb;}
+.stl{font-size:10px;color:#888;margin-bottom:4px;}
+.stv{font-size:20px;font-weight:600;}
+.stv.g{color:#1a7a4a;}.stv.w{color:#b56a00;}.stv.r{color:#c0392b;}.stv.d{color:#888;}.stv.b{color:#1a56c4;}.stv.p{color:#6a1ac4;}
+.stv-sub{font-size:11px;font-weight:400;color:#aaa;}
+.ctrl{background:#fff;border-radius:12px;padding:13px 16px;margin-bottom:12px;border:1px solid #eae9e4;}
+.ctrl-top{display:flex;gap:8px;align-items:center;margin-bottom:9px;}
+#srch{flex:1;padding:8px 13px;border:1px solid #e0dfd8;border-radius:8px;font-size:13px;background:#fafaf7;color:#1a1a1a;outline:none;font-family:inherit;}
+#srch:focus{border-color:#888;background:#fff;}
+#sort-sel{padding:8px 10px;border:1px solid #e0dfd8;border-radius:8px;font-size:12px;background:#fafaf7;color:#1a1a1a;outline:none;font-family:inherit;cursor:pointer;flex-shrink:0;}
+#sort-sel:focus{border-color:#888;}
+.fgl{font-size:10px;color:#aaa;margin-bottom:4px;margin-top:8px;letter-spacing:.3px;text-transform:uppercase;}
+.sf{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:2px;}
+.fp{padding:4px 11px;border-radius:20px;border:1px solid #dddcd5;font-size:11px;cursor:pointer;background:#fff;color:#555;user-select:none;transition:all .12s;}
+.fp:hover,.fp:active{border-color:#999;}
+.fp.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a;}
+.ctb{font-size:12px;color:#aaa;margin-bottom:10px;}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:9px;}
+.cc{background:#fff;border:1px solid #eae9e4;border-radius:12px;padding:13px;cursor:pointer;transition:border-color .12s;}
+.cc:hover,.cc:active{border-color:#bbb;}
+.cc.xp{border-color:#555;}
+
+.ch{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
+.cn{font-size:13px;font-weight:600;color:#1a1a1a;line-height:1.35;padding-right:6px;overflow-wrap:break-word;}
+.cn-jp{font-size:11px;font-weight:400;color:#999;display:block;margin-top:1px;}
+.bds{display:flex;gap:3px;align-items:center;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;}
+.bd{display:inline-flex;align-items:center;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:600;white-space:nowrap;}
+.bg{background:#e6f4ee;color:#1a7a4a;}
+.ba{background:#fff4e0;color:#b56a00;}
+.br{background:#fdecea;color:#c0392b;}
+.bn{background:#f0efe9;color:#666;}
+.bi{background:#e8f0fb;color:#1a56c4;}
+.bsub{background:#f0e8fb;color:#6a1ac4;}
+.bip{background:#fdf3e0;color:#8a5a00;font-size:9px;}
+.mtags{display:flex;flex-wrap:wrap;gap:4px;margin:5px 0 6px;}
+.mets{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:6px;}
+.met{background:#f7f6f1;border-radius:7px;padding:6px 7px;}
+.ml{font-size:10px;color:#aaa;margin-bottom:2px;}
+.mv{font-size:12px;font-weight:600;color:#1a1a1a;}
+.mv.pos{color:#1a7a4a;}.mv.hi{color:#1a56c4;}.mv.lo{color:#b56a00;}.mv.neg{color:#c0392b;}
+.ttl{font-size:11px;color:#999;line-height:1.5;overflow-wrap:break-word;}
+.arr{font-size:10px;color:#aaa;transition:transform .15s;flex-shrink:0;margin-top:2px;}
+.cc.xp .arr{transform:rotate(180deg);}
+.dtl{display:none;border-top:1px solid #f0efe9;margin-top:9px;padding-top:9px;}
+.cc.xp .dtl{display:block;}
+.dr{margin-bottom:8px;}
+.dl{font-size:10px;color:#aaa;margin-bottom:2px;text-transform:uppercase;letter-spacing:.3px;font-weight:600;}
+.dv{font-size:12px;color:#444;line-height:1.6;overflow-wrap:break-word;}
+.dv.pros{color:#1a7a4a;}
+.dv.cons{color:#c0392b;}
+.ma-reason{font-size:12px;line-height:1.6;padding:6px 9px;border-radius:7px;margin-bottom:7px;}
+.ma-reason.g{background:#edf7f1;color:#1a5c38;border-left:3px solid #1a7a4a;}
+.ma-reason.w{background:#fffbf0;color:#7a4a00;border-left:3px solid #b56a00;}
+.ma-reason.r{background:#fdf0ef;color:#8a2020;border-left:3px solid #c0392b;}
+.ma-reason.d{background:#f7f6f1;color:#555;border-left:3px solid #bbb;}
+.fix-note{font-size:10px;background:#fffbe6;border:1px solid #ffe566;border-radius:6px;padding:5px 9px;margin-bottom:7px;color:#7a5a00;}
+.anchor-hl{animation:hlpulse 1.5s ease;}
+@keyframes hlpulse{0%{box-shadow:0 0 0 0 rgba(26,86,196,.4);}70%{box-shadow:0 0 0 8px rgba(26,86,196,0);}100%{box-shadow:none;}}
+footer{text-align:center;padding:20px;font-size:11px;color:#bbb;border-top:1px solid #eae9e4;margin-top:20px;}
+@media(max-width:900px){.strow{grid-template-columns:repeat(4,1fr);}}
+@media(max-width:700px){.strow{grid-template-columns:repeat(3,1fr);}.cgrid{grid-template-columns:1fr;}.wrap{padding:12px;}.criteria-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:480px){header{padding:10px 14px;}.hbadge{display:none;}.wrap{padding:8px;}.strow{grid-template-columns:repeat(2,1fr);}.mets{grid-template-columns:repeat(2,1fr);}.criteria-grid{grid-template-columns:1fr;}.ctrl{padding:10px 12px;}.ctrl-top{flex-wrap:wrap;}#sort-sel{width:100%;margin-top:6px;}.stv{font-size:17px;}}
+@media print{
+  header,.criteria-panel,.ctrl,.ctb{display:none!important;}
+  body{background:#fff;}
+  .wrap{padding:8px;}
+  .strow{grid-template-columns:repeat(6,1fr);margin-bottom:10px;}
+  .cgrid{grid-template-columns:repeat(2,1fr);gap:6px;}
+  .cc{break-inside:avoid;border:1px solid #ccc!important;}
+  .dtl{display:block!important;}
+  .arr{display:none;}
+}
+</style>
+<noscript><style>.strow,.ctrl,.ctb,.cgrid,.criteria-panel{display:none!important;}footer{display:none!important;}</style></noscript>
+</head>
+<body>
+
+
+<header>
+  <div class="header-inner">
+    <h1>🎮 일본 게임업계 기업 인텔리전스 v3</h1>
+    <span class="hbadge">원본+숏리스트+신규발굴 통합 86사 · M&A 판단 근거 포함 · 2025–2026 IR 기준</span>
+  </div>
+</header>
+<div class="wrap">
+  <div class="criteria-panel" id="cp">
+    <div class="criteria-header" onclick="toggleCriteria()">
+      <div class="criteria-title">📋 딜 접근 유형 분류 (클릭하여 펼치기)</div>
+      <span class="criteria-toggle" id="ct-arr">▼</span>
+    </div>
+    <div class="criteria-body">
+      <div class="criteria-grid">
+        <div class="criteria-card g">
+          <div class="cc-badge g">○</div>
+          <div class="cc-label g">접근 검토 대상</div>
+          <div class="cc-item">시가총액 현실적 범위 내 중소형사</div>
+          <div class="cc-item">창업자·대주주가 외부 자본·파트너에 열린 자세 (또는 상황 변화 가능성)</div>
+          <div class="cc-item">특정 대기업의 전략 핵심 자산 아님</div>
+          <div class="cc-item">우호적 협상 진행 가능한 환경</div>
+          <div class="cc-item">가능한 딜 형태: <strong>M&A 인수 / 소수지분 투자 / 조인트벤처(JV) / 전략적 파트너십</strong></div>
+        </div>
+        <div class="criteria-card r">
+          <div class="cc-badge r">×</div>
+          <div class="cc-label r">직접 접근 불가</div>
+          <div class="cc-item">대기업 그룹 100% 자회사 + 전략 핵심 자산</div>
+          <div class="cc-item">오너 독립 경영 의지 극히 강 + 재정 여유</div>
+          <div class="cc-item">시가총액·인수가격이 현실적 범위 초과</div>
+          <div class="cc-item">경쟁관계로 인수 시 이해충돌 불가피</div>
+          <div class="cc-item">※ 퍼블리싱·IP 콜라보는 별도 검토 가능</div>
+        </div>
+        <div class="criteria-card d">
+          <div class="cc-badge d">N</div>
+          <div class="cc-label d">미검토</div>
+          <div class="cc-item">재무·주주구조 데이터 불충분으로 보류</div>
+          <div class="cc-item">시장성 높아 포함하되 우선순위 미결정</div>
+          <div class="cc-item">주요 파트너로만 파악 (직접 타깃 아님)</div>
+          <div class="cc-item">해외 기업으로 정보 제한적</div>
+          <div class="cc-item">향후 추가 조사 후 재분류 예정</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="strow" id="stats"></div>
+  <div class="ctrl">
+    <div class="ctrl-top">
+      <input id="srch" type="text" placeholder="회사명(한국어·일본어) · 타이틀 · 특징 · 판단근거 검색..." />
+    </div>
+    <div class="sort-tabs">
+      <span class="stab on" onclick="setSort('default')">등록순</span>
+      <span class="stab" onclick="setSort('mk_desc')">시총 높은순 ↓</span>
+      <span class="stab" onclick="setSort('mk_asc')">시총 낮은순 ↑</span>
+      <span class="stab" onclick="setSort('ma_rank')">등급순</span>
+      <span class="stab" onclick="setSort('name_asc')">이름순</span>
+    </div>
+    <div id="filters"></div>
+  </div>
+  <div class="ctb" id="ctb"></div>
+  <div class="cgrid" id="grid"></div>
+<noscript>
+<style>
+.ns-banner{background:#fff3cd;border:1px solid #ffc107;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;line-height:1.6;font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;}
+.ns-title{font-size:16px;font-weight:700;margin-bottom:14px;font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;}
+.ns-grid{display:flex;flex-direction:column;gap:8px;}
+.ns-card{background:#fff;border:1px solid #eae9e4;border-radius:12px;padding:13px;font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;}
+.ns-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;}
+.ns-name{font-size:14px;font-weight:700;color:#1a1a1a;}
+.ns-sub{font-size:11px;color:#999;margin-top:1px;}
+.ns-badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0;margin-left:8px;}
+.ns-g .ns-badge{background:#e6f4ee;color:#1a7a4a;border:1px solid #b3dfc5;}
+.ns-w .ns-badge{background:#fff4e0;color:#b56a00;border:1px solid #f5d98a;}
+.ns-r .ns-badge{background:#fdecea;color:#c0392b;border:1px solid #f5b8b4;}
+.ns-d .ns-badge{background:#f0efe9;color:#666;border:1px solid #dddcd5;}
+.ns-meta{font-size:11px;color:#888;margin-bottom:5px;}
+.ns-ch{font-size:12px;color:#444;line-height:1.55;}
+</style><div style="max-width:1440px;margin:0 auto;padding:16px;">
+<div class="ns-title">🎮 일본 게임업계 기업 인텔리전스 — 86사</div>
+<div class="ns-banner">⚠️ <b>검색·필터·정렬 기능</b>은 파일을 <b>Safari 또는 Chrome</b>에서 열어주세요.<br>지금은 읽기 전용 모드로 전체 기업 목록을 표시합니다.</div>
+<div class="ns-grid">
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">라인야후</div><div class="ns-sub">LINEヤフー</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 시총 2.7조엔 · 매출 1.9조엔 · 이익률 +24.6%</div><div class="ns-ch">LINE·야후 통합 라이프플랫폼. 광고·결제·미디어 수직통합</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">반다이남코엔터테인먼트</div><div class="ns-sub">バンダイナムコエンタ</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브 · 시총 2.6조엔 · 매출 4560억엔 · 이익률 +15.0%</div><div class="ns-ch">건담·드래곤볼 등 최대급 종합 IP 엔터. 반다이남코HD 100% 완전자회사</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">스퀘어에닉스</div><div class="ns-sub">スクウェア・エニックス</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 시총 9460억엔 · 매출 3250억엔 · 이익률 +12.5%</div><div class="ns-ch">FF·DQ 대IP 보유 종합 엔터. 창업자 후쿠시마 25%이상</div></div>
+<div class="ns-card ns-r"><div class="ns-head"><div><div class="ns-name">세가</div><div class="ns-sub">セガ</div></div><span class="ns-badge">매수 불가</span></div><div class="ns-meta">비서브 · 시총 5250억엔 · 매출 3220억엔 · 이익률 +15.0%</div><div class="ns-ch">콘솔·아케이드·모바일 종합 노포. 세가사미HD 100% 완전자회사</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">토호게임즈</div><div class="ns-sub">TOHO Games</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 시총 1.4조엔 · 매출 3130억엔 · 이익률 +20.7%</div><div class="ns-ch">도호 게임 레이블. 고지라 등 자사 IP를 활용한 스마트폰·콘솔 기획·배신</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">코나미디지털엔터테인먼트</div><div class="ns-sub">コナミデジタルエンタ</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 시총 2.6조엔 · 매출 3050억엔 · 이익률 +32.4%</div><div class="ns-ch">코나미그룹 게임사업 중핵. 메탈기어·위닝일레븐 IP 보유</div></div>
+<div class="ns-card ns-r"><div class="ns-head"><div><div class="ns-name">카도카와</div><div class="ns-sub">KADOKAWA</div></div><span class="ns-badge">매수 불가</span></div><div class="ns-meta">서브 · 시총 4458억엔 · 매출 2581억엔 · 이익률 +7.1%</div><div class="ns-ch">IP홀더·미디어프로듀서. 출판→애니·게임·디지털 수직통합. ELDEN RING 대히트</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">캡콤</div><div class="ns-sub">カプコン</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 시총 1.6조엔 · 매출 1700억엔 · 이익률 +38.7%</div><div class="ns-ch">바이오·몬헌·스파2 등 세계 최강 IP. RE ENGINE 자체 엔진으로 최고 개발력</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">디엔에이</div><div class="ns-sub">DeNA</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 시총 3270억엔 · 매출 1640억엔 · 이익률 +17.7%</div><div class="ns-ch">모바일게임 운영으로 성장한 IT기업. 헬스케어·스포츠·PF 사업도 전개</div></div>
+<div class="ns-card ns-r"><div class="ns-head"><div><div class="ns-name">믹시</div><div class="ns-sub">MIXI</div></div><span class="ns-badge">매수 불가</span></div><div class="ns-meta">비서브 · 시총 1860억엔 · 매출 1550억엔 · 이익률 +17.2%</div><div class="ns-ch">SNS창업→몬스트 대히트. 디지털 엔터+스포츠+라이프스타일+투자 다각화</div></div>
+<div class="ns-card ns-r"><div class="ns-head"><div><div class="ns-name">애니플렉스</div><div class="ns-sub">アニプレックス</div></div><span class="ns-badge">매수 불가</span></div><div class="ns-meta">서브 · 매출 1511억엔 · 이익률 +15.4%</div><div class="ns-ch">소니뮤직 산하 종합 엔터. FGO 장기 히트. A-1 Pictures, CloverWorks 등</div></div>
+<div class="ns-card ns-r"><div class="ns-head"><div><div class="ns-name">사이게임즈</div><div class="ns-sub">Cygames</div></div><span class="ns-badge">매수 불가</span></div><div class="ns-meta">서브 · 매출 1335억엔 · 이익률 +12.2%</div><div class="ns-ch">CA 산하. 고품질게임 브랜드. 애니·만화 IP 미디어믹스 전개</div></div>
+<div class="ns-card ns-w"><div class="ns-head"><div><div class="ns-name">건호온라인엔터테인먼트</div><div class="ns-sub">ガンホー</div></div><span class="ns-badge">조건부</span></div><div class="ns-meta">비서브 · 시총 1790억엔 · 매출 932억엔 · 이익률 +5.4%</div><div class="ns-ch">라그·퍼즈드라로 알려진 온라인게임 기업. 에이리무 보유</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">코에이테크모게임즈</div><div class="ns-sub">コーエーテクモゲームス</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브 · 시총 5180억엔 · 매출 781억엔 · 이익률 +40.3%</div><div class="ns-ch">삼국지·신장의야망·인왕 등 역사/시뮬/액션 IP. 코에테크모HD 그룹</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">엑스노아 (DMM)</div><div class="ns-sub">EXNOA (DMM)</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브 · 매출 737억엔</div><div class="ns-ch">DMM그룹 게임사업 통괄. 수천만 등록 유저 보유 PF 운영</div></div>
+<div class="ns-card ns-r"><div class="ns-head"><div><div class="ns-name">부시로드</div><div class="ns-sub">ブシロード</div></div><span class="ns-badge">매수 불가</span></div><div class="ns-meta">서브 · 시총 378억엔 · 매출 462억엔 · 이익률 +1.9%</div><div class="ns-ch">TCG·스마트폰·음악·애니·프로레슬링 다각 전개</div></div>
+<div class="ns-card ns-r"><div class="ns-head"><div><div class="ns-name">굿스마일컴퍼니</div><div class="ns-sub">グッドスマイルカンパニー</div></div><span class="ns-badge">매수 불가</span></div><div class="ns-meta">비서브 · 매출 612억엔</div><div class="ns-ch">피규어·완구 메이커, 크리에이터 지원</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">퓨리</div><div class="ns-sub">フリュー</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 시총 337억엔 · 매출 427억엔 · 이익률 +8.7%</div><div class="ns-ch">프리쿠라 제조사. 스마트폰·오락기기·굿즈 사업도 전개</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">펄어비스</div><div class="ns-sub">Pearl Abyss</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 시총 371억엔 · 매출 377억엔</div><div class="ns-ch">고품질 MMORPG 검은사막 글로벌 전개. 독자 엔진 개발</div></div>
+<div class="ns-card ns-w"><div class="ns-head"><div><div class="ns-name">마블러스</div><div class="ns-sub">マーベラス</div></div><span class="ns-badge">조건부</span></div><div class="ns-meta">서브 · 시총 317억엔 · 매출 280억엔 · 이익률 +6.5%</div><div class="ns-ch">가정용·모바일 게임 + 애니·음악·영상·스테이지 다각 엔터</div></div>
+<div class="ns-card ns-r"><div class="ns-head"><div><div class="ns-name">WFS</div><div class="ns-sub">WFS</div></div><span class="ns-badge">매수 불가</span></div><div class="ns-meta">서브 · 매출 280억엔 · 이익률 +6.4%</div><div class="ns-ch">GREE산하 라이트플라이어스튜디오 브랜드</div></div>
+<div class="ns-card ns-w"><div class="ns-head"><div><div class="ns-name">코로프라</div><div class="ns-sub">コロプラ</div></div><span class="ns-badge">조건부</span></div><div class="ns-meta">서브 · 시총 562억엔 · 매출 259억엔 · 이익률 +3.9%</div><div class="ns-ch">스마트폰게임·위치정보게임·VR/AR 등 다양한 기술 응용</div></div>
+<div class="ns-card ns-w"><div class="ns-head"><div><div class="ns-name">아카츠키게임즈</div><div class="ns-sub">アカツキゲームス</div></div><span class="ns-badge">조건부</span></div><div class="ns-meta">서브 · 시총 394억엔 · 매출 212억엔 · 이익률 +19.0%</div><div class="ns-ch">아카쓰키그룹 모바일게임. 독자IP 창출·유저경험 중시 게임개발</div></div>
+<div class="ns-card ns-w"><div class="ns-head"><div><div class="ns-name">도너츠</div><div class="ns-sub">DONUTS</div></div><span class="ns-badge">조건부</span></div><div class="ns-meta">서브 · 매출 182억엔</div><div class="ns-ch">나나시스 장기IP 운영, 잡카운 SaaS 성공</div></div>
+<div class="ns-card ns-g"><div class="ns-head"><div><div class="ns-name">에이밍</div><div class="ns-sub">Aiming</div></div><span class="ns-badge">매수 가능</span></div><div class="ns-meta">서브 · 시총 101억엔 · 매출 158억엔 · 이익률 +13.1%</div><div class="ns-ch">중견 온라인게임 기획·개발·운영. 대만 등 해외거점 운영</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">케이브</div><div class="ns-sub">ケイブ</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브 · 시총 46억엔 · 매출 140억엔 · 이익률 +8.1%</div><div class="ns-ch">탄막슈팅 노포. 데라게(でらゲー) 보유</div></div>
+<div class="ns-card ns-g"><div class="ns-head"><div><div class="ns-name">드리콤</div><div class="ns-sub">ドリコム</div></div><span class="ns-badge">매수 가능</span></div><div class="ns-meta">서브 · 시총 117억엔 · 매출 127억엔 · 이익률 +0.9%</div><div class="ns-ch">스마트폰게임 기획·개발·운영. Wizardry IP 보유</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">뱅크오브이노베이션</div><div class="ns-sub">バンク・オブ・イノベーション</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브 · 시총 231억엔 · 매출 124억엔 · 이익률 +17.4%</div><div class="ns-ch">스마트폰게임 신규IP 육성에 주력</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">데라게</div><div class="ns-sub">でらゲー</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 매출 108억엔 · 이익률 +15.8%</div><div class="ns-ch">몬스트 등 대작에 관여한 개발사. 일본·말레이시아 복수거점. 케이브 100% 자회사</div></div>
+<div class="ns-card ns-g"><div class="ns-head"><div><div class="ns-name">구미</div><div class="ns-sub">gumi</div></div><span class="ns-badge">매수 가능</span></div><div class="ns-meta">서브 · 시총 175억엔 · 매출 89억엔 · 이익률 +4.1%</div><div class="ns-ch">모바일온라인게임 개발·운영 주축. XR/VR·블록체인 기술사업에도 적극투자</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">케이랩</div><div class="ns-sub">KLab</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 시총 260억엔 · 매출 69억엔 · 이익률 -19.0%</div><div class="ns-ch">모바일온라인게임 퍼블리셔/개발사. 글로벌 배신 및 소셜게임 운영 실적</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">마이넷게임즈</div><div class="ns-sub">マイネットゲームス</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브 · 시총 25억엔 · 매출 68억엔 · 이익률 +4.6%</div><div class="ns-ch">모바일게임 운영·매수·지원을 중심으로 전개</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">토세</div><div class="ns-sub">トーセ</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 시총 51억엔 · 매출 66억엔 · 이익률 +10.4%</div><div class="ns-ch">수탁개발 전문 "고스트 개발" 기업</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">닛폰이치소프트웨어</div><div class="ns-sub">日本一ソフトウェア</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브 · 시총 42억엔 · 매출 53억엔</div><div class="ns-ch">디스가이아 시리즈 등 전략성 풍부한 작품. 콘솔 중심</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">에이팀엔터테인먼트</div><div class="ns-sub">エイチームエンタ</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브 · 시총 193억엔 · 매출 42억엔 · 이익률 +12.3%</div><div class="ns-ch">에이팀그룹 자회사. 다장르 게임·앱 기획·개발·운영</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">닛폰팔콤</div><div class="ns-sub">日本ファルコム</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 시총 180억엔 · 매출 26억엔 · 이익률 +51.3%</div><div class="ns-ch">1981년 창업 RPG 노포. 이스·궤적 시리즈 국제적 평가</div></div>
+<div class="ns-card ns-w"><div class="ns-head"><div><div class="ns-name">에프포사무라이</div><div class="ns-sub">f4samurai</div></div><span class="ns-badge">조건부</span></div><div class="ns-meta">서브 · 매출 429억엔 · 이익률 +11.2%</div><div class="ns-ch">모바일온라인게임 기획·개발·운영 전문. 독립계</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">요스타</div><div class="ns-sub">Yostar</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브</div><div class="ns-ch">중국 상하이유성(上海悠星) 일본법인. 아주어레인·아크나이츠·블루아카이브 운영</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">시프트업</div><div class="ns-sub">SHIFT UP</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브 · 시총 2100억엔</div><div class="ns-ch">아트 중시 개발. 니케·스텔라블레이드로 국제적 주목</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">미호요 (호요버스)</div><div class="ns-sub">miHoYo(HoYoverse)</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브</div><div class="ns-ch">GaaS 글로벌 전개. AAA급 개발력</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">넷이즈게임즈</div><div class="ns-sub">NetEase Games</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브 · 시총 3.5조엔 · 매출 1.8조엔</div><div class="ns-ch">중국 최대급 개발/퍼블리셔</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">레벨인피니트</div><div class="ns-sub">Level Infinite</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브</div><div class="ns-ch">텐센트 게임즈 글로벌 퍼블리싱 브랜드</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">레벨파이브</div><div class="ns-sub">レベルファイブ</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브 · 매출 67억엔 · 이익률 +0.0%</div><div class="ns-ch">요괴워치·레이튼교수 등 독자IP 다수. 가정용·모바일 중심, TV애니·영화화 크로스미디어</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">NHN플레이아트</div><div class="ns-sub">NHN PlayArt</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 매출 135억엔 · 이익률 +19.7%</div><div class="ns-ch">NHN그룹 게임개발사. 요괴워치뿌니·#코패스·츠무츠무 등 히트 운영경험</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">지투스튜디오스</div><div class="ns-sub">G2 Studios</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브 · 매출 21억엔</div><div class="ns-ch">2018년 설립 개발스튜디오. 스마트폰 기획·개발·운영</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">크리처스</div><div class="ns-sub">クリーチャーズ</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 매출 337억엔 · 이익률 +64.1%</div><div class="ns-ch">포켓몬카드게임 개발·상품화 및 포켓몬 3DCG·게임개발을 담당</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">헤드록</div><div class="ns-sub">ヘッドロック</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브 · 매출 19억엔 · 이익률 +7.3%</div><div class="ns-ch">온라인게임 개발·운영 실적. 다수 미공개 개발실적</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">키 (비주얼아츠)</div><div class="ns-sub">Key（ビジュアルアーツ）</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브 · 매출 26억엔 · 이익률 +0.0%</div><div class="ns-ch">감동계 비주얼노벨 브랜드. Kanon·CLANNAD·Angel Beats! 등 히트. 텐센트 산하</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">아틀러스</div><div class="ns-sub">アトラス</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브</div><div class="ns-ch">페르소나·진여신전생 등 코어RPG 시리즈 개발. 세가사미 그룹 산하</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">포노스</div><div class="ns-sub">ポノス</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브</div><div class="ns-ch">냥코대전쟁으로 알려진 스마트폰게임 개발사. 창업자 대부분 보유 비공개기업</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">라센글</div><div class="ns-sub">ラセングル</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브</div><div class="ns-ch">아니플렉스 완전자회사. 2021년 설립 게임개발 스튜디오. FGO 개발·운영 담당</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">엔씨재팬</div><div class="ns-sub">エヌ・シー・ジャパン</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 매출 N/A</div><div class="ns-ch">NCSOFT 일본법인. 리니지 시리즈 중심 MMORPG 운영·퍼블리싱</div></div>
+<div class="ns-card ns-w"><div class="ns-head"><div><div class="ns-name">아크시스템웍스</div><div class="ns-sub">アークシステムワークス</div></div><span class="ns-badge">조건부</span></div><div class="ns-meta">서브 · 매출 74억엔 · 이익률 +10.8%</div><div class="ns-ch">격투게임 전문 개발사. GUILTY GEAR·BLAZBLUE로 전 세계 격투게임 팬층 확보</div></div>
+<div class="ns-card ns-w"><div class="ns-head"><div><div class="ns-name">SNK</div><div class="ns-sub">SNK</div></div><span class="ns-badge">조건부</span></div><div class="ns-meta">비서브 · 매출 24억엔</div><div class="ns-ch">KOF 등 네오지오 시대부터의 격투게임 노포. ELECTRIC GAMING 100% 소유</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">플래티넘게임즈</div><div class="ns-sub">プラチナゲームズ</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브</div><div class="ns-ch">베요네타·NieR 등 세계적 액션게임 개발사</div></div>
+<div class="ns-card ns-w"><div class="ns-head"><div><div class="ns-name">사이버커넥트투</div><div class="ns-sub">サイバーコネクトツー</div></div><span class="ns-badge">조건부</span></div><div class="ns-meta">서브 · 매출 25억엔</div><div class="ns-ch">애니메 IP 게임화의 최강자. 후쿠오카·몬트리올 거점</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">스파이크청소프트</div><div class="ns-sub">スパイク・チュンソフト</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브 · 매출 78억엔 · 이익률 +10.2%</div><div class="ns-ch">시렌·단간론파 등 독창적 게임 IP 보유. 드완고 100% 자회사</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">딤프스</div><div class="ns-sub">ディンプス</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 매출 79억엔 · 이익률 +10.3%</div><div class="ns-ch">캡콤·세가·반남·스퀘에니 등 대형사 수탁개발. 드래곤볼 시리즈 중심</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">게임프릭</div><div class="ns-sub">ゲームフリーク</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브</div><div class="ns-ch">포켓몬 메인 시리즈 유일한 개발사. 닌텐도·포켓몬컴퍼니와 3사 구조</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">할연구소</div><div class="ns-sub">ハル研究所</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 매출 71억엔 · 이익률 +33.5%</div><div class="ns-ch">별의 커비 시리즈 메인 개발사. 닌텐도와 긴밀한 협력</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">포켓페어</div><div class="ns-sub">ポケットペア</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 매출 200억엔</div><div class="ns-ch">팔월드 Steam 역대급 히트(동시접속 200만↑). 50명 소규모 스튜디오</div></div>
+<div class="ns-card ns-w"><div class="ns-head"><div><div class="ns-name">플레임하츠</div><div class="ns-sub">フレイムハーツ</div></div><span class="ns-badge">조건부</span></div><div class="ns-meta">비서브 · 매출 15억엔 · 이익률 +0.0%</div><div class="ns-ch">NEXON Korea의 DNF DUEL 개발 실적 보유. 포켓몬·FF 등 인기IP 수탁개발 다수. 디지털하츠HD 100% 자회사</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">니트로플러스</div><div class="ns-sub">ニトロプラス</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브 · 매출 40억엔 · 이익률 +15.6%</div><div class="ns-ch">사이버에이전트 100% 자회사. STEINS;GATE 원작 개발</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">두근두근그루브웍스</div><div class="ns-sub">ドキドキグルーヴワークス</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 매출 40억엔 · 이익률 +3.8%</div><div class="ns-ch">게임 엔터테인먼트(소프트웨어 테스트·개발·운영)와 디지털솔루션 사업. Aiming·스퀘에니·소니·DeNA·반남 취급처</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">이루카</div><div class="ns-sub">イルカ</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 매출 70억엔 · 이익률 +4.0%</div><div class="ns-ch">스퀘에니·반남·포켓몬 등 초대형 IP 수탁개발 능력. 매출 70억엔 규모 중견 개발사</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">사이버드</div><div class="ns-sub">サイバード</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브 · 매출 48억엔 · 이익률 +0.5%</div><div class="ns-ch">모바일 여성향 콘텐츠 서비스/게임 제공. 이케멘 시리즈로 여성향 게임 시장에서 확고한 지위</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">인텔리전트시스템즈</div><div class="ns-sub">インテリジェントシステムズ</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 매출 65억엔 · 이익률 +22.6%</div><div class="ns-ch">닌텐도 퍼스트 파티 개발사. 파이어엠블렘·페이퍼마리오 등 닌텐도 주요 IP 개발</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">폴리포니디지털</div><div class="ns-sub">ポリフォニー・デジタル</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브</div><div class="ns-ch">SIE 내 부문이 1998년 독립. 그란투리스모 시리즈 유일한 개발사</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">지블로섬</div><div class="ns-sub">G-Blossom</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 매출 N/A · 이익률 +8.6%</div><div class="ns-ch">ICO·완다와 거상·인구이의 대독수리 트리코를 개발한 우에다 후미토 팀이 중심이 된 스튜디오. 14명 소규모</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">하이드</div><div class="ns-sub">ハイド</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브 · 매출 17억엔 · 이익률 +7.2%</div><div class="ns-ch">아이디어팩토리·f4samurai·가온호·코나미·세가·마벨러스 등 광범위한 취급처. 수탁개발 전문</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">소레이유</div><div class="ns-sub">ソレイユ</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브 · 매출 30억엔 · 이익률 +0.0%</div><div class="ns-ch">액션게임 수탁개발 전문. 반남·스퀘에니·가온호 취급처</div></div>
+<div class="ns-card ns-w"><div class="ns-head"><div><div class="ns-name">그리</div><div class="ns-sub">グリー</div></div><span class="ns-badge">조건부</span></div><div class="ns-meta">비서브 · 시총 862억엔 · 매출 613억엔 · 이익률 +9.8%</div><div class="ns-ch">국내 최초 SNS 게임 플랫폼 창업사. 현재 모바일 게임·VR·메타버스로 전환 중. 자회사 Wright Flyer Studios가 게임 개발 담당.</div></div>
+<div class="ns-card ns-w"><div class="ns-head"><div><div class="ns-name">콜리</div><div class="ns-sub">coly</div></div><span class="ns-badge">조건부</span></div><div class="ns-meta">서브 · 시총 74억엔 · 매출 51억엔 · 이익률 +4.7%</div><div class="ns-ch">여성향 모바일 온라인 게임 개발·운영 전문. 오프라인 카페·라이선싱 등 미디어 믹스 사업 병행. 동증 그로스 상장(4175).</div></div>
+<div class="ns-card ns-w"><div class="ns-head"><div><div class="ns-name">에니쉬</div><div class="ns-sub">enish</div></div><span class="ns-badge">조건부</span></div><div class="ns-meta">비서브 · 시총 42억엔 · 매출 33억엔 · 이익률 -24.6%</div><div class="ns-ch">소셜·모바일 게임 개발사. 블록체인 게임 De:Lithe로 Web3 전환 추진 중. 동증 스탠다드 상장(3667).</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">아에리아</div><div class="ns-sub">アエリア</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브 · 시총 61억엔 · 매출 226억엔</div><div class="ns-ch">스마트폰 게임 개발·운영 및 캐릭터 굿즈 판매. 부동산 사업도 병행하는 복합기업. 동증 스탠다드 상장(3758).</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">아피리츠</div><div class="ns-sub">アピリッツ</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브 · 시총 27억엔 · 매출 84억엔 · 이익률 +7.1%</div><div class="ns-ch">게임 개발·운영과 웹솔루션·파견 사업을 병행하는 복합 IT기업. 동증 스탠다드 상장(4174).</div></div>
+<div class="ns-card ns-w"><div class="ns-head"><div><div class="ns-name">에디아</div><div class="ns-sub">エディア</div></div><span class="ns-badge">조건부</span></div><div class="ns-meta">서브 · 시총 25억엔 · 매출 35억엔 · 이익률 +10.6%</div><div class="ns-ch">IP 라이선싱·온라인 복권 서비스 운영사. 레트로 게임 IP 복각 및 애니메·게임 라이선스 취급. 매출 성장률 +37.8%. 동증 스탠다드 상장(3935).</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">폴투윈홀딩스</div><div class="ns-sub">ポールトゥウィン・ホールディングス</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브</div><div class="ns-ch">게임 품질보증(QA)·로컬라이징·CS를 제공하는 게임 아웃소싱 전문기업. 16기 연속 매출 증가 우량사. 동증 프라임 상장(3657).</div></div>
+<div class="ns-card ns-r"><div class="ns-head"><div><div class="ns-name">프롬소프트웨어</div><div class="ns-sub">フロム・ソフトウェア</div></div><span class="ns-badge">매수 불가</span></div><div class="ns-meta">비서브</div><div class="ns-ch">세계적 액션RPG 「소울라이크」 장르 확립. 미야자키 히데타카 디렉터 체제로 글로벌 팬덤 구축. 엘든링 단일 타이틀 2,500만 본 이상 판매. 카도카와 100% 자회사.</div></div>
+<div class="ns-card ns-r"><div class="ns-head"><div><div class="ns-name">타이토</div><div class="ns-sub">タイトー</div></div><span class="ns-badge">매수 불가</span></div><div class="ns-meta">비서브 · 매출 85억엔</div><div class="ns-ch">스퀘어에닉스 산하 아케이드·게임센터 운영 전문사. 인바운드 수요 회복으로 영업이익 전년비 +61%. 스페이스 인베이더 등 레트로 IP 보유.</div></div>
+<div class="ns-card ns-r"><div class="ns-head"><div><div class="ns-name">메이지스</div><div class="ns-sub">MAGES.</div></div><span class="ns-badge">매수 불가</span></div><div class="ns-meta">서브 · 매출 42억엔 · 이익률 -13.2%</div><div class="ns-ch">어드벤처 게임(ADV) 전문 개발사. 코로프라 완전자회사(2020년). STEINS;GATE 등 글로벌 팬덤 보유 서브컬처 IP 다수. 채무초과 상태(2022).</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">넥스트닌자</div><div class="ns-sub">NextNinja</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">서브</div><div class="ns-ch">기획~마케팅 수직통합 체제의 독립 중견 개발사. 글로벌 35~80개국 배포 실적. 직원 약 300명.</div></div>
+<div class="ns-card ns-w"><div class="ns-head"><div><div class="ns-name">이자나기게임즈</div><div class="ns-sub">イザナギゲームズ</div></div><span class="ns-badge">조건부</span></div><div class="ns-meta">서브 · 매출 7억엔</div><div class="ns-ch">글로벌 IP 콘텐츠 제작·퍼블리싱 특화 스튜디오. 저명 크리에이터 참여(제로 이스케이프 카가미 코타로 등). 웹툰·라이브 엔터테인먼트도 병행. 2기 연속 흑자. 2027년 IPO 준비 중.</div></div>
+<div class="ns-card ns-w"><div class="ns-head"><div><div class="ns-name">더블점프도쿄</div><div class="ns-sub">double jump.tokyo</div></div><span class="ns-badge">조건부</span></div><div class="ns-meta">비서브</div><div class="ns-ch">블록체인 게임 개발·운영 전문 스타트업. 누적 조달 30억엔+. Sony·SBI 전략주주. Soneium(소니 블록체인) 기반 Web3 게임 인프라 구축.</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">햄스터</div><div class="ns-sub">ハムスター</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브</div><div class="ns-ch">고전 아케이드 게임 현대 기기 이식 전문사. 설립 1999년. 도쿄 세타가야구 소재. SNK·NEOGEO 타이틀 복각으로 독보적 지위.</div></div>
+<div class="ns-card ns-d"><div class="ns-head"><div><div class="ns-name">켐코</div><div class="ns-sub">ケムコ</div></div><span class="ns-badge">미검토</span></div><div class="ns-meta">비서브</div><div class="ns-ch">히로시마 현 구레시 소재 독립 모바일 게임 개발사. 연 5~6개 RPG를 꾸준히 출시하는 양산형 스튜디오. 글로벌 앱스토어 대응.</div></div>
+</div>
+</div>
+</noscript>
+
+</div>
+<footer>Nexon Japan — 기업 조사 자료 | 원본 45사 + 숏리스트 19사 + 데이터수정 7사 + 신규발굴 15사 = 총 86사 | 설계서: 설계서_v2.0.md</footer>
+
+<script>
+
+// ── 데이터 ──
+const D=[
+  {n:'LINEヤフー',nk:'라인야후',ct:'일본',bz:'판매원',gn:'비서브',ma:'N',mk:2.67e12,rv:1.92e12,mg:24.6,rep:'이데자와 타케시',tt:'LINE 디즈니 츠무츠무, LINE 포코포코',ch:'LINE·야후 통합 라이프플랫폼. 광고·결제·미디어 수직통합',pr:'거대 유저기반, 다각 수익 포트폴리오',cn:'의사결정 복잡, 광고·커머스 시장 경쟁 심화',sh:'A홀딩스(소프트뱅크+NAVER) 62%',src:'orig',ip:false,emp:null,mr:'시총 2.7조엔 초대형 플랫폼사로 게임 M&A 대상으로는 비현실적. 퍼블리싱 PF 활용 관점에서만 검토 가능.'},
+  {n:'バンダイナムコエンタ',nk:'반다이남코엔터테인먼트',ct:'일본',bz:'개발/운영',gn:'서브',ma:'N',mk:2.61e12,rv:4.56e11,mg:15.0,rep:'우다가와 나오오',tt:'학원 아이돌마스터, SD건담 G제네레이션',ch:'건담·드래곤볼 등 최대급 종합 IP 엔터. 반다이남코HD 100% 완전자회사',pr:'풍부한 IP 자산, 글로벌 브랜드력·유통망',cn:'IP 육성 과제, 수익 불안정',sh:'반다이남코HD 100%',src:'orig',ip:true,emp:null,mr:'반다이남코HD 100% 완전자회사이자 그룹 IP 사업의 핵심. 단독 매수 불가 구조. IP 콜라보·퍼블리싱 협업 파트너로만 접근 가능.'},
+  {n:'スクウェア・エニックス',nk:'스퀘어에닉스',ct:'일본',bz:'개발/운영',gn:'비서브',ma:'N',mk:9.46e11,rv:3.25e11,mg:12.5,rep:'키류 류지',tt:'FF7 리메이크, DQ7 리이매진드',ch:'FF·DQ 대IP 보유 종합 엔터. 창업자 후쿠시마 25%이상',pr:'세계 최고 IP 포트폴리오, MMO 개발·운영 능력',cn:'콘솔사업 수익 불안정, 2대IP 고의존',sh:'창업자 후쿠시마 25%이상',src:'orig',ip:true,emp:null,mr:'시총 9,460억엔, 창업자 25%이상 지분으로 독립경영 의지 강. IP 라이센스·공동개발 협업은 가능.'},
+  {n:'セガ',nk:'세가',ct:'일본',bz:'개발/운영',gn:'비서브',ma:'X',mk:5.25e11,rv:3.22e11,mg:15.0,rep:'사토미 하루키',tt:'프로사커클럽 2026, 소닉럼블',ch:'콘솔·아케이드·모바일 종합 노포. 세가사미HD 100% 완전자회사',pr:'강력한 브랜드·유통망, PC/콘솔 마케팅력',cn:'세가사미 그룹 일체 매수 현실적 불가. 경쟁 장르 이해충돌 우려',sh:'세가사미HD 100%',src:'orig',ip:true,emp:null,mr:'세가사미홀딩스 100% 완전자회사로 파친코·파치슬로 사업과 일체화. 게임단독 분리매수 불가. 또한 넥슨과 경쟁 장르에서 이해충돌 발생 우려.'},
+  {n:'TOHO Games',nk:'토호게임즈',ct:'일본',bz:'판매원',gn:'비서브',ma:'N',mk:1.42e12,rv:3.13e11,mg:20.7,rep:'마츠오카 히로야스',tt:'천수의 사쿠나히메, 괴수8호 THE GAME',ch:'도호 게임 레이블. 고지라 등 자사 IP를 활용한 스마트폰·콘솔 기획·배신',pr:'도호의 IP 자산·브랜드력',cn:'게임 사업 성숙도·실적 미약',sh:'한큐한신 계열 21%',src:'orig',ip:true,emp:null,mr:'도호 주식회사 게임 사업부문으로 시총 1.4조엔 종합 엔터 기업. 게임 단독 매수 불가. 일본 영화·IP 콜라보 파트너십 관점에서 검토.'},
+  {n:'コナミデジタルエンタ',nk:'코나미디지털엔터테인먼트',ct:'일본',bz:'개발/운영',gn:'비서브',ma:'N',mk:2.62e12,rv:3.05e11,mg:32.4,rep:'하야카와 히데키',tt:'프로야구스피리츠A, 유희왕 마스터듀얼',ch:'코나미그룹 게임사업 중핵. 메탈기어·위닝일레븐 IP 보유',pr:'강력한 글로벌 IP군, 글로벌 배신·판매 체제, 안정적 수익기반',cn:'신규 IP 창출력 우려, 개발력 상대적 저하',sh:'코나미그룹 100%, 창업자계 27%',src:'orig',ip:true,emp:null,mr:'코나미그룹 100% 완전자회사 + 창업자계 27%. 자체 수익성(영업이익률 32%) 높아 매각 인센티브 없음. IP 협업 파트너십만 현실적.'},
+  {n:'KADOKAWA',nk:'카도카와',ct:'일본',bz:'판매원',gn:'서브',ma:'X',mk:4.458e11,rv:2.581e11,mg:7.1,rep:'나쓰노 타케시',tt:'음의실력자 마스터오브가든, 리밋제로 브레이커즈',ch:'IP홀더·미디어프로듀서. 출판→애니·게임·디지털 수직통합. ELDEN RING 대히트',pr:'일본 최대급 IP홀더, 미디어믹스 노하우',cn:'매수 리스크 극히 높음. 게임 그룹 운영능력 제한적',sh:'소니 10%, 반남 2%',src:'orig',ip:true,emp:null,mr:'시총 4,458억엔으로 매수 규모 극히 큼. 소니·반남이 전략 주주로 참여해 독립 매수 구조적으로 어려움. IP 파트너십(콜라보·퍼블리싱)은 상호 유리.'},
+  {n:'カプコン',nk:'캡콤',ct:'일본',bz:'개발/판매',gn:'비서브',ma:'N',mk:1.63e12,rv:1.70e11,mg:38.7,rep:'츠지모토 하루히로',tt:'몬스터헌터나우, 바이오해저드RE:3',ch:'바이오·몬헌·스파2 등 세계 최강 IP. RE ENGINE 자체 엔진으로 최고 개발력',pr:'세계 최고 IP군, RE ENGINE 개발력',cn:'IP 노후화 리스크, 개발기간 장기화',sh:'창업자 츠지모토 가문 20%, 자사주 20%',src:'orig',ip:true,emp:null,mr:'시총 1.6조엔, 창업자 가족 20%+자사주 20%로 경영 안정. 영업이익률 38%의 초우량사로 매각 인센티브 제로. IP 콜라보 협업만 현실적.'},
+  {n:'DeNA',nk:'디엔에이',ct:'일본',bz:'개발/운영',gn:'비서브',ma:'N',mk:3.27e11,rv:1.64e11,mg:17.7,rep:'오카무라 노부유키',tt:'괴도로와이얄, 포켓몬마스터즈EX',ch:'모바일게임 운영으로 성장한 IT기업. 헬스케어·스포츠·PF 사업도 전개',pr:'사업 다각화, 닌텐도 등 대형 파트너와 협업 실적',cn:'신규 히트작 부재, 사업간 시너지 부족',sh:'창업자 남바, 닌텐도 대주주',src:'orig',ip:false,emp:null,mr:'창업자 남바 씨 + 닌텐도가 대주주로 안정 지분 구조. 게임 외 헬스케어·스포츠 사업 포함으로 부대사업 과다. 재무 미검토(N).'},
+  {n:'MIXI',nk:'믹시',ct:'일본',bz:'개발/운영',gn:'비서브',ma:'X',mk:1.86e11,rv:1.55e11,mg:17.2,rep:'기무라 코키',tt:'몬스터스트라이크, 공투 코토다만RPG',ch:'SNS창업→몬스트 대히트. 디지털 엔터+스포츠+라이프스타일+투자 다각화',pr:'대규모 유저관리, 마스 마케팅, 리얼이벤트 최강급',cn:'창업자 독립지향 강, 매수가 극히 높음',sh:'창업자 카사하라 약 50%',src:'orig',ip:true,emp:null,mr:'창업자 카사하라 씨 단독 약 50% 지분 보유. SNS 기원의 독자 기업문화로 넥슨 온라인게임 문화와 통합 어려움. 몬스트 자산가치와 다각화 사업으로 매각 인센티브 전혀 없음.'},
+  {n:'アニプレックス',nk:'애니플렉스',ct:'일본',bz:'판매원',gn:'서브',ma:'X',mk:null,rv:1.511e11,mg:15.4,rep:'이와우에 아츠히로',tt:'Fate/Grand Order, 트위스티드원더랜드',ch:'소니뮤직 산하 종합 엔터. FGO 장기 히트. A-1 Pictures, CloverWorks 등',pr:'아니메팬 절대적 리치·브랜드력. NEXON×아니플렉스 PR 효과',cn:'소니그룹 핵심 전략자산, 매각 가능성 제로',sh:'소니뮤직엔터 100%',src:'orig',ip:true,emp:null,mr:'소니뮤직엔터 100% 완전자회사이자 소니그룹 엔터 전략의 핵심 자산. FGO라는 장기 히트로 매각 인센티브 전혀 없음. IP 콜라보·퍼블리싱 협업 파트너로서 접근.'},
+  {n:'Cygames',nk:'사이게임즈',ct:'일본',bz:'개발/운영',gn:'서브',ma:'X',mk:null,rv:1.335e11,mg:12.2,rep:'와타나베 코이치',tt:'우마무스메 프리티더비, 그란블루판타지',ch:'CA 산하. 고품질게임 브랜드. 애니·만화 IP 미디어믹스 전개',pr:'고품질 브랜드·라이브오퍼레이션 최강',cn:'CA그룹 핵심 수익원, 매각 불가',sh:'CA 약62%',src:'orig',ip:true,emp:null,mr:'사이버에이전트 그룹의 매출 1,380억엔 규모 핵심 수익원. 그룹 전체 실적의 40%이상 기여. 매각 가능성 제로. 단, 퍼블리싱 협업 시 넥슨 타이틀 품질 기준 충족 필수.'},
+  {n:'ガンホー',nk:'건호온라인엔터테인먼트',ct:'일본',bz:'개발/운영',gn:'비서브',ma:'T',mk:1.79e11,rv:9.32e10,mg:5.4,rep:'사카이 카즈야',tt:'라그나로크온라인(일본), 퍼즐&드래곤즈',ch:'라그·퍼즈드라로 알려진 온라인게임 기업. 에이리무 보유',pr:'PC온라인게임 운영 베테랑, 문화적 친화성 높음',cn:'퍼즈드라 수익의존, 노후화 개발팀. 신작 성공 없음',sh:'손씨 실효22%, 주주제안 분쟁중',src:'orig',ip:true,iv:'소수지분',emp:null,mr:'손씨 실효 22% 오너구조이나 주주제안 분쟁 중 경영 불안정. 단독 성장 한계 인식 시 협상 가능성 있음. 넥슨과 문화적 친화성 높아 통합 PMI 비용 상대적으로 낮음.'},
+  {n:'コーエーテクモゲームス',nk:'코에이테크모게임즈',ct:'일본',bz:'개발/운영',gn:'서브',ma:'N',mk:5.18e11,rv:7.81e10,mg:40.3,rep:'코이누마 히사시',tt:'레슬레리아나의 아틀리에, 노부나가의 야망 출진',ch:'삼국지·신장의야망·인왕 등 역사/시뮬/액션 IP. 코에테크모HD 그룹',pr:'다양하고 강력한 IP 포트폴리오, 업계 최고 수준 수익성',cn:'신규 IP 창출 과제, 보수적 투자 성향',sh:'코에테크모HD 100%',src:'orig',ip:true,emp:null,mr:'코에테크모HD 100% 완전자회사. 영업이익률 40.3%의 초우량사로 매각 인센티브 없음. IP 협업 파트너십 검토 가능.'},
+  {n:'EXNOA (DMM)',nk:'엑스노아 (DMM)',ct:'일본',bz:'PF운영',gn:'서브',ma:'N',mk:null,rv:7.37e10,mg:null,rep:'토죠 히로시',tt:'DMM GAMES, FANZA GAMES',ch:'DMM그룹 게임사업 통괄. 수천만 등록 유저 보유 PF 운영',pr:'대규모 PF·회원기반, 멀티디바이스 운영 노하우',cn:'규제·레퓨테이션 리스크(성인콘텐츠), 레거시 이미지',sh:'DMM.com 100%',src:'orig',ip:false,emp:null,mr:'DMM.com 100% 합동회사 자회사. 성인콘텐츠 관련 레퓨테이션 리스크가 넥슨 브랜드와 상충. 배신 PF 활용 관점에서는 검토 가능.'},
+  {n:'ブシロード',nk:'부시로드',ct:'일본',bz:'개발/운영',gn:'서브',ma:'X',mk:3.78e10,rv:4.62e10,mg:1.9,rep:'키타니 타카아키',tt:'반드리 걸즈밴드파티, 러브라이브 SIF',ch:'TCG·스마트폰·음악·애니·프로레슬링 다각 전개',pr:'리얼이벤트·굿즈 연동 국내 프로모션력',cn:'창업자 독립지향, 타사 게임 운영능력 전문사 대비 열세',sh:'창업자 키타니 18%',src:'orig',ip:true,emp:null,mr:'창업자 키타니 씨의 강한 독립경영 의지 + 프로레슬링·음악·TCG 독자 비즈니스모델 확립. 타사 M&A에 들어갈 인센티브 없음. 러브라이브! 등 IP 콜라보는 협의 가능.'},
+  {n:'グッドスマイルカンパニー',nk:'굿스마일컴퍼니',ct:'일본',bz:'개발/운영/판매',gn:'비서브',ma:'X',mk:null,rv:6.12e10,mg:null,rep:'이와사 겐타로',tt:'도쿄리벤저스 UNLIMITED, 지옥락 파라다이스배틀',ch:'피규어·완구 메이커, 크리에이터 지원',pr:'서브컬처 코어유저 어프로치, 퍼블리싱 시 피규어화 기대',cn:'오너기업 독립성 강, 대규모 온라인게임 운영 인프라·인원 부족',sh:'비공개',src:'orig',ip:true,emp:null,mr:'피규어 업계에서의 확립된 지위와 강한 오너 독립성. 대규모 MMO 운영 인프라 부재. 게임 M&A 타깃으로는 부적합. 굿즈·피규어화 파트너십이 현실적 협업.'},
+  {n:'フリュー',nk:'퓨리',ct:'일본',bz:'판매원',gn:'비서브',ma:'N',mk:3.37e10,rv:4.27e10,mg:8.7,rep:'에노모토 마사히토',tt:'바렛/VARLET',ch:'프리쿠라 제조사. 스마트폰·오락기기·굿즈 사업도 전개',pr:'여고생·여대생 중심 젊은 층 마케팅력',cn:'오락기기가 주사업. 대규모 온라인게임 경험 없음',sh:'창업자계 18%',src:'orig',ip:false,emp:null,mr:'프리쿠라(프린트사진기)가 주사업으로 게임 사업은 부수적. 시총 291억엔이나 사업 구조상 게임 M&A 타깃으로는 비효율. 여성향 카주얼게임 퍼블리싱 협업 가능.'},
+  {n:'Pearl Abyss',nk:'펄어비스',ct:'한국',bz:'개발/운영',gn:'비서브',ma:'N',mk:3.71e10,rv:3.77e10,mg:null,rep:'허진영',tt:'검은사막(PC/콘솔/모바일)',ch:'고품질 MMORPG 검은사막 글로벌 전개. 독자 엔진 개발',pr:'강력한 IP, 자체 엔진 및 라이브운영 노하우',cn:'검은사막 단일 의존 극도',sh:'창업자계 38%',src:'orig',ip:true,emp:null,mr:'한국 동종 MMORPG 기업으로 경쟁 관계. 창업자계 38% 지분으로 독립 의지 강. 기술 협력·IP 교류 가능성은 있으나 M&A 관점 검토 불필요.'},
+  {n:'マーベラス',nk:'마블러스',ct:'일본',bz:'개발/운영/판매',gn:'서브',ma:'T',mk:3.17e10,rv:2.80e10,mg:6.5,rep:'데루이 신이치',tt:'돌핀웨이브, Fate/EXTELLA',ch:'가정용·모바일 게임 + 애니·음악·영상·스테이지 다각 엔터',pr:'PC/모바일/CS 다플랫폼 퍼블리싱 경험. 여성·패밀리 콘텐츠 강점',cn:'텐센트+창업자 필두로 매수 교섭 난도 높음',sh:'텐센트 20%, 창업자계 30%',src:'orig',ip:true,iv:'소수지분',emp:null,mr:'텐센트 20%+창업자계 30%의 복잡한 주주구조로 협상 고난도. 단, 시총 317억엔으로 규모 합리적. 음악·무대 사업 분리 조건 시 게임사업 협상 가능성 잠재.'},
+  {n:'WFS',nk:'WFS',ct:'일본',bz:'개발/운영',gn:'서브',ma:'X',mk:null,rv:2.80e10,mg:6.4,rep:'야나기하라 요타',tt:'소멸도시, 헤번번즈레드',ch:'GREE산하 라이트플라이어스튜디오 브랜드',pr:'스토리형 RPG 운영 노하우',cn:'GREE그룹 핵심. 멀티플레이 온라인게임 운영 불안',sh:'GREE HD 100%',src:'orig',ip:true,emp:null,mr:'GREE홀딩스 100% 완전자회사이자 GREE 게임사업의 수익 핵심. 매출 280억엔 규모로 그룹에서 쉽게 분리 불가. 스토리RPG 공동개발 파트너십은 검토 가능.'},
+  {n:'コロプラ',nk:'코로프라',ct:'일본',bz:'개발/운영',gn:'서브',ma:'T',mk:5.62e10,rv:2.59e10,mg:3.9,rep:'미야모토 타카시',tt:'흰고양이 프로젝트, 앨리스기어아이기스',ch:'스마트폰게임·위치정보게임·VR/AR 등 다양한 기술 응용',pr:'창업자 필두, 안정화 목적 협업 가능성. 우수 엔지니어 확보',cn:'창업자 영향력 높음, 최근 히트작 없음',sh:'창업자 바바 40%이상',src:'orig',ip:true,iv:'인수',emp:null,mr:'창업자 바바 씨 40%이상 지분 보유이나 근년 업적 불안정으로 강력한 파트너 필요 가능성. 시총 562억엔으로 합리적 규모. 창업자 컨빈싱이 협상의 열쇠.'},
+  {n:'アカツキゲームス',nk:'아카츠키게임즈',ct:'일본',bz:'개발/운영',gn:'서브',ma:'T',mk:3.94e10,rv:2.12e10,mg:19.0,rep:'토쓰카 유키',tt:'8월의 신데렐라나인, DB도카배틀',ch:'아카쓰키그룹 모바일게임. 독자IP 창출·유저경험 중시 게임개발',pr:'IP 매력 최대화 운영력. IP타이틀 장기수익화 노하우',cn:'특정 타사IP 의존·계약종료 리스크',sh:'아카쓰키 100%, 소니 9%, 코에테크모 8%',src:'orig',ip:true,iv:'소수지분',emp:null,mr:'독립성 유지 중이나 소니 9%·코에테크모 8%로 이미 복수 전략 주주. 아카쓰키 100% 자회사이나 적절한 조건이라면 협상 여지. 시총 394억엔으로 합리적 규모.'},
+  {n:'DONUTS',nk:'도너츠',ct:'일본',bz:'개발/운영',gn:'서브',ma:'T',mk:null,rv:1.818e10,mg:null,rep:'니시무라 히로나리',tt:'도쿄7th시스터즈, D4DJ Groovy Mix',ch:'나나시스 장기IP 운영, 잡카운 SaaS 성공',pr:'나나시스 장기IP 운영 노하우',cn:'미상장 오너기업·자금 풍부, 매도 인센티브 낮음',sh:'비공개',src:'orig',ip:false,iv:'파트너십',emp:null,mr:'잡카운 SaaS로 안정 수익 확보한 오너기업. 자금 여유로 매도 인센티브 낮으나, 게임사업 단독 분리 협상 또는 전략적 파트너십 조건이라면 가능성 잠재.'},
+  {n:'Aiming',nk:'에이밍',ct:'일본',bz:'개발/운영',gn:'서브',ma:'O',mk:1.01e10,rv:1.58e10,mg:13.1,rep:'시이바 다다시',tt:'음의실력자 마스터오브가든, 검과마법의 로그레스',ch:'중견 온라인게임 기획·개발·운영. 대만 등 해외거점 운영',pr:'시총 합리적, 친화적 매수 가능성 높음. MMO 온라인게임 개발·운영 실전부대',cn:'마케팅 기능 약. 코로프라와 이미 자본제휴(2024~)',sh:'코로프라 14%, 창업자계 13%',src:'orig',ip:false,iv:'인수',emp:null,mr:'시총 약 100억엔으로 규모 합리적. 코로프라 14% 주주이나 완전 배타적 관계 아님. 온라인게임 개발·운영 사업이 넥슨 코어와 직접 시너지. 친화적 매수 가능성 가장 높음.'},
+  {n:'ケイブ',nk:'케이브',ct:'일본',bz:'개발/운영',gn:'서브',ma:'N',mk:4.63e9,rv:1.40e10,mg:8.1,rep:'타카하시 유키',tt:'동방환상 이클립스, 고식마법소녀',ch:'탄막슈팅 노포. 데라게(でらゲー) 보유',pr:'니치 시장 압도적 브랜드력, 코어 개발력',cn:'사업 규모 한정, 특정 장르 의존 리스크',sh:'회장 요시나리 16%',src:'orig',ip:true,emp:null,mr:'시총 46억엔 소규모. 탄막슈팅이라는 니치 장르 특화로 넥슨 포트폴리오와 시너지 제한적. 데라게 자회사는 별도 관심 대상이나 단독 파악 어려움.'},
+  {n:'ドリコム',nk:'드리콤',ct:'일본',bz:'개발/운영',gn:'서브',ma:'O',mk:1.17e10,rv:1.27e10,mg:0.9,rep:'나이토 유키',tt:'마계전기 디스가이아RPG, 아이마스 샤이닝컬러즈',ch:'스마트폰게임 기획·개발·운영. Wizardry IP 보유',pr:'시총 합리적. IP타이틀 장기운영 경험. IP 멀티전개(출판·MD 등) 기대',cn:'반남 주식보유+신규사업 투자의욕 강. 최근 대히트 없어',sh:'창업자 나이토 33%, 반남HD 약 20%',src:'orig',ip:false,iv:'인수',emp:null,mr:'시총 약 117억엔으로 합리적. 반남 20% 보유이나 경영 어려움으로 우호적 협상 가능성. Wizardry IP 부가가치. 창업자 나이토 33%와의 직접 협상이 관건.'},
+  {n:'バンク・オブ・イノベーション',nk:'뱅크오브이노베이션',ct:'일본',bz:'개발/운영',gn:'서브',ma:'N',mk:2.31e10,rv:1.24e10,mg:17.4,rep:'히구치 도모히로',tt:'메멘토모리, 코이니와',ch:'스마트폰게임 신규IP 육성에 주력',pr:'독창적 IP창출력, 세계관 구축력',cn:'단일 히트 의존, 규모 한계',sh:'창업자 히구치 44%대',src:'orig',ip:true,emp:null,mr:'창업자 히구치 씨 44%이상 지분. 메멘토모리 단일 히트에 매출 의존도 높아 지속성 불확실. 시총 231억엔이나 세계관·IP 독자성은 강함. 추가 정보 수집 후 재분류 검토.'},
+  {n:'でらゲー',nk:'데라게',ct:'일본',bz:'개발/운영',gn:'비서브',ma:'N',mk:null,rv:1.08e10,mg:15.8,rep:'정 윤철',tt:'킹덤 난, 몬스터스트라이크(개발)',ch:'몬스트 등 대작에 관여한 개발사. 일본·말레이시아 복수거점. 케이브 100% 자회사',pr:'주력 타이틀 보유/운영력',cn:'히트타이틀 의존 수익구조',sh:'케이브 100%',src:'orig',ip:false,emp:null,mr:'케이브 100% 완전자회사로 단독 분리 매수 어려움. 몬스트 관련 개발 노하우는 가치 있으나 케이브 전체 인수 없이는 접근 불가.'},
+  {n:'gumi',nk:'구미',ct:'일본',bz:'개발/운영',gn:'서브',ma:'O',mk:1.75e10,rv:8.94e9,mg:4.1,rep:'가와모토 히로유키',tt:'죠죠의기묘한모험 오라오라, 라그나돌',ch:'모바일온라인게임 개발·운영 주축. XR/VR·블록체인 기술사업에도 적극투자',pr:'업적 저조·구조개혁 중으로 매수 용이한 상황',cn:'불채산사업 개선에 다대한 노력 필요. 블록체인 의존 과다',sh:'SBIHD 35%, 나나모리 6%',src:'orig',ip:true,iv:'인수',emp:null,mr:'업적 저조·구조개혁 진행 중으로 현재가 매수 적기. SBIHD 35% 지분 정리 가능성 있으며, 시총 175억엔으로 합리적. 불채산 사업(블록체인 등) 처리가 관건.'},
+  {n:'KLab',nk:'케이랩',ct:'일본',bz:'개발/운영',gn:'비서브',ma:'N',mk:2.60e10,rv:6.86e9,mg:-19.0,rep:'사나다 테츠야',tt:'캡틴츠바사 드림팀, BLEACH 브레이브소울즈',ch:'모바일온라인게임 퍼블리셔/개발사. 글로벌 배신 및 소셜게임 운영 실적',pr:'IP×장기운영 타이틀 실적',cn:'수익성 극도 악화·재무기반 손상',sh:'기관투자자 중심',src:'orig',ip:false,emp:null,mr:'영업이익률 -19%의 적자 지속으로 재무기반 손상 진행 중. 일부 IP 타이틀 라이센스 종료 리스크. 특정 지배주주 없어 인수 접근은 가능하나 인수 후 사업 재건 비용이 큼.'},
+  {n:'マイネットゲームス',nk:'마이넷게임즈',ct:'일본',bz:'운영',gn:'서브',ma:'N',mk:2.47e9,rv:6.85e9,mg:4.6,rep:'이와키 노',tt:'용이여울 ONLINE, 코쿠노이슈타리아',ch:'모바일게임 운영·매수·지원을 중심으로 전개',pr:'게임운영 이관(재생)사업 파이어니어',cn:'이관 타이틀 노후화 리스크',sh:'마이넷 100%',src:'orig',ip:false,emp:null,mr:'마이넷 100% 자회사. 노후 게임 재생 전문 비즈니스모델로 넥슨 포트폴리오와 직접 시너지 낮음. 운영이관 서비스 업체로 활용 협업은 가능.'},
+  {n:'トーセ',nk:'토세',ct:'일본',bz:'개발/운영',gn:'비서브',ma:'N',mk:5.10e9,rv:6.64e9,mg:10.4,rep:'와타나베 야스히토',tt:'DUEL MASTERS PLAY\'S, DQ몬스터즈3(개발협력)',ch:'수탁개발 전문 "고스트 개발" 기업',pr:'업계 최대급 수탁개발 실적',cn:'수탁의존 수익변동, 낮은 브랜드력',sh:'창업자계 20% 추정',src:'orig',ip:false,emp:null,mr:'수탁개발 전문사로 자사 IP·브랜드 없음. 넥슨 타이틀 개발 협력사로는 활용 가능하나 M&A 타깃으로서의 자산 가치는 한정적.'},
+  {n:'日本一ソフトウェア',nk:'닛폰이치소프트웨어',ct:'일본',bz:'개발/판매',gn:'서브',ma:'N',mk:4.15e9,rv:5.30e9,mg:null,rep:'사루하시 켄조',tt:'마계전기 디스가이아RPG(위탁), 메인은CS/PC',ch:'디스가이아 시리즈 등 전략성 풍부한 작품. 콘솔 중심',pr:'코어팬 강점, 니치 시장 확고한 지위',cn:'스마트폰 게임사업 부진, 디스가이아 고의존',sh:'창업자계 50%',src:'orig',ip:true,emp:null,mr:'창업자계 50% 지분으로 독립 경영 강. 콘솔 중심 비즈니스로 넥슨 온라인게임과 사업 시너지 제한적. 디스가이아 IP 콜라보 협업은 검토 가능.'},
+  {n:'エイチームエンタ',nk:'에이팀엔터테인먼트',ct:'일본',bz:'개발/운영',gn:'서브',ma:'N',mk:1.93e10,rv:4.20e9,mg:12.3,rep:'나카우치 유키타카',tt:'발키리코넥트, 유니즌리그',ch:'에이팀그룹 자회사. 다장르 게임·앱 기획·개발·운영',pr:'기존 타이틀 운용 노하우, 글로벌 전개, 협업 수익 확보',cn:'개발력 저하, IP 창출력 결여',sh:'에이팀HD 100%',src:'orig',ip:false,emp:null,mr:'에이팀HD 100% 완전자회사. 모회사가 게임 외 사업도 보유해 단독 분리 어려움. 게임사업 단독 시너지는 제한적.'},
+  {n:'日本ファルコム',nk:'닛폰팔콤',ct:'일본',bz:'판매원',gn:'비서브',ma:'N',mk:1.80e10,rv:2.61e9,mg:51.3,rep:'곤도 토시히로',tt:'영웅전설 센의 궤적 노던워, 이스VIII 모바일',ch:'1981년 창업 RPG 노포. 이스·궤적 시리즈 국제적 평가',pr:'확립된 IP 어셋, 강한 재무기반',cn:'하드 의존형 수익구조, 2대IP 고의존',sh:'창업자계 60%',src:'orig',ip:true,emp:null,mr:'창업자계 60% 지분 보유. 매출 대비 이익률 51%의 초고수익사로 매각 인센티브 없음. 이스·궤적 IP는 넥슨 RPG 포트폴리오와 시너지 잠재 — IP 라이센스 협업 검토 가능.'},
+  {n:'f4samurai',nk:'에프포사무라이',ct:'일본',bz:'개발/운영',gn:'서브',ma:'T',mk:null,rv:4.289e10,mg:11.2,rep:'김철석',tt:'코드기아스 로스트스토리즈, 마법소녀 마도카 마기아엑세드라',ch:'모바일온라인게임 기획·개발·운영 전문. 독립계',pr:'독립계로 M&A 대상 가능성. IP 타이틀 개발실적 풍부, 장기운영력',cn:'세가·아니플렉스가 주주→매수 시 우려',sh:'창업멤버+세가+아니플렉스',src:'orig',ip:false,iv:'인수',emp:null,mr:'독립계 중소사로 매력적 조건 제시 시 M&A 대상 가능성. 단, 세가·아니플렉스가 주요 주주로 있어 이들과의 관계 조정 및 IP 계약 재협의 필요.'},
+  {n:'Yostar',nk:'요스타',ct:'일본',bz:'개발/운영',gn:'서브',ma:'N',mk:null,rv:null,mg:null,rep:'리 형달',tt:'블루아카이브(일본운영), 스텔라소라',ch:'중국 상하이유성(上海悠星) 일본법인. 아주어레인·아크나이츠·블루아카이브 운영',pr:'해외 우량타이틀 발굴·로컬라이즈 능력',cn:'자사 오리지널IP 부재, 히트작 의존',sh:'비공개',src:'orig',ip:true,emp:null,mr:'상하이 유성(上海悠星) 일본법인으로 중국 본사 의향이 결정적. 블루아카이브 일본 운영사로서 넥슨게임즈와의 관계 주목. M&A보다 퍼블리싱 협업 관계가 현실적.'},
+  {n:'SHIFT UP',nk:'시프트업',ct:'한국',bz:'개발/운영',gn:'서브',ma:'N',mk:2.1e11,rv:null,mg:null,rep:'김형태',tt:'데스티니차일드, 승리의여신 NIKKE',ch:'아트 중시 개발. 니케·스텔라블레이드로 국제적 주목',pr:'히트IP 존재, 창업자 아트지향',cn:'특정 타이틀 고의존',sh:'N/A',src:'orig',ip:true,emp:null,mr:'시총 1.98조엔으로 현재 매수 현실적으로 불가. 한국 게임사로 경쟁 관계보다 파트너십 관계 모색이 현실적.'},
+  {n:'miHoYo(HoYoverse)',nk:'미호요 (호요버스)',ct:'중국',bz:'개발/운영',gn:'서브',ma:'N',mk:null,rv:null,mg:null,rep:'차이하오위',tt:'원신, 붕괴:스타레일',ch:'GaaS 글로벌 전개. AAA급 개발력',pr:'압도적 AAA 개발력, 글로벌 동시개발·운영 능력',cn:'중국발 규제·여론 리스크',sh:'미공개(창업자 가족경영)',src:'orig',ip:true,emp:null,mr:'중국 민간 초우량 기업으로 매각 의향 없음. 규제 리스크도 존재. 일본 시장에서 콘텐츠 경쟁자이자 협업 잠재 파트너로 관계 파악 목적으로만 포함.'},
+  {n:'NetEase Games',nk:'넷이즈게임즈',ct:'중국',bz:'개발/운영',gn:'서브',ma:'N',mk:3.5e12,rv:1.756e12,mg:null,rep:'N/A',tt:'황야행동, 무한대 ANANTA',ch:'중국 최대급 개발/퍼블리셔',pr:'대규모 퍼블리싱·개발 능력',cn:'중국계 리스크',sh:'N/A',src:'orig',ip:true,emp:null,mr:'중국 상장 대기업. 일본 시장 진출 전략 파악 및 경쟁 동향 모니터링 목적으로 포함. M&A 대상 아님.'},
+  {n:'Level Infinite',nk:'레벨인피니트',ct:'유럽/싱가포르',bz:'판매원',gn:'서브',ma:'N',mk:null,rv:null,mg:null,rep:'N/A',tt:'승리의여신 NIKKE, 타워오브판타지',ch:'텐센트 게임즈 글로벌 퍼블리싱 브랜드',pr:'글로벌 IP 배신력',cn:'텐센트 산하, 독립적 협상 어려움',sh:'텐센트 100%',src:'orig',ip:false,emp:null,mr:'텐센트 100% 브랜드로 독립 협상 불가. 넥슨 타이틀 글로벌 배신 협력사로서 검토하되 텐센트 본사와 직접 협상 필요.'},
+  // 데이터 수정
+  {n:'レベルファイブ',nk:'레벨파이브',ct:'일본',bz:'판매/감수',gn:'서브',ma:'N',mk:null,rv:6.713e9,mg:0.0,rep:'히노 아키히로',tt:'이노국 크로스월즈(넷마블 개발), 요괴워치 뿌니',ch:'요괴워치·레이튼교수 등 독자IP 다수. 가정용·모바일 중심, TV애니·영화화 크로스미디어',pr:'풍부한 영향력 있는 IP, 글로벌 프랜차이즈 전개 경험',cn:'개발 장기화·지연',sh:'히노 아키히로(비율 미공개)',src:'upd',ip:true,emp:300,fix:'매출 수정: null→67억엔 (숏리스트 결산공고 확인)',mr:'히노 아키히로 대표가 대부분 지분 보유한 비공개 오너기업. 요괴워치 IP 여전히 강력하나 개발 지연 과제. 매각 의향 파악 불가이나 IP 라이센스 협업은 검토 가능.'},
+  {n:'NHN PlayArt',nk:'NHN플레이아트',ct:'일본',bz:'개발/운영',gn:'비서브',ma:'N',mk:null,rv:1.35e10,mg:19.7,rep:'정 우진',tt:'LINE 디즈니 츠무츠무, #코패스',ch:'NHN그룹 게임개발사. 요괴워치뿌니·#코패스·츠무츠무 등 히트 운영경험',pr:'히트타이틀 운영실적(일본·글로벌), #코패스 강력한 오리지널IP',cn:'#코패스 고의존, 신규 히트 부재',sh:'NHN JAPAN 100%',src:'upd',ip:true,emp:260,fix:'매출 수정: null→135억엔, 주주 NHN JAPAN 100% 확인 (숏리스트)',mr:'NHN JAPAN 100% 자회사. 한국 NHN 그룹 의향이 결정적으로, 단독 매수 어려움. 그러나 한국-일본 크로스 오퍼레이션 노하우와 #코패스 IP는 협업 가치 존재.'},
+  {n:'G2 Studios',nk:'지투스튜디오스',ct:'일본',bz:'개발/운영',gn:'서브',ma:'N',mk:null,rv:2.112e9,mg:null,rep:'구보 무네히로',tt:'나의히어로아카데미아 ULTRA IMPACT, 아이돌리쉬세븐',ch:'2018년 설립 개발스튜디오. 스마트폰 기획·개발·운영',pr:'대형 IP 공동개발 실적',cn:'타이틀 히트 의존',sh:'긱스(ギークス) 100% (→THE FIRST→G2 구조)',src:'upd',ip:false,emp:250,fix:'매출 수정: null→21억엔, 주주 긱스(구조) 수정',mr:'긱스 100% 완전자회사로 단독 분리 어려움. 2018년 설립의 신생사로 실적 축적 중. 대형 IP 게임화 협업 파트너로는 검토 가능.'},
+  {n:'クリーチャーズ',nk:'크리처스',ct:'일본',bz:'개발/운영',gn:'비서브',ma:'N',mk:null,rv:3.3715e10,mg:64.1,rep:'키타노 유지',tt:'포켓몬TCG Pocket(개발), 메인은 포켓몬카드 TCG',ch:'포켓몬카드게임 개발·상품화 및 포켓몬 3DCG·게임개발을 담당',pr:'포켓몬이라는 세계 최강 IP의 중핵. 카드게임 기획개발력',cn:'포켓몬에 완전한 의존',sh:'이시하라 츠네카즈 88.9%, 닌텐도 11.1%',src:'upd',ip:false,emp:245,fix:'매출 수정: null→337억엔, 이익률 64%(!!) 확인 (숏리스트)',mr:'이시하라 씨 88.9% 단독 대주주. 닌텐도 11% 참여로 포켓몬 생태계 핵심 3사 중 하나. 이시하라 씨 의향 없이는 매각 불가. M&A 타깃 아님.'},
+  {n:'ヘッドロック',nk:'헤드록',ct:'일본',bz:'개발/운영',gn:'서브',ma:'N',mk:null,rv:1.88e9,mg:7.3,rep:'가토 켄고',tt:'엔게이지킬, 교향성 밀리언아서',ch:'온라인게임 개발·운영 실적. 다수 미공개 개발실적',pr:'장년의 온라인게임 제작운영 실적, 서버기술 및 운영체제 축적',cn:'조직규모와 리소스 제약, 수탁개발 의존',sh:'비공개',src:'upd',ip:false,emp:110,fix:'매출 수정: null→18.8억엔 (숏리스트 결산공고 확인)',mr:'주주구조 비공개로 평가 제한적. 온라인게임 서버·운영 기술은 가치 있으나 규모(110명)가 작아 넥슨 타이틀 수탁 협업이 현실적.'},
+  {n:'Key（ビジュアルアーツ）',nk:'키 (비주얼아츠)',ct:'일본',bz:'개발/운영',gn:'서브',ma:'N',mk:null,rv:2.6e9,mg:0.0,rep:'아마구모 겐키',tt:'Summer Pockets REFLECTION BLUE, 끝의 스텔라, 헤번번즈레드(WFS와 공동)',ch:'감동계 비주얼노벨 브랜드. Kanon·CLANNAD·Angel Beats! 등 히트. 텐센트 산하',pr:'확립된 Key 브랜드력, 장년의 노벨게임 개발 노하우',cn:'텐센트 그룹 산하. 극단적으로 긴 개발사이클',sh:'텐센트 그룹 산하',src:'upd',ip:true,emp:114,fix:'매출 수정: null→26억엔 (숏리스트 결산공고 확인)',mr:'텐센트 그룹 산하로 매각 불가. Key 브랜드 IP(CLANNAD·Angel Beats! 등)는 팬 커뮤니티 강력하나 개발 사이클이 너무 길어 넥슨 라이브서비스 문화와 미스매치.'},
+  {n:'アトラス',nk:'아틀러스',ct:'일본',bz:'개발/운영',gn:'서브',ma:'N',mk:null,rv:null,mg:null,rep:'오하시 오사무',tt:'페르소나5 더 로열, 메타파: 리판타지오',ch:'페르소나·진여신전생 등 코어RPG 시리즈 개발. 세가사미 그룹 산하',pr:'유일무이 글로벌IP, CS/PC 개발·판매 실적',cn:'개발기간 장기화, 2대IP 고의존',sh:'세가사미HD 100%',src:'orig',ip:true,emp:null,mr:'세가사미홀딩스 100% 완전자회사. 페르소나·SMT는 글로벌 컬트IP이나 콘솔 중심이라 넥슨 온라인게임 시너지 제한적. 세가사미 그룹 전체 매수 없이는 접근 불가.'},
+  {n:'ポノス',nk:'포노스',ct:'일본',bz:'개발/운영',gn:'비서브',ma:'N',mk:null,rv:null,mg:null,rep:'츠지코 요리타다',tt:'냥코대전쟁',ch:'냥코대전쟁으로 알려진 스마트폰게임 개발사. 창업자 대부분 보유 비공개기업',pr:'강력한 IP와 장기운영력',cn:'플래그십IP 의존, 소기업 대규모 투자 난',sh:'비공개(창업자 대부분 보유)',src:'upd',ip:true,emp:185,fix:'숏리스트 확인: 재무 미공개 유지',mr:'창업자 대부분 지분 보유 오너기업. 냥코대전쟁이라는 장기 히트 IP를 보유하나 재무 비공개로 가치 평가 어려움. 추가 정보 수집 필요.'},
+  {n:'ラセングル',nk:'라센글',ct:'일본',bz:'개발/운영',gn:'서브',ma:'N',mk:null,rv:null,mg:null,rep:'오노 요시노리',tt:'Fate/Grand Order(개발)',ch:'아니플렉스 완전자회사. 2021년 설립 게임개발 스튜디오. FGO 개발·운영 담당',pr:'FGO라는 세계적 수익원',cn:'FGO 극도 의존',sh:'아니플렉스 100%',src:'orig',ip:false,emp:null,mr:'아니플렉스 100% 완전자회사. FGO 단일 타이틀 의존도 극히 높고 소니 그룹 생태계 내 위치로 독립 매수 불가.'},
+  {n:'エヌ・シー・ジャパン',nk:'엔씨재팬',ct:'일본',bz:'운영/판매',gn:'비서브',ma:'N',mk:null,rv:8.04e7,mg:null,rep:'임원기',tt:'리밋제로 브레이커즈, 리니지M',ch:'NCSOFT 일본법인. 리니지 시리즈 중심 MMORPG 운영·퍼블리싱',pr:'K-MMORPG 운영·로컬라이즈 경험 풍부',cn:'NCSOFT 100% 자회사, 경쟁 장르 이해충돌',sh:'NCSOFT 100%',src:'orig',ip:false,emp:null,mr:'NCSOFT 100% 자회사로 단독 매수 불가. 리니지 시리즈와 넥슨 MMORPG는 동일 시장 경쟁 관계로 인수 시 이해충돌 발생. K-MMORPG 시장 파이 제한적.'},
+  // 숏리스트 추가
+  {n:'アークシステムワークス',nk:'아크시스템웍스',ct:'일본',bz:'개발/판매',gn:'서브',ma:'T',mk:null,rv:7.363e9,mg:10.8,rep:'키도오카 미노루',tt:'GUILTY GEAR 시리즈, BLAZBLUE 시리즈',ch:'격투게임 전문 개발사. GUILTY GEAR·BLAZBLUE로 전 세계 격투게임 팬층 확보',pr:'독자 IP 보유, 격투게임 세계적 브랜드력',cn:'격투게임 장르 집중 리스크. 주주 다수로 매수 조건 조정 필요',sh:'키도오카 미노루 최대주주, CnT 480,000주, 사원지주회',src:'short',ip:true,iv:'인수',emp:223,fix:null,mr:'창업자 키도오카 씨가 최대주주이나 복수 기관 주주 존재. 격투게임 IP는 넥슨 장르 포트폴리오 보완 가능. 조건부: 창업자 협상 및 IP 계약 구조 정리 필요.'},
+  {n:'SNK',nk:'SNK',ct:'일본',bz:'개발/운영',gn:'비서브',ma:'T',mk:null,rv:2.43e9,mg:null,rep:'미공개',tt:'THE KING OF FIGHTERS 시리즈',ch:'KOF 등 네오지오 시대부터의 격투게임 노포. ELECTRIC GAMING 100% 소유',pr:'KOF라는 글로벌 격투 IP. e-Sports 전개 가능성',cn:'ELECTRIC GAMING 100% 소유. 적자 지속(순이익 -28억엔)',sh:'ELECTRIC GAMING 100%',src:'short',ip:true,iv:'소수지분',emp:317,fix:null,mr:'ELECTRIC GAMING 100% 소유로 해당 모회사 협상이 전제. 적자(-28억엔) 지속으로 매각 검토 가능성 있음. KOF IP의 e-Sports 활용 가치는 높음.'},
+  {n:'プラチナゲームズ',nk:'플래티넘게임즈',ct:'일본',bz:'개발',gn:'비서브',ma:'N',mk:null,rv:null,mg:null,rep:'이나바 아츠시',tt:'Bayonetta 시리즈, NieR:Automata, The Wonderful 101',ch:'베요네타·NieR 등 세계적 액션게임 개발사',pr:'세계 최고 수준의 액션게임 개발력',cn:'재무 비공개. 오너 독립지향 강. 자사 퍼블리싱 실패 경험(Babylon\'s Fall)',sh:'비공개',src:'short',ip:true,emp:305,fix:null,mr:'재무 비공개로 가치 평가 어려움. 오너 독립 경영 의지 강하고 콘솔 중심 개발사로 넥슨 온라인게임과 문화적 거리 있음. 고품질 액션게임 개발 협업 파트너로는 검토 가능.'},
+  {n:'サイバーコネクトツー',nk:'사이버커넥트투',ct:'일본',bz:'개발',gn:'서브',ma:'T',mk:null,rv:2.46e9,mg:null,rep:'마츠야마 히로시',tt:'귀멸의 칼날 히노카미 혈풍담, 나루토 나루티메이트스톰 시리즈',ch:'애니메 IP 게임화의 최강자. 후쿠오카·몬트리올 거점',pr:'애니IP 게임화 노하우 최강. 반남 10% 출자로 파트너십 확인',cn:'마츠야마 히로시 대표 90% 지분으로 오너 의향 중요',sh:'마츠야마 히로시 90%, 반다이남코엔터 10%',src:'short',ip:false,iv:'소수지분',emp:266,fix:null,mr:'마츠야마 씨 90% 지분으로 본인 의향이 결정적. 반남 10% 주주와의 관계 조정 필요. 그러나 애니IP 게임화 노하우는 넥슨 IP 타이틀 확대 전략과 시너지 크음.'},
+  {n:'スパイク・チュンソフト',nk:'스파이크청소프트',ct:'일본',bz:'개발/판매',gn:'서브',ma:'N',mk:null,rv:7.767e9,mg:10.2,rep:'미공개',tt:'불사조의 던전 시렌6, 단간론파 시리즈',ch:'시렌·단간론파 등 독창적 게임 IP 보유. 드완고 100% 자회사',pr:'독창적 IP 포트폴리오. 국내외 퍼블리셔와 광범위한 협업 실적',cn:'드완고(카도카와 그룹) 100% 자회사로 매각 가능성 낮음',sh:'드완고 100%',src:'short',ip:true,emp:260,fix:null,mr:'드완고 100% 완전자회사로 카도카와 그룹 소속. 단간론파·시렌 등 독특한 IP는 가치 있으나 그룹 전략상 분리 매수 어려움. IP 협업만 현실적.'},
+  {n:'ディンプス',nk:'딤프스',ct:'일본',bz:'수탁개발',gn:'비서브',ma:'N',mk:null,rv:7.872e9,mg:10.3,rep:'미공개',tt:'드래곤볼 브레이커즈, 드래곤볼 히어로즈 월드미션',ch:'캡콤·세가·반남·스퀘에니 등 대형사 수탁개발. 드래곤볼 시리즈 중심',pr:'대형 IP 수탁개발 능력. 반남·아니플렉스 주주로 안정적 파트너십',cn:'반남+아니플렉스가 주요 주주로 독립적 매수 어려움',sh:'ALESWEST 필두, 반다이남코 1398주, 아니플렉스 600주',src:'short',ip:false,emp:336,fix:null,mr:'반남과 아니플렉스가 주요 주주로 이들의 동의 없이 매수 어려움. 수탁개발 전문사로 자사 브랜드 가치 낮음. 넥슨 타이틀 3D게임 개발 협력사로 활용 협의 가능.'},
+  {n:'ゲームフリーク',nk:'게임프릭',ct:'일본',bz:'개발',gn:'비서브',ma:'N',mk:null,rv:null,mg:null,rep:'미공개',tt:'포켓몬스터 스칼렛·바이올렛, 포켓몬 LEGENDS 아르세우스',ch:'포켓몬 메인 시리즈 유일한 개발사. 닌텐도·포켓몬컴퍼니와 3사 구조',pr:'포켓몬 IP 독점 개발권',cn:'닌텐도·포켓몬컴퍼니 영향력. 독립 매각 불가에 가까움',sh:'비공개(창업자 관련)',src:'short',ip:true,emp:207,fix:null,mr:'포켓몬 3대 원저작 관련 기업 중 하나. 닌텐도와 포켓몬컴퍼니 영향하에 있어 독립 매수 현실적으로 불가. 참고용 파악 목적으로 포함.'},
+  {n:'ハル研究所',nk:'할연구소',ct:'일본',bz:'개발',gn:'비서브',ma:'N',mk:null,rv:7.136e9,mg:33.5,rep:'타니무라 마사히토',tt:'별의 커비 디스커버리, 커비파이터즈2',ch:'별의 커비 시리즈 메인 개발사. 닌텐도와 긴밀한 협력',pr:'커비라는 닌텐도 메인 IP 개발권. 매출 71억엔에 이익률 33%의 우수 재무',cn:'닌텐도 3대 주주(8%)로 사실상 닌텐도 파트너. 독립 매각 현실적 어려움',sh:'종업원지주회 최대, 타니무라 마사히토, 닌텐도 3대 주주',src:'short',ip:true,emp:242,fix:null,mr:'닌텐도가 3대 주주로 사실상 닌텐도 파트너 기업. 종업원지주회 주도 오너십 구조로 독립 매각 현실적으로 불가. 참고 파악 목적.'},
+  {n:'ポケットペア',nk:'포켓페어',ct:'일본',bz:'개발/운영',gn:'비서브',ma:'N',mk:null,rv:2.0e10,mg:null,rep:'미조부치 타쿠로',tt:'Palworld(팔월드), Craftopia',ch:'팔월드 Steam 역대급 히트(동시접속 200만↑). 50명 소규모 스튜디오',pr:'팔월드라는 세계적 히트 IP. 급성장 중으로 자산 가치 상승',cn:'오너 100% 소유로 매각 의향 불명확. 닌텐도와 특허 소송 분쟁 진행 중',sh:'미조부치 타쿠로 100%',src:'short',ip:true,emp:50,fix:null,mr:'오너 100% 소유로 미조부치 씨 의향이 전부. 닌텐도와 특허 소송 분쟁 중으로 법적 리스크 존재. 팔월드 IP의 급성장 모멘텀은 주목할 만하나 분쟁 해결 전까지 접근 보류 권고.'},
+  {n:'フレイムハーツ',nk:'플레임하츠',ct:'일본',bz:'수탁개발',gn:'비서브',ma:'T',mk:null,rv:1.5e9,mg:0.0,rep:'미공개',tt:'【NEXON Korea DNF DUEL 개발!】포켓몬스터 스칼렛·바이올렛 개발협력',ch:'NEXON Korea의 DNF DUEL 개발 실적 보유. 포켓몬·FF 등 인기IP 수탁개발 다수. 디지털하츠HD 100% 자회사',pr:'NEXON과 직접 개발 연계 실적! 포켓몬·FF 등 대형 IP 수탁 능력',cn:'디지털하츠HD 100% 자회사로 단독 매수는 모회사 협상 필요',sh:'디지털하츠홀딩스 100%',src:'short',ip:false,iv:'인수',emp:130,fix:null,mr:'NEXON Korea DNF DUEL 직접 개발 실적으로 신뢰 관계 이미 구축. 디지털하츠HD와의 협상 통해 분리 인수 또는 업무제휴 확대 모두 검토 가능.'},
+  {n:'ニトロプラス',nk:'니트로플러스',ct:'일본',bz:'개발',gn:'서브',ma:'N',mk:null,rv:4.003e9,mg:15.6,rep:'미공개',tt:'STEINS;GATE, CHAOS;HEAD 시리즈',ch:'사이버에이전트 100% 자회사. STEINS;GATE 원작 개발',pr:'STEINS;GATE 등 확립된 IP, 비주얼노벨·스토리 게임 개발 노하우',cn:'CA 100% 자회사. 매각 가능성 낮음',sh:'사이버에이전트 100%',src:'short',ip:true,emp:85,fix:null,mr:'CA 100% 완전자회사. CA그룹 IP 전략에서 STEINS;GATE 브랜드 가치 있어 쉽게 분리 안 함. IP 라이센스 협업 검토 가능.'},
+  {n:'ドキドキグルーヴワークス',nk:'두근두근그루브웍스',ct:'일본',bz:'수탁개발',gn:'비서브',ma:'N',mk:null,rv:4.046e9,mg:3.8,rep:'미공개',tt:'VARIOUS DAYLIFE, 발키리아나토미아',ch:'게임 엔터테인먼트(소프트웨어 테스트·개발·운영)와 디지털솔루션 사업. Aiming·스퀘에니·소니·DeNA·반남 취급처',pr:'대형사 취급처 광범위. 개발+운영+테스트 일괄 수탁 능력',cn:'CHIYOMARU·드완고 등 다수 주주. 단독 매수 복잡',sh:'CHIYOMARU, 드완고, 무라이, 카가전자 (비율 비공개)',src:'short',ip:false,emp:700,fix:null,mr:'복수 오너 주주 구조로 협상 복잡. 개발+운영+테스트 일괄 수탁이 강점이나 자사 IP 없음. 넥슨 타이틀 수탁 개발 협력사로 활용 협의 가능.'},
+  {n:'イルカ',nk:'이루카',ct:'일본',bz:'수탁개발',gn:'비서브',ma:'N',mk:null,rv:7.032e9,mg:4.0,rep:'미공개',tt:'포켓몬스터 BD·SP, SAND LAND, ONE PIECE ODYSSEY',ch:'스퀘에니·반남·포켓몬 등 초대형 IP 수탁개발 능력. 매출 70억엔 규모 중견 개발사',pr:'초대형 IP 수탁개발 실적 풍부. 매출 규모 안정',cn:'창업자 이와사키 67%, 법인 이루카 33%로 오너기업',sh:'이와사키 타쿠야 67%, 이루카 33%',src:'short',ip:false,emp:397,fix:null,mr:'창업자 2명이 100% 지분 보유한 오너기업. 수탁개발 전문으로 자사 IP 없음. 넥슨 타이틀 고품질 개발 외주처로 협업 가능.'},
+  {n:'サイバード',nk:'사이버드',ct:'일본',bz:'개발/운영',gn:'서브',ma:'N',mk:null,rv:4.765e9,mg:0.5,rep:'미공개',tt:'이케멘 빌런, 이케멘 왕자, 이케멘 겐지덴',ch:'모바일 여성향 콘텐츠 서비스/게임 제공. 이케멘 시리즈로 여성향 게임 시장에서 확고한 지위',pr:'여성향 모바일게임 IP 군 및 운영 경험',cn:'아에리아콘텐츠홀딩 100% 자회사',sh:'아에리아콘텐츠홀딩 100%',src:'short',ip:true,emp:249,fix:null,mr:'아에리아콘텐츠홀딩 100% 자회사. 여성향 IP 특화로 넥슨 주류 타깃과 유저층 상이. M&A보다 여성향 게임 콜라보 파트너십이 현실적.'},
+  {n:'インテリジェントシステムズ',nk:'인텔리전트시스템즈',ct:'일본',bz:'개발',gn:'비서브',ma:'N',mk:null,rv:6.476e9,mg:22.6,rep:'미공개',tt:'파이어엠블렘 엔게이지, 페이퍼마리오, 메이드인와리오',ch:'닌텐도 퍼스트 파티 개발사. 파이어엠블렘·페이퍼마리오 등 닌텐도 주요 IP 개발',pr:'닌텐도 메인 IP 개발권. 매출 65억엔에 이익률 22.6%의 건전한 재무',cn:'사실상 닌텐도 파트너 기업. 독립 매각 불가',sh:'북서 료이치 등 창업멤버 (비율 비공개)',src:'short',ip:false,emp:197,fix:null,mr:'사실상 닌텐도 전용 개발사로 파이어엠블렘 등 닌텐도 핵심 IP 담당. 독립 매각 현실적으로 불가. 참고 파악 목적.'},
+  {n:'ポリフォニー・デジタル',nk:'폴리포니디지털',ct:'일본',bz:'개발',gn:'비서브',ma:'N',mk:null,rv:null,mg:null,rep:'야마우치 카즈노리',tt:'Gran Turismo 7',ch:'SIE 내 부문이 1998년 독립. 그란투리스모 시리즈 유일한 개발사',pr:'그란투리스모라는 레이싱 게임 세계 최고 IP 독점 개발',cn:'SIE 산하로 사실상 독립 매각 불가',sh:'소니 인터랙티브엔터테인먼트 산하',src:'short',ip:false,emp:250,fix:null,mr:'소니IE 산하로 그란투리스모 IP 전담 개발사. 독립 매각 불가. 레이싱 게임 장르는 넥슨 포트폴리오와 시너지 제한적. 참고 파악 목적.'},
+  {n:'G-Blossom',nk:'지블로섬',ct:'일본',bz:'개발',gn:'비서브',ma:'N',mk:null,rv:7e7,mg:8.6,rep:'미공개',tt:'ONI – 하늘과 바람의 애가, Project_Y: Working Title',ch:'ICO·완다와 거상·인구이의 대독수리 트리코를 개발한 우에다 후미토 팀이 중심이 된 스튜디오. 14명 소규모',pr:'ICO/완다 계보의 세계 최고 수준 아트 디렉션·게임 디자인 능력',cn:'설립 간지 않아 실적이 얇음. 소규모(14명)로 대형 프로젝트 대응 한계',sh:'비공개',src:'short',ip:false,emp:14,fix:null,mr:'14명 초소규모 스튜디오로 재무규모 극소(7000만엔). 예술적 가치는 세계 최고 수준이나 규모상 넥슨 인수 타깃으로는 부적합. 크리에이티브 파트너십 검토 가능.'},
+  {n:'ハイド',nk:'하이드',ct:'일본',bz:'수탁개발',gn:'서브',ma:'N',mk:null,rv:1.716e9,mg:7.2,rep:'야나기하라 켄이치',tt:'디지몬 서바이브, 룬팩토리5',ch:'아이디어팩토리·f4samurai·가온호·코나미·세가·마벨러스 등 광범위한 취급처. 수탁개발 전문',pr:'광범위한 수탁개발 실적. 창업자 2인 오너기업으로 의사결정 간결',cn:'창업자 2인 오너기업으로 매수 조건 협상 필요',sh:'야나기하라 켄이치 62.5%, 이세리 신이치로 37.5%',src:'short',ip:false,emp:150,fix:null,mr:'창업자 2인 100% 소유로 의사결정 명확. 수탁개발 전문으로 자사 IP 없음. 넥슨 타이틀 개발 협력사로 활용 가능.'},
+  {n:'ソレイユ',nk:'소레이유',ct:'일본',bz:'수탁개발',gn:'비서브',ma:'N',mk:null,rv:3.0e9,mg:0.0,rep:'미공개',tt:'발키리 엘리시온, Wanted:Dead, 닌자라',ch:'액션게임 수탁개발 전문. 반남·스퀘에니·가온호 취급처',pr:'액션게임 개발력 높음. NARUTO 시리즈 등 대형 IP 수탁 경험',cn:'WAKE UP INTERACTIVE 산하. 독립 매각 어려움',sh:'WAKE UP INTERACTIVE 산하',src:'short',ip:false,emp:120,fix:null,mr:'WAKE UP INTERACTIVE 산하로 단독 분리 어려움. 액션게임 개발 전문으로 넥슨 액션장르 타이틀 개발 협력사로는 활용 가능.'},
+  // 신규 발굴 (Batch 1 — 2026년 3월 조사)
+  {n:'グリー',nk:'그리',ct:'일본',bz:'개발/운영',gn:'비서브',ma:'T',mk:8.62e10,rv:6.13e10,mg:9.8,rep:'다나카 요시카즈',tt:'GREE, Wright Flyer Studios 포트폴리오',ch:'국내 최초 SNS 게임 플랫폼 창업사. 현재 모바일 게임·VR·메타버스로 전환 중. 자회사 Wright Flyer Studios가 게임 개발 담당.',pr:'SNS·모바일 플랫폼 노하우. 일부 히트 타이틀(센고쿠엔부 등) 보유. 구조개혁으로 협상 환경 개선 중.',cn:'VR/메타버스 투자 지속 적자. 창업자 田中 약 30% 보유로 협상 난이도 있음. 핵심 게임 사업 축소 추세.',sh:'다나카 요시카즈(창업자) 약 30%, 유동주식',src:'add',ip:false,iv:'소수지분',emp:1200,fix:null,mr:'구조개혁 효과로 흑자 전환 중. 시총 862억엔, 매출 613억엔 규모로 영업이익률 9.8% 회복. 창업자 약 30% 보유가 협상 변수.'},
+  {n:'coly',nk:'콜리',ct:'일본',bz:'개발/운영',gn:'서브',ma:'T',mk:7.39e9,rv:5.06e9,mg:4.7,rep:'나카시마 안나',tt:'마법사의 약속, Stand My Heroes, 브레이크마이케이스',ch:'여성향 모바일 온라인 게임 개발·운영 전문. 오프라인 카페·라이선싱 등 미디어 믹스 사업 병행. 동증 그로스 상장(4175).',pr:'여성향 서브컬처 IP 전문 노하우. 팬덤 밀착형 미디어믹스 운영 경험.',cn:'Southair 50.52% 대주주 협상 필수. 상장 이후 시총 1/5 이하로 축소. 주요 타이틀 매출 감소세.',sh:'Southair 50.52%, 유동주식',src:'add',ip:true,iv:'인수',emp:null,fix:null,mr:'시총 약 74억엔으로 매수 현실적. 여성향 서브컬처 IP 특화. Southair 50% 대주주와의 협상이 관건.'},
+  {n:'enish',nk:'에니쉬',ct:'일본',bz:'개발/운영',gn:'비서브',ma:'T',mk:4.2e9,rv:3.317e9,mg:-24.6,rep:'모리타 히데카츠',tt:'De:Lithe Last Memories (블록체인게임), 보쿠노레스토랑II',ch:'소셜·모바일 게임 개발사. 블록체인 게임 De:Lithe로 Web3 전환 추진 중. 동증 스탠다드 상장(3667).',pr:'블록체인 게임 개발 경험 보유. 소형 시총으로 저비용 인수 가능.',cn:'2기 연속 영업적자(-24.6%). 핵심 타이틀 매출 감소. 블록체인 채산성 불확실.',sh:'유동주식 다수 (대주주 불명확)',src:'add',ip:true,iv:'인수',emp:null,fix:null,mr:'적자 지속·블록체인 전환 중으로 자금조달 필요 시 협상 환경 조성. 시총 42억엔으로 매수 부담 낮음.'},
+  {n:'アエリア',nk:'아에리아',ct:'일본',bz:'개발/운영',gn:'서브',ma:'N',mk:6.1e9,rv:2.26e10,mg:null,rep:'코바야시 유스케',tt:'스마트폰 게임, 캐릭터 굿즈 사업',ch:'스마트폰 게임 개발·운영 및 캐릭터 굿즈 판매. 부동산 사업도 병행하는 복합기업. 동증 스탠다드 상장(3758).',pr:'매출 규모 중형급(226억엔). 복수 사업 포트폴리오.',cn:'게임 외 비게임 사업 비중 높아 순수 게임사 가치 산정 어려움. 주주 구조 불명확.',sh:'미파악',src:'add',ip:false,emp:null,fix:null,mr:'매출 226억엔 중형급이나 게임 외 부동산 사업 병존. 주주·이익구조 상세 미파악으로 추가 조사 후 재분류 필요.'},
+  {n:'アピリッツ',nk:'아피리츠',ct:'일본',bz:'개발/운영',gn:'서브',ma:'N',mk:2.7e9,rv:8.43e9,mg:7.1,rep:'와다 준지',tt:'고에티아 크로스 (서비스 종료 예정), 식희 프로젝트',ch:'게임 개발·운영과 웹솔루션·파견 사업을 병행하는 복합 IT기업. 동증 스탠다드 상장(4174).',pr:'IT 시스템·게임 복합 개발 역량. 소형 시총(27억엔).',cn:'주요 타이틀 ゴエティアクロス 서비스 종료 예정. 게임 사업 비중 감소. 웹솔루션 의존도 상승.',sh:'미파악',src:'add',ip:true,emp:null,fix:null,mr:'게임+웹솔루션+파견 복합구조. 주요 타이틀 서비스 종료 예정. 게임 사업 순수 가치 평가 후 재검토 필요.'},
+  {n:'エディア',nk:'에디아',ct:'일본',bz:'개발/운영',gn:'서브',ma:'T',mk:2.5e9,rv:3.49e9,mg:10.6,rep:'가시마 요시나리',tt:'쿠지콜레 (온라인 복권), 레트로 게임 IP 복각',ch:'IP 라이선싱·온라인 복권 서비스 운영사. 레트로 게임 IP 복각 및 애니메·게임 라이선스 취급. 매출 성장률 +37.8%. 동증 스탠다드 상장(3935).',pr:'레트로 IP 라이선싱 노하우. 흑자기조 전환(OPM 10.6%). 시총 극소형(25억엔)으로 매수 부담 없음.',cn:'게임 직접 개발 역량 미약. 복권 사업 의존도 높음. 소형사.',sh:'하라오 마사키(회장·창립자), 가시마 요시나리(사장)',src:'add',ip:false,iv:'인수',emp:null,fix:null,mr:'시총 약 25억엔으로 극소형. IP 라이선싱·복각 노하우 보유. 흑자기조 전환 후 성장률 높아 협상 환경 양호.'},
+  {n:'ポールトゥウィン・ホールディングス',nk:'폴투윈홀딩스',ct:'일본',bz:'수탁개발',gn:'비서브',ma:'N',mk:null,rv:null,mg:null,rep:'미파악',tt:'게임 QA, 로컬라이징, 디버깅 아웃소싱',ch:'게임 품질보증(QA)·로컬라이징·CS를 제공하는 게임 아웃소싱 전문기업. 16기 연속 매출 증가 우량사. 동증 프라임 상장(3657).',pr:'글로벌 게임사 협력 네트워크. 품질관리 노하우. 안정 수익 기반(경상이익 +53% 성장 전망).',cn:'IP·개발 역량 없음. 순수 아웃소싱 사업. M&A 직접 시너지 제한적.',sh:'미파악',src:'add',ip:false,emp:null,fix:null,mr:'게임 QA·로컬라이징 전문 우량사(16기 연속 증수). IP·개발 역량 없어 직접 시너지 한정적. 파트너십 관점 검토.'},
+  {n:'フロム・ソフトウェア',nk:'프롬소프트웨어',ct:'일본',bz:'개발/운영',gn:'비서브',ma:'X',mk:null,rv:null,mg:null,rep:'미야자키 히데타카',tt:'엘든링, 다크소울 시리즈, 세키로(SEKIRO), 블러드본, 아머드코어 VI',ch:'세계적 액션RPG 「소울라이크」 장르 확립. 미야자키 히데타카 디렉터 체제로 글로벌 팬덤 구축. 엘든링 단일 타이틀 2,500만 본 이상 판매. 카도카와 100% 자회사.',pr:'글로벌 최상위 Action RPG IP 집중 보유. 카도카와 전략 재편 시 최우선 매수 검토 대상.',cn:'카도카와 100% 자회사로 단독 매수 불가. IP 가치 매우 높아 매수가 천문학적. 미야자키 크리에이터 의존도 리스크.',sh:'카도카와 100%',src:'add',ip:true,emp:300,fix:null,mr:'카도카와 100% 자회사. 글로벌 메가 IP(엘든링 2,500만 본+) 보유 핵심 자산. 분리 매각 현실적으로 불가. 카도카와 그룹 전략 변동 시 연계 검토.'},
+  {n:'タイトー',nk:'타이토',ct:'일본',bz:'PF운영',gn:'비서브',ma:'X',mk:null,rv:8.46e9,mg:null,rep:'미파악',tt:'스페이스 인베이더, 드래곤퀘스트 몬스터배틀로드, 타이토게임센터',ch:'스퀘어에닉스 산하 아케이드·게임센터 운영 전문사. 인바운드 수요 회복으로 영업이익 전년비 +61%. 스페이스 인베이더 등 레트로 IP 보유.',pr:'아케이드 플랫폼 운영 노하우. 레트로 게임 IP. 인바운드 특수로 지속 성장.',cn:'스퀘어에닉스HD 100% 자회사. 아케이드 의존도 높아 디지털 전환 취약.',sh:'스퀘어에닉스HD 100%',src:'add',ip:true,emp:null,fix:null,mr:'스퀘어에닉스HD 100% 자회사. 아케이드 플랫폼·레트로 IP 자산 보유. 분리 매각 가능성 없음.'},
+  {n:'MAGES.',nk:'메이지스',ct:'일본',bz:'개발/운영',gn:'서브',ma:'X',mk:null,rv:4.225e9,mg:-13.2,rep:'혼조 켄고',tt:'STEINS;GATE, ANONYMOUS;CODE, B-PROJECT',ch:'어드벤처 게임(ADV) 전문 개발사. 코로프라 완전자회사(2020년). STEINS;GATE 등 글로벌 팬덤 보유 서브컬처 IP 다수. 채무초과 상태(2022).',pr:'STEINS;GATE 글로벌 서브컬처 IP 자산 가치 높음. ADV 장르 선도. 코로프라 인수 시 연계 검토 가능.',cn:'코로프라 100% 자회사. 채무초과 상태(2022). 독립 교섭 불가.',sh:'코로프라 100%',src:'add',ip:true,emp:null,fix:null,mr:'코로프라 100% 자회사. STEINS;GATE 등 글로벌 서브컬처 IP 보유. 채무초과 상태로 코로프라 지원 의존. 단독 교섭 불가.'},
+  {n:'NextNinja',nk:'넥스트닌자',ct:'일본',bz:'개발/운영',gn:'서브',ma:'N',mk:null,rv:null,mg:null,rep:'야마기시 마사유키',tt:'Grand Summoners, 동방LostWord, 마브라브:디멘션즈',ch:'기획~마케팅 수직통합 체제의 독립 중견 개발사. 글로벌 35~80개국 배포 실적. 직원 약 300명.',pr:'글로벌 퍼블리싱·배포 역량. 다양한 IP 라이선싱 개발 경험. 독립계로 협상 접근 가능성 있음.',cn:'재무·주주 비공개. 세부 실적 불명확.',sh:'미파악',src:'add',ip:true,emp:300,fix:null,mr:'독립 중견 개발사. 글로벌 배포 35~80개국. 주주 구조·재무 비공개로 추가 조사 후 재분류 필요.'},
+  {n:'イザナギゲームズ',nk:'이자나기게임즈',ct:'일본',bz:'개발/운영',gn:'서브',ma:'T',mk:null,rv:6.9e8,mg:null,rep:'우메다 신스케',tt:'월즈엔드클럽, Death Come True',ch:'글로벌 IP 콘텐츠 제작·퍼블리싱 특화 스튜디오. 저명 크리에이터 참여(제로 이스케이프 카가미 코타로 등). 웹툰·라이브 엔터테인먼트도 병행. 2기 연속 흑자. 2027년 IPO 준비 중.',pr:'글로벌 크리에이터 IP 특화. NetEase·bilibili 투자자 구성으로 해외 유통 시너지 기대.',cn:'2027년 IPO 예정으로 독립 기조 강함. 매출 규모 소형(6.9억엔). 복수 전략주주 조율 복잡.',sh:'코로프라, 아카츠키, NetEase, bilibili 등 복수 투자자',src:'add',ip:true,iv:'소수지분',emp:null,fix:null,mr:'2027년 IPO 준비 중. NetEase·bilibili 등 해외 전략주주 존재. IPO 전 인수 기회이나 복수 투자자 조율 필요.'},
+  {n:'double jump.tokyo',nk:'더블점프도쿄',ct:'일본',bz:'개발/운영',gn:'비서브',ma:'T',mk:null,rv:null,mg:null,rep:'우에노 히로노부',tt:'My Crypto Heroes, 삼국지대전 (세가 라이선스)',ch:'블록체인 게임 개발·운영 전문 스타트업. 누적 조달 30억엔+. Sony·SBI 전략주주. Soneium(소니 블록체인) 기반 Web3 게임 인프라 구축.',pr:'Web3 게임 개발 일본 선두. Sony·SBI·반다이남코 전략주주 구성. 게임 IP 라이선싱 협력 기반 강함.',cn:'블록체인 게임 채산성 불확실. 수익 모델 미성숙. 복수 전략주주 조율 필요.',sh:'SBI인베스트먼트, Sony Group, Taisu Ventures, Gate Ventures',src:'add',ip:true,iv:'소수지분',emp:null,fix:null,mr:'Sony·SBI·반다이남코 등 복수 전략주주. 누적 조달 30억엔+. 블록체인 게임 분야 일본 선두. IPO 또는 전략적 M&A 경로 예상.'},
+  {n:'ハムスター',nk:'햄스터',ct:'일본',bz:'개발/운영',gn:'비서브',ma:'N',mk:null,rv:null,mg:null,rep:'하마다 노리',tt:'아케이드 아카이브즈 시리즈, ACA NEOGEO 시리즈',ch:'고전 아케이드 게임 현대 기기 이식 전문사. 설립 1999년. 도쿄 세타가야구 소재. SNK·NEOGEO 타이틀 복각으로 독보적 지위.',pr:'레트로 아케이드 IP 이식 독점적 노하우. SNK 등 대형사와 라이선스 파트너십 기반.',cn:'재무·주주 비공개. 소형사. 게임 신규 개발 역량 제한적.',sh:'미파악',src:'add',ip:false,emp:null,fix:null,mr:'레트로 아케이드 게임 아카이브 전문 독립사. 재무·주주 비공개. SNK 등과 라이선스 파트너로 IP 접근 경로로서 전략 가치 있음.'},
+  {n:'ケムコ',nk:'켐코',ct:'일본',bz:'개발/운영',gn:'비서브',ma:'N',mk:null,rv:null,mg:null,rep:'키자키 히로유키',tt:'KEMCO RPG 시리즈 (연 5~6개 신작 출시)',ch:'히로시마 현 구레시 소재 독립 모바일 게임 개발사. 연 5~6개 RPG를 꾸준히 출시하는 양산형 스튜디오. 글로벌 앱스토어 대응.',pr:'모바일 RPG 개발 노하우 및 다수 IP 보유. 독립계로 접근 가능.',cn:'개별 IP 가치 낮음(양산형). 재무·주주 비공개. 글로벌 인지도 낮음.',sh:'미파악',src:'add',ip:true,emp:null,fix:null,mr:'모바일 RPG 양산 체제 독립 개발사. 연 5~6개 신작 출시 실적. 재무·주주 비공개로 추가 조사 후 재분류 필요.'},
+  // 판권사 (2026-03 추가)
+  {n:'東映アニメーション',nk:'토에이애니메이션',ct:'일본',bz:'애니메이션/IP',gn:'판권',ma:'X',mk:2.9e11,rv:7.1e10,mg:18.2,rep:'미파악',tt:'드래곤볼, 원피스, 세일러문, 프리큐어',ch:'토에이 그룹 산하 애니메이션 제작사. 드래곤볼·원피스 등 글로벌 초대형 IP 다수 보유. 동증 프라임 상장(4816).',pr:'글로벌 최상위 애니메이션 IP 집중 보유. 파트너십·콜라보 협력 가능.',cn:'토에이 그룹 전략 핵심 자산. 단독 인수 불가. 시총 약 2,900억엔으로 매수 현실 불가.',sh:'토에이 주식회사 多수 지분',src:'add',ip:true,iv:null,emp:null,fix:null,mr:'토에이 그룹 핵심 애니메이션 IP 제작사. 드래곤볼·원피스 등 글로벌 메가 IP 보유. 직접 인수 불가. 파트너십·라이선싱 참고 파악 목적.'},
+  {n:'IG Port',nk:'IG포트',ct:'일본',bz:'애니메이션/IP',gn:'판권',ma:'T',mk:1.2e10,rv:1.85e10,mg:3.2,rep:'미파악',tt:'진격의 거인(애니), 공각기동대, 나루토',ch:'Production I.G·Wit Studio·SIGNAL-MD 등을 산하에 둔 애니메이션 지주회사. 동증 스탠다드 상장(3791).',pr:'진격의 거인·공각기동대 등 글로벌 히트 애니메이션 IP. 복수 스튜디오 운영 체제.',cn:'시총 약 120억엔 중형. 주주 구조 복잡. 수익성 낮음(3.2%).',sh:'미파악 (상장 유동주식)',src:'add',ip:true,iv:'소수지분',emp:null,fix:null,mr:'시총 약 120억엔. 진격의 거인 등 글로벌 애니메이션 IP 보유 지주사. 소수지분 진입으로 애니메이션 IP 협력 채널 구축 검토 가능.'},
+  {n:'TYPE-MOON',nk:'타입문',ct:'일본',bz:'개발/IP',gn:'판권',ma:'T',mk:null,rv:null,mg:null,rep:'미파악',tt:'Fate/ 시리즈 전체 (Fate/stay night, FGO 등)',ch:'Fate/ 시리즈 IP 원소유사. FGO(Fate/Grand Order) 누적 매출 수천억엔 규모. 비상장 소형 독립사.',pr:'서브컬처 최상위 글로벌 IP(Fate/) 원소유사. FGO 게임 누적 매출 세계 최고급.',cn:'비상장으로 재무·주주 비공개. 강한 독립 성향. 인수 조건 협상 불확실.',sh:'미파악 (비상장 비공개)',src:'add',ip:true,iv:'인수',emp:null,fix:null,mr:'Fate/ IP 원소유 비상장 독립 스튜디오. FGO 누적 매출 수천억엔. 서브컬처 게임 IP 중 세계 최상위 자산. 독립 성향 강해 조건부 접근 검토.'},
+  {n:'集英社',nk:'슈에이샤',ct:'일본',bz:'출판/IP',gn:'판권',ma:'X',mk:null,rv:null,mg:null,rep:'미파악',tt:'소년점프 (드래곤볼Z, 나루토, 귀멸의 칼날, 원피스)',ch:'일본 최대 만화 출판사. 소년점프 IP 관리사. 비상장 초대형 법인.',pr:'소년점프 계열 글로벌 최상위 IP 집중(원피스·나루토·귀멸). 파트너십 협력 채널 구축 가치.',cn:'비상장 초대형 독립 법인. 인수 불가. 전략 핵심 자산 유지 의지 강.',sh:'미파악 (비상장 비공개)',src:'add',ip:true,iv:null,emp:null,fix:null,mr:'비상장 초대형 출판사. 소년점프 IP(원피스·나루토·귀멸 등) 관리. 직접 인수 불가. 파트너십·게임 라이선싱 협력 참고 파악 목적.'},
+  {n:'講談社',nk:'코단샤',ct:'일본',bz:'출판/IP',gn:'판권',ma:'X',mk:null,rv:null,mg:null,rep:'미파악',tt:'진격의 거인, 블루록, 페어리테일, 노다메 칸타빌레',ch:'일본 2위 대형 출판사. 진격의 거인·블루록 등 IP 관리사. 비상장 초대형 법인.',pr:'진격의 거인·블루록 등 글로벌 주요 IP 보유. 게임 라이선싱 협력 가능.',cn:'비상장 초대형 독립 법인. 인수 불가.',sh:'미파악 (비상장 비공개)',src:'add',ip:true,iv:null,emp:null,fix:null,mr:'비상장 초대형 출판사. 진격의 거인·블루록 등 IP 관리. 직접 인수 불가. 파트너십·게임 라이선싱 협력 참고 파악 목적.'},
+  {n:'スタジオカラー',nk:'스튜디오카라',ct:'일본',bz:'애니메이션/IP',gn:'판권',ma:'T',mk:null,rv:null,mg:null,rep:'안노 히데아키',tt:'에반게리온 신극장판 시리즈 (Rebuild of Evangelion)',ch:'안노 히데아키 감독이 설립한 에반게리온 신극장판 제작사. 비상장 소형 독립 스튜디오. 에반게리온 IP 신극장판 권리 보유.',pr:'에반게리온 글로벌 서브컬처 최상위 IP 권리 보유. 소형 독립 스튜디오로 협상 접근 가능성.',cn:'창업자(안노 히데아키) 의존도 극단적. 소규모(수십명). 비공개 법인으로 재무·조건 불투명.',sh:'안노 히데아키 중심 (비공개)',src:'add',ip:true,iv:'소수지분',emp:null,fix:null,mr:'에반게리온 신극장판 IP 보유 소형 독립 스튜디오. 창업자 의존도 매우 높음. 소수지분 또는 JV 형태 접근 검토 가능.'},
+  {n:'ポニーキャニオン',nk:'포니캐년',ct:'일본',bz:'애니메이션/IP',gn:'판권',ma:'X',mk:null,rv:null,mg:null,rep:'미파악',tt:'애니메이션·음악 IP 다수 (후지TV 계열)',ch:'후지TV 그룹 산하 음악·영상 콘텐츠 제작·유통사. 비상장. 다수 애니메이션 IP 보유.',pr:'후지TV 계열 음악·영상 IP 다수. 파트너십 협력 가능.',cn:'후지TV 그룹 핵심 자산. 독립 매각 불가.',sh:'후지미디어홀딩스 산하',src:'add',ip:true,iv:null,emp:null,fix:null,mr:'후지TV 그룹 산하 음악·애니메이션 IP 보유사. 그룹 전략 핵심 자산으로 분리 매각 불가. 파트너십 참고 파악 목적.'},
+  {n:'サイエンスSARU',nk:'사이언스SARU',ct:'일본',bz:'애니메이션/IP',gn:'판권',ma:'N',mk:null,rv:null,mg:null,rep:'미파악',tt:'체인소맨 (애니), 던전밥 (애니), 평화의 나라의 시마무라씨',ch:'유아사 마사아키 감독 공동 설립 애니메이션 스튜디오. 체인소맨·던전밥 애니메이션 제작사(MAPPA와 협업 구도). 독립 스튜디오.',pr:'체인소맨·던전밥 등 현재 화제성 높은 IP 애니화 제작 역량.',cn:'재무·주주 비공개. 소형 스튜디오. M&A 검토 미착수.',sh:'미파악 (비공개)',src:'add',ip:false,iv:null,emp:null,fix:null,mr:'체인소맨·던전밥 애니메이션 제작 스튜디오. 재무·주주 비공개. 애니메이션 IP 협력 파트너십 관점에서 추가 조사 필요.'},
+  // AI기술 게임업체 (2026-03 추가)
+  {n:'HEROZ',nk:'헤로즈',ct:'일본',bz:'AI기술',gn:'AI기술',ma:'T',mk:5.0e9,rv:1.8e9,mg:12.4,rep:'미파악',tt:'将棋ウォーズ (쇼기워즈), 게임 AI 솔루션',ch:'게임 AI 기술 전문기업. 장기AI·모바일 게임AI 분야 일본 선두. 동증 그로스 상장(4880). 매출 18억엔, 이익률 12.4% 흑자 기조.',pr:'게임 AI 기술 전문성. 흑자 기조. 상장 소형사로 협상 접근 용이.',cn:'시총 약 50억엔 소형. 장기/보드게임 AI 특화로 대형 게임 AI 전환 한계.',sh:'상장 유동주식 (창업자 보유율 미파악)',src:'add',ip:true,iv:'소수지분',emp:null,fix:null,mr:'게임 AI 전문 상장사(시총 50억엔). 장기AI·모바일 게임AI 기술력. 흑자 기조로 소수지분 투자 통한 AI 기술 내재화 검토 가능.'},
+  {n:'Cluster',nk:'클러스터',ct:'일본',bz:'AI기술',gn:'AI기술',ma:'T',mk:null,rv:null,mg:null,rep:'미파악',tt:'cluster (메타버스 플랫폼), AI 아바타',ch:'메타버스·AI 아바타 플랫폼 개발사. 누적 조달 200억엔+. 국내외 대형사로부터 전략 투자 유치. 비상장.',pr:'메타버스·AI 아바타 플랫폼 기술력. 누적 200억엔+ 조달로 기술 검증. 게임과의 시너지 높음.',cn:'비상장으로 재무 미공개. 수익화 모델 미성숙. 조달 의존 경영.',sh:'미파악 (비공개, 복수 전략투자자)',src:'add',ip:false,iv:'소수지분',emp:null,fix:null,mr:'메타버스·AI 아바타 기술 전문 비상장 스타트업. 200억엔+ 조달. 게임 내 AI 아바타·메타버스 연동 시너지 검토 가치 있음. 소수지분 접근.'},
+  {n:'DataGrid',nk:'데이터그리드',ct:'일본',bz:'AI기술',gn:'AI기술',ma:'T',mk:null,rv:null,mg:null,rep:'미파악',tt:'생성AI 3D캐릭터, AI 영상 생성 솔루션',ch:'생성AI 기반 3D캐릭터·AI 영상 생성 기술 전문사. 비상장. 3D 캐릭터 자동 생성 기술 보유.',pr:'게임 3D 캐릭터 자동 생성 AI 기술. 개발 비용·기간 단축 효과 직접적.',cn:'비상장 초기 스타트업. 재무·팀 규모 미공개. 기술 상용화 성숙도 불확실.',sh:'미파악 (비공개)',src:'add',ip:false,iv:'인수',emp:null,fix:null,mr:'생성AI 3D캐릭터 기술 전문 초기 스타트업. 게임 캐릭터 개발 효율화에 직접 활용 가능. 인수 또는 JV 통한 기술 내재화 검토.'},
+  {n:'Appier',nk:'아피어',ct:'일본',bz:'AI기술',gn:'AI기술',ma:'T',mk:2.0e10,rv:2.3e10,mg:5.1,rep:'미파악',tt:'AIRIS (게임 AI 마케팅), AIQUA (유저 분석)',ch:'게임·앱 AI 마케팅·유저 분석 플랫폼 전문기업. 넥슨 포함 다수 게임사 도입 사례. 동증 그로스 상장(4180).',pr:'게임 AI 마케팅·유저 분석 분야 실증 레퍼런스 다수. 이미 넥슨 도입 가능성. 흑자 기조.',cn:'시총 약 200억엔으로 매수 부담 중형. 마케팅 AI 특화로 개발 AI와 차별화.',sh:'상장 유동주식',src:'add',ip:false,iv:'소수지분',emp:null,fix:null,mr:'게임 AI 마케팅·유저 분석 전문 상장사(시총 200억엔). 게임사 레퍼런스 다수. 소수지분 투자 또는 전략 파트너십으로 마케팅 AI 역량 강화 가능.'},
+  {n:'PKSHA Technology',nk:'PKSHA테크놀로지',ct:'일본',bz:'AI기술',gn:'AI기술',ma:'T',mk:7.0e10,rv:1.0e10,mg:8.3,rep:'미파악',tt:'AI알고리즘 솔루션, 게임 추천 AI',ch:'AI알고리즘·NLP 솔루션 전문기업. 대기업 DX 파트너. 동증 프라임 상장(3993). 게임 추천·유저 행동 분석 AI 분야 실적 보유.',pr:'AI알고리즘 전문성. 게임 추천·유저 분석 분야 검증된 기술력.',cn:'시총 약 700억엔으로 매수 부담 대형. 범용 AI 솔루션사로 게임 특화 경험 상대적으로 제한적.',sh:'상장 유동주식 (야마다 유이치로 창업자 보유)',src:'add',ip:false,iv:'소수지분',emp:null,fix:null,mr:'AI알고리즘 전문 상장사(시총 700억엔). 게임 추천 AI 실적 보유. 소수지분 투자 통한 AI 기술 파트너십 검토 가능.'},
+  {n:'ポケットRD',nk:'포켓RD',ct:'일본',bz:'AI기술',gn:'AI기술',ma:'N',mk:null,rv:null,mg:null,rep:'미파악',tt:'VTuber 기술, AI 버추얼 휴먼 솔루션',ch:'VTuber·AI 버추얼 휴먼 기술 전문 스타트업. 비상장. 캐릭터 IP와 AI 결합 기술력 보유.',pr:'VTuber·AI 버추얼 휴먼 기술. 게임 캐릭터 IP 활성화에 직접 활용 가능.',cn:'비상장 초기. 재무·팀·주주 미공개. 기술 성숙도 불확실.',sh:'미파악 (비공개)',src:'add',ip:false,iv:null,emp:null,fix:null,mr:'VTuber·AI 버추얼 휴먼 기술 전문 비상장 스타트업. 재무·주주 미공개. 게임 캐릭터 IP 가상 인플루언서화 등 응용 가능. 추가 조사 후 재분류.'},
+];
+
+// 중복 제거
+const seen={};const DD=[];
+for(let i=D.length-1;i>=0;i--){if(!seen[D[i].n]){seen[D[i].n]=true;DD.unshift(D[i]);}}
+
+const fy=n=>{if(n==null)return'N/A';if(n>=1e12)return(n/1e12).toFixed(1)+'조엔';if(n>=1e8)return Math.round(n/1e8)+'억엔';return'N/A';};
+const fm=v=>v==null?'N/A':(v>=0?'+':'')+v.toFixed(1)+'%';
+const mgcls=v=>v==null?'':v<0?'neg':v>=30?'pos':v>=10?'hi':'lo';
+const macls=m=>(m=='O'||m=='T')?'bg':m=='X'?'br':'bn';
+const matxt=m=>(m=='O'||m=='T')?'접근검토':m=='X'?'직접불가':'미검토';
+const mrcls=m=>(m=='O'||m=='T')?'g':m=='X'?'r':'d';
+const ivcls=v=>v=='인수'?'bi':v=='소수지분'?'bg':v=='JV'?'bsub':'ba';
+const ivtxt=v=>v=='인수'?'M&A인수':v=='소수지분'?'소수지분':v=='JV'?'JV':'파트너십';
+const gncls=g=>g=='서브'?'bsub':g=='AI기술'?'bi':'bn';
+const gntxt=g=>g=='서브'?'서브컬처':g=='비서브'?'비서브컬처':g=='판권'?'IP판권':'AI기술';
+
+let fs={ct:'전체',gn:'전체',ma:'전체',ip:'전체',q:''};
+let sortMode='default';
+
+const maOrder={O:0,T:0,X:1,N:2};
+
+function getSorted(list){
+  const arr=[...list];
+  if(sortMode==='mk_desc') arr.sort((a,b)=>(b.mk||0)-(a.mk||0));
+  else if(sortMode==='mk_asc') arr.sort((a,b)=>(a.mk||Infinity)-(b.mk||Infinity));
+  else if(sortMode==='name_asc') arr.sort((a,b)=>(a.nk||a.n).localeCompare(b.nk||b.n,'ko'));
+  else if(sortMode==='ma_rank') arr.sort((a,b)=>maOrder[a.ma]-maOrder[b.ma]);
+  return arr;
+}
+
+function filtered(){
+  return DD.filter(c=>{
+    if(fs.ct!='전체'&&c.ct!=fs.ct)return false;
+    if(fs.gn!='전체'){const gmap={'서브컬처':'서브','비서브컬처':'비서브','IP판권':'판권','AI기술':'AI기술'};if(c.gn!==gmap[fs.gn])return false;}
+    if(fs.ma=='접근검토'&&c.ma!='O'&&c.ma!='T')return false;
+    else if(fs.ma=='직접불가'&&c.ma!='X')return false;
+    else if(fs.ma=='미검토'&&c.ma!='N')return false;
+    if(fs.ip=='자체IP 보유'&&!c.ip)return false;
+    if(fs.ip=='수탁/라이선스'&&c.ip)return false;
+    if(fs.q){
+      const q=fs.q.toLowerCase();
+      const nk=(c.nk||'').toLowerCase();
+      if(!c.n.toLowerCase().includes(q)&&!nk.includes(q)&&!c.tt.toLowerCase().includes(q)&&!(c.ch&&c.ch.toLowerCase().includes(q))&&!(c.mr&&c.mr.toLowerCase().includes(q)))return false;
+    }
+    return true;
+  });
+}
+
+function renderStats(){
+  const all=DD;
+  // ○+△ 합산 시총 (시총 있는 기업만)
+  const otSum=all.filter(c=>(c.ma==='O'||c.ma==='T')&&c.mk!=null).reduce((s,c)=>s+c.mk,0);
+  const otSumStr=otSum>=1e12?(otSum/1e12).toFixed(1)+'조엔':Math.round(otSum/1e8)+'억엔';
+  document.getElementById('stats').innerHTML=
+    `<div class="stc" onclick="setF('ma','전체')"><div class="stl">전체 기업</div><div class="stv">${all.length}</div></div>`+
+    `<div class="stc" onclick="setF('ma','접근검토')"><div class="stl">접근 검토 (○+△)</div><div class="stv g">${all.filter(c=>c.ma=='O'||c.ma=='T').length}</div></div>`+
+    `<div class="stc" onclick="setF('ma','직접불가')"><div class="stl">직접 불가 (×)</div><div class="stv r">${all.filter(c=>c.ma=='X').length}</div></div>`+
+    `<div class="stc" onclick="setF('ma','미검토')"><div class="stl">미검토 (N)</div><div class="stv d">${all.filter(c=>c.ma=='N').length}</div></div>`+
+    `<div class="stc" onclick="setF('ip','자체IP 보유')"><div class="stl">자체 IP 보유</div><div class="stv" style="color:#8a5a00">${all.filter(c=>c.ip).length}</div></div>`+
+    `<div class="stc"><div class="stl">접근검토 합산 시총</div><div class="stv p" style="font-size:14px">${otSumStr}</div></div>`;
+}
+
+function renderFilters(){
+  const cts=['전체',...[...new Set(DD.map(c=>c.ct))]];
+  const gns=['전체','서브컬처','비서브컬처','IP판권','AI기술'];
+  const mas=['전체','접근검토','직접불가','미검토'];
+  const ips=['전체','자체IP 보유','수탁/라이선스'];
+  document.getElementById('filters').innerHTML=
+    `<div class="fgl">국가</div><div class="sf">${cts.map(c=>`<span class="fp${fs.ct==c?' on':''}" onclick="setF('ct','${c}')">${c}</span>`).join('')}</div>`+
+    `<div class="fgl">장르</div><div class="sf">${gns.map(g=>`<span class="fp${fs.gn==g?' on':''}" onclick="setF('gn','${g}')">${g}</span>`).join('')}</div>`+
+    `<div class="fgl">딜 접근 유형</div><div class="sf">${mas.map(m=>`<span class="fp${fs.ma==m?' on':''}" onclick="setF('ma','${m}')">${m}</span>`).join('')}</div>`+
+    `<div class="fgl">자체 IP 보유여부</div><div class="sf" style="margin-bottom:8px;">${ips.map(i=>`<span class="fp${fs.ip==i?' on':''}" onclick="setF('ip','${i}')">${i}</span>`).join('')}</div>`;
+}
+
+function renderCards(){
+  const list=getSorted(filtered());
+  document.getElementById('ctb').textContent=list.length+'개 기업 표시 중 (전체 '+DD.length+'개)';
+  document.getElementById('grid').innerHTML=list.map((c)=>{
+    const idx=DD.indexOf(c);
+    const nameHtml=c.nk
+      ? `${c.nk}<span class="cn-jp">${c.n}</span>`
+      : c.n;
+    return `<div class="cc" id="co-${idx}" onclick="tog('co-${idx}')">
+      <div class="ch">
+        <div class="cn">${nameHtml}</div>
+        <div class="bds">
+          ${c.ip?'<span class="bd bip">자체IP</span>':''}
+          ${c.iv?`<span class="bd ${ivcls(c.iv)}">${ivtxt(c.iv)}</span>`:''}
+          <span class="bd ${macls(c.ma)}">${matxt(c.ma)}</span>
+          <span class="arr">▼</span>
+        </div>
+      </div>
+      <div class="mtags">
+        <span class="bd bi">${c.ct}</span>
+        <span class="bd bn">${c.bz}</span>
+        <span class="bd ${gncls(c.gn)}">${gntxt(c.gn)}</span>
+        ${c.emp!=null?`<span class="bd bn">${c.emp}명</span>`:''}
+      </div>
+      <div class="mets">
+        <div class="met"><div class="ml">시가총액</div><div class="mv">${fy(c.mk)}</div></div>
+        <div class="met"><div class="ml">연간매출</div><div class="mv">${fy(c.rv)}</div></div>
+        <div class="met"><div class="ml">영업이익률</div><div class="mv ${mgcls(c.mg)}">${fm(c.mg)}</div></div>
+      </div>
+      <div class="ttl">${c.tt}</div>
+      <div class="dtl">
+        ${c.fix?`<div class="fix-note">📌 데이터 수정: ${c.fix}</div>`:''}
+        <div class="ma-reason ${mrcls(c.ma)}"><strong>M&A 판단 근거:</strong> ${c.mr||'(작성 예정)'}</div>
+        ${c.rep?`<div class="dr"><div class="dl">대표</div><div class="dv">${c.rep}</div></div>`:''}
+        <div class="dr"><div class="dl">기업 특징</div><div class="dv">${c.ch}</div></div>
+        ${c.pr?`<div class="dr"><div class="dl">장점 (M&amp;A / 퍼블리싱)</div><div class="dv pros">${c.pr}</div></div>`:''}
+        ${c.cn?`<div class="dr"><div class="dl">단점 / 리스크</div><div class="dv cons">${c.cn}</div></div>`:''}
+        <div class="dr"><div class="dl">주주구조</div><div class="dv">${c.sh}</div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function tog(id){document.getElementById(id).classList.toggle('xp');}
+function setF(k,v){fs[k]=v;renderFilters();renderCards();}
+function setSort(v){
+  sortMode=v;
+  document.querySelectorAll('.stab').forEach(el=>{
+    const s=el.getAttribute('onclick')||'';
+    el.classList.toggle('on',s.includes(`'${v}'`));
+  });
+  renderCards();
+}
+function toggleCriteria(){
+  const p=document.getElementById('cp');
+  p.classList.toggle('open');
+}
+document.getElementById('srch').addEventListener('input',e=>{fs.q=e.target.value;renderCards();});
+
+renderStats();
+renderFilters();
+renderCards();
+
+// URL 앵커 처리 (#co-N 형식)
+(function(){
+  const hash=location.hash;
+  if(!hash||!hash.startsWith('#co-'))return;
+  // 인증 후 처리 (gate가 있을 경우 대비해 약간 지연)
+  const tryScroll=()=>{
+    const el=document.getElementById(hash.slice(1));
+    if(el){
+      el.scrollIntoView({behavior:'smooth',block:'center'});
+      el.classList.add('xp','anchor-hl');
+      setTimeout(()=>el.classList.remove('anchor-hl'),1600);
+    }
+  };
+  if(sessionStorage.getItem('gi_auth')==='1'){
+    setTimeout(tryScroll,300);
+  } else {
+    // 게이트 통과 후 스크롤
+    document.getElementById('gate-btn').addEventListener('click',()=>setTimeout(tryScroll,400),{once:true});
+  }
+})();
+</script>
+</body>
+</html>
