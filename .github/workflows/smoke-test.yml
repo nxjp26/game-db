@@ -28,8 +28,11 @@ jobs:
           npm install -D @playwright/test
           npx playwright install chromium --with-deps
 
-      - name: Run smoke tests
-        run: npx playwright test --project=chromium
+      - name: Run smoke tests (V1 + V2)
+        run: npx playwright test tests/smoke.spec.js --project=chromium
+
+      - name: "CI-gate: Korean-only V2 UI 일본어 누출 검사"
+        run: npx playwright test tests/korean_only.spec.js --project=chromium
 
       - name: Upload test results
         if: failure()
