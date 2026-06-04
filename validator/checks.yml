@@ -1,0 +1,31 @@
+# 기업DB 검증 룰 (필요시 조정)
+required_columns:
+  - 기업명(한국어)
+# 아래 컬럼들은 프로젝트마다 이름이 다를 수 있어 optional로 둠
+optional_numeric_columns:
+  revenue:
+    candidates: ["매출_억엔", "rv", "revenue", "매출", "매출액"]
+  operating_income:
+    candidates: ["op", "operating_income", "영업이익"]
+  net_income:
+    candidates: ["ni", "net_income", "순이익", "당기순이익"]
+  market_cap:
+    candidates: ["시총_억엔", "mk", "market_cap", "시가총액"]
+  operating_margin:
+    candidates: ["이익률(%)", "mg", "op_margin", "operating_margin", "영업이익률"]
+thresholds:
+  margin_max_percent: 100.0
+  yoy_abs_max_percent: 80.0   # YoY가 ±80% 넘으면 경고(업종/사정에 따라 조정)
+rules:
+  - name: net_income_gt_revenue
+    level: error
+    enabled: true
+  - name: operating_income_gt_revenue
+    level: error
+    enabled: true
+  - name: margin_over_100
+    level: error
+    enabled: true
+  - name: suspicious_unit_jump_10x
+    level: warn
+    enabled: true

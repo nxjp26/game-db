@@ -1,0 +1,39 @@
+name: Validate 기업DB
+
+on:
+  push:
+    paths:
+      - 'data/기업DB.csv'
+      - 'validator/**'
+  pull_request:
+    paths:
+      - 'data/기업DB.csv'
+      - 'validator/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pandas pyyaml
+
+      - name: Validate 기업DB.csv
+        run: |
+          python validator/validate_db.py \
+            --csv data/기업DB.csv \
+            --rules validator/checks.yml
+
+      - name: Build dashboard (smoke test)
+        run: |
+          python scripts/build_dashboard.py \
+            --csv data/기업DB.csv \
+            --template index.html \
+            --out /tmp/index_built.html
+          echo "Build OK: $(wc -c < /tmp/index_built.html) bytes"
