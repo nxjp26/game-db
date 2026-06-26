@@ -5,6 +5,7 @@ sync.py — Notion Database → index.html 동기화 스크립트
 사용법:
   python3 sync.py              # Notion → index.html 갱신 (push 없음)
   python3 sync.py --push       # Notion → index.html 갱신 + git push
+  python3 sync.py --ishare     # Notion → index.html 갱신 + iShare 업로드
   python3 sync.py --import     # 기존 D[] 데이터를 Notion DB로 일괄 업로드
   python3 sync.py --dry-run    # 변환 결과만 출력 (파일 수정 없음)
 
@@ -13,8 +14,9 @@ sync.py — Notion Database → index.html 동기화 스크립트
   NOTION_DB_ID   = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 """
 
-import os, re, json, sys, subprocess
+import os, re, json, sys, subprocess, warnings
 from pathlib import Path
+warnings.filterwarnings('ignore')  # SSL 경고 억제
 
 # ── 환경변수 로드 ────────────────────────────────────────────────────────────
 def load_env():
@@ -40,12 +42,22 @@ if not NOTION_TOKEN or not NOTION_DB_ID:
 # ── Notion 클라이언트 ────────────────────────────────────────────────────────
 try:
     from notion_client import Client
+    import httpx
 except ImportError:
     print('❌ notion-client가 설치되지 않았습니다. 아래 명령어를 실행하세요:')
     print('   pip3 install notion-client')
     sys.exit(1)
 
-notion = Client(auth=NOTION_TOKEN, notion_version="2022-06-28")
+# Nexon 사내망: notion-pat-proxy 경유 (api.notion.com 직접 호출 불가)
+NOTION_PROXY = 'https://notion-pat-proxy.nexon.co.kr'
+notion = Client(
+    options={
+        "auth": NOTION_TOKEN,
+        "notion_version": "2022-06-28",
+        "base_url": NOTION_PROXY,
+    },
+    client=httpx.Client(verify=False),
+)
 
 # ── Notion 컬럼명 → D[] 필드명 매핑 ─────────────────────────────────────────
 # Notion 컬럼명 (왼쪽) → D[] 객체 필드명 (오른쪽)
@@ -71,6 +83,7 @@ COL_MAP = {
     '자체IP':       'ip',
     '소스':         'src',
     '수정메모':     'fix',
+    '분류':         'type',  # 'ma' | 'accel' | None
     '순서':         '_order',
 }
 
@@ -169,6 +182,10 @@ def company_to_js(c):
     for f in fields_order:
         v = c.get(f)
         parts.append(f"{f}:{js_value(v, f)}")
+    # type 필드: 'accel'인 경우만 출력 (ma/None은 생략)
+    tp = c.get('type')
+    if tp == 'accel':
+        parts.append("type:'accel'")
     return '  {' + ','.join(parts) + '}'
 
 # ── index.html D[] 블록 교체 ─────────────────────────────────────────────────
@@ -186,8 +203,59 @@ def update_html(companies):
         print('❌ index.html에서 "const D=[...];" 블록을 찾을 수 없습니다.')
         sys.exit(1)
 
-    new_html = re.sub(pattern, new_d, html)
+    # lambda 사용: re.sub replacement 문자열에서 \\ → \ 로 반감되는 버그 방지
+    new_html = re.sub(pattern, lambda m: new_d, html)
     HTML_FILE.write_text(new_html, encoding='utf-8')
+
+# ── iShare 업로드 ────────────────────────────────────────────────────────────
+ISHARE_BASE  = 'https://ishare-app.nexon.com'
+ISHARE_TOKEN = os.environ.get('ISHARE_TOKEN', '')
+ISHARE_BUNDLE_NAME = 'nexon-jp-game-db'
+ISHARE_SITE_URL    = 'jp-gamedb'
+ISHARE_STATE_FILE  = Path(__file__).parent / '.ishare_state.json'
+
+# index.html을 함께 갱신할 iShare 번들들 (사이트 → bundle_id)
+ISHARE_SITES = [
+    {'site_url': 'jp-gamedb',   'bundle_id': 1574},
+    {'site_url': 'jp-pipeline', 'bundle_id': 2279},
+]
+
+def ishare_upload():
+    try:
+        import httpx
+    except ImportError:
+        print('❌ httpx 없음: pip install httpx')
+        return
+
+    if not ISHARE_TOKEN:
+        print('❌ ISHARE_TOKEN이 .env에 없습니다.')
+        return
+
+    headers = {'Authorization': f'Bearer {ISHARE_TOKEN}'}
+    client  = httpx.Client(verify=False, timeout=60)
+
+    # 등록된 모든 번들에 index.html 갱신 배포
+    results = []
+    for s in ISHARE_SITES:
+        site_url, bundle_id = s['site_url'], s['bundle_id']
+        print(f'🔄 iShare 갱신 중: {site_url} (bundle_id={bundle_id})...')
+        url = f'{ISHARE_BASE}/api/v2/external/hosting/{bundle_id}/upload'
+        with open(HTML_FILE, 'rb') as f:
+            r = client.post(
+                url, headers=headers,
+                data={'entry_file': 'index.html', 'relative_paths': 'index.html'},
+                files={'files': ('index.html', f, 'text/html; charset=utf-8')},
+            )
+        if r.status_code == 200:
+            version = r.json().get('version', '?')
+            print(f'   ✅ {site_url} 갱신 완료 (version={version}) → https://ishare.nexon.com/sites/{site_url}/')
+            results.append((site_url, True))
+        else:
+            print(f'   ❌ {site_url} 갱신 실패: HTTP {r.status_code} — {r.text[:200]}')
+            results.append((site_url, False))
+
+    ok = sum(1 for _, v in results if v)
+    print(f'📊 iShare 배포: {ok}/{len(results)}개 성공')
 
 # ── git push ─────────────────────────────────────────────────────────────────
 def git_push():
@@ -296,6 +364,7 @@ def import_to_notion():
             '자체IP':       lambda v: {'checkbox': bool(v)},
             '소스':         lambda v: select_prop(v),
             '수정메모':     lambda v: text_prop(v),
+            '분류':         lambda v: select_prop(v),
             '순서':         lambda v: number_prop(order),
         }
 
@@ -336,8 +405,9 @@ def main():
         return
 
     # --dry-run: 미리보기만
-    dry = '--dry-run' in args
-    push = '--push' in args
+    dry    = '--dry-run' in args
+    push   = '--push'   in args
+    ishare = '--ishare' in args
 
     print('📥 Notion DB에서 기업 데이터를 가져오는 중...')
     pages = fetch_all_pages()
@@ -366,6 +436,11 @@ def main():
         print('📤 GitHub에 push 중...')
         git_push()
         print('🌐 약 30~60초 후 공개 URL에 반영됩니다.')
+
+    if ishare:
+        print('📤 iShare에 업로드 중...')
+        ishare_upload()
+        print('🌐 https://ishare.nexon.com/sites/jp-gamedb/')
 
 if __name__ == '__main__':
     main()
