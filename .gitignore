@@ -5,3 +5,7 @@ token.json
 *.log
 __pycache__/
 *.pyc
+node_modules/
+archive/scratch_2026-06/
+.ishare_state.json
+.claude/
