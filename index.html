@@ -486,37 +486,37 @@ body.v2-lock{overflow:hidden!important;}
 <div class="wrap">
   <div class="criteria-panel" id="cp">
     <div class="criteria-header" onclick="toggleCriteria()">
-      <div class="criteria-title">📋 접근 유형 분류 (클릭하여 펼치기)</div>
+      <div class="criteria-title" id="i18n-crit-title">📋 접근 유형 분류 (클릭하여 펼치기)</div>
       <span class="criteria-toggle" id="ct-arr">▼</span>
     </div>
     <div class="criteria-body">
       <div class="criteria-grid">
         <div class="criteria-card g">
           <div class="cc-badge g">○</div>
-          <div class="cc-label g">접근 검토 대상</div>
-          <div class="cc-item">시가총액 현실적 범위 내 중소형사</div>
-          <div class="cc-item">창업자·대주주가 외부 자본·파트너에 열린 자세 (또는 상황 변화 가능성)</div>
-          <div class="cc-item">특정 대기업의 전략 핵심 자산 아님</div>
-          <div class="cc-item">우호적 협상 진행 가능한 환경</div>
-          <div class="cc-item">가능한 딜 형태: <strong>M&A 인수 / 소수지분 투자 / 조인트벤처(JV) / 전략적 파트너십</strong></div>
+          <div class="cc-label g" id="i18n-crit-g-label">접근 검토 대상</div>
+          <div class="cc-item" id="i18n-crit-g-1">시가총액 현실적 범위 내 중소형사</div>
+          <div class="cc-item" id="i18n-crit-g-2">창업자·대주주가 외부 자본·파트너에 열린 자세 (또는 상황 변화 가능성)</div>
+          <div class="cc-item" id="i18n-crit-g-3">특정 대기업의 전략 핵심 자산 아님</div>
+          <div class="cc-item" id="i18n-crit-g-4">우호적 협상 진행 가능한 환경</div>
+          <div class="cc-item" id="i18n-crit-g-5">가능한 딜 형태: <strong id="i18n-crit-g-5-b">M&A 인수 / 소수지분 투자 / 조인트벤처(JV) / 전략적 파트너십</strong></div>
         </div>
         <div class="criteria-card r">
           <div class="cc-badge r">×</div>
-          <div class="cc-label r">직접 접근 불가</div>
-          <div class="cc-item">대기업 그룹 100% 자회사 + 전략 핵심 자산</div>
-          <div class="cc-item">오너 독립 경영 의지 극히 강 + 재정 여유</div>
-          <div class="cc-item">시가총액·인수가격이 현실적 범위 초과</div>
-          <div class="cc-item">경쟁관계로 인수 시 이해충돌 불가피</div>
-          <div class="cc-item">※ 퍼블리싱·IP 콜라보는 별도 검토 가능</div>
+          <div class="cc-label r" id="i18n-crit-r-label">직접 접근 불가</div>
+          <div class="cc-item" id="i18n-crit-r-1">대기업 그룹 100% 자회사 + 전략 핵심 자산</div>
+          <div class="cc-item" id="i18n-crit-r-2">오너 독립 경영 의지 극히 강 + 재정 여유</div>
+          <div class="cc-item" id="i18n-crit-r-3">시가총액·인수가격이 현실적 범위 초과</div>
+          <div class="cc-item" id="i18n-crit-r-4">경쟁관계로 인수 시 이해충돌 불가피</div>
+          <div class="cc-item" id="i18n-crit-r-5">※ 퍼블리싱·IP 콜라보는 별도 검토 가능</div>
         </div>
         <div class="criteria-card d">
           <div class="cc-badge d">N</div>
-          <div class="cc-label d">미검토</div>
-          <div class="cc-item">재무·주주구조 데이터 불충분으로 보류</div>
-          <div class="cc-item">시장성 높아 포함하되 우선순위 미결정</div>
-          <div class="cc-item">주요 파트너로만 파악 (직접 타깃 아님)</div>
-          <div class="cc-item">해외 기업으로 정보 제한적</div>
-          <div class="cc-item">향후 추가 조사 후 재분류 예정</div>
+          <div class="cc-label d" id="i18n-crit-d-label">미검토</div>
+          <div class="cc-item" id="i18n-crit-d-1">재무·주주구조 데이터 불충분으로 보류</div>
+          <div class="cc-item" id="i18n-crit-d-2">시장성 높아 포함하되 우선순위 미결정</div>
+          <div class="cc-item" id="i18n-crit-d-3">주요 파트너로만 파악 (직접 타깃 아님)</div>
+          <div class="cc-item" id="i18n-crit-d-4">해외 기업으로 정보 제한적</div>
+          <div class="cc-item" id="i18n-crit-d-5">향후 추가 조사 후 재분류 예정</div>
         </div>
       </div>
     </div>
@@ -525,13 +525,13 @@ body.v2-lock{overflow:hidden!important;}
   <div class="strow" id="stats"></div>
   <div class="chart-panel" id="chart-panel">
     <div class="chart-header" onclick="toggleChart()">
-      <span class="chart-title">📊 시총 / 매출 상위 기업 (데이터 있는 기업 기준)</span>
+      <span class="chart-title" id="i18n-chart-title">📊 시총 / 매출 상위 기업 (데이터 있는 기업 기준)</span>
       <span class="chart-toggle" id="chart-arr">▼ 펼치기</span>
     </div>
     <div class="chart-body collapsed" id="chart-body">
       <div class="chart-tabs">
-        <span class="chart-tab on" onclick="setChartMode('mk')">시가총액</span>
-        <span class="chart-tab" onclick="setChartMode('rv')">매출</span>
+        <span class="chart-tab on" id="i18n-tab-mk" onclick="setChartMode('mk')">시가총액</span>
+        <span class="chart-tab" id="i18n-tab-rv" onclick="setChartMode('rv')">매출</span>
       </div>
       <div id="chart-bars"></div>
     </div>
@@ -541,11 +541,11 @@ body.v2-lock{overflow:hidden!important;}
       <input id="srch" type="text" placeholder="회사명(한국어·일본어) · 타이틀 · 특징 · 판단근거 검색..." />
     </div>
     <div class="sort-tabs">
-      <span class="stab on" onclick="setSort('default')">등록순</span>
-      <span class="stab" onclick="setSort('mk_desc')">시총 높은순 ↓</span>
-      <span class="stab" onclick="setSort('mk_asc')">시총 낮은순 ↑</span>
-      <span class="stab" onclick="setSort('ma_rank')">등급순</span>
-      <span class="stab" onclick="setSort('name_asc')">이름순</span>
+      <span class="stab on" id="i18n-sort-default" onclick="setSort('default')">등록순</span>
+      <span class="stab" id="i18n-sort-mkdesc" onclick="setSort('mk_desc')">시총 높은순 ↓</span>
+      <span class="stab" id="i18n-sort-mkasc" onclick="setSort('mk_asc')">시총 낮은순 ↑</span>
+      <span class="stab" id="i18n-sort-rank" onclick="setSort('ma_rank')">등급순</span>
+      <span class="stab" id="i18n-sort-name" onclick="setSort('name_asc')">이름순</span>
     </div>
     <div id="filters"></div>
   </div>
@@ -1136,20 +1136,70 @@ let sortMode='default';
 /* ── 언어 토글 (한국어/日本語) ────────────────────────────────────────────── */
 let LANG=localStorage.getItem('lang')||'ko';
 const UI={
-  ko:{ch:'기업 특징',pr:'장점 (M&amp;A / 퍼블리싱)',cn:'단점 / 리스크',sh:'주주구조',mr:'전략 검토 근거',partnerReason:'파트너십 근거',tt:'주요 타이틀',rep:'대표',rep2:'대표이사',ip:'자체IP',accel:'엑셀레이션',mk:'시가총액',rv:'연간매출',mg:'영업이익률',cmp:'+비교',cmpTitle:'비교에 추가',fix:'📌 데이터 수정: ',site:'🌐 공식 사이트',stock:'📈 주가 확인',stockOf:n=>`📈 모회사 주가 (${n})`,emp:'명',noPlan:'(작성 예정)'},
-  jp:{ch:'企業特徴',pr:'強み（M&amp;A / パブリッシング）',cn:'弱み・リスク',sh:'株主構成',mr:'戦略検討根拠',partnerReason:'パートナーシップ根拠',tt:'主要タイトル',rep:'代表',rep2:'代表取締役',ip:'自社IP',accel:'アクセラレーション',mk:'時価総額',rv:'年間売上',mg:'営業利益率',cmp:'+比較',cmpTitle:'比較に追加',fix:'📌 データ修正: ',site:'🌐 公式サイト',stock:'📈 株価を確認',stockOf:n=>`📈 親会社株価（${n}）`,emp:'名',noPlan:'（作成予定）'}
+  ko:{ch:'기업 특징',pr:'장점 (M&amp;A / 퍼블리싱)',cn:'단점 / 리스크',sh:'주주구조',mr:'전략 검토 근거',partnerReason:'파트너십 근거',tt:'주요 타이틀',rep:'대표',rep2:'대표이사',ip:'자체IP',accel:'엑셀레이션',mk:'시가총액',rv:'연간매출',mg:'영업이익률',cmp:'+비교',cmpTitle:'비교에 추가',fix:'📌 데이터 수정: ',site:'🌐 공식 사이트',stock:'📈 주가 확인',stockOf:n=>`📈 모회사 주가 (${n})`,emp:'명',noPlan:'(작성 예정)',
+      statAll:'전체 기업',statApprove:'접근 검토 (○+△)',statOwnIP:'자체 IP 보유',statMkSum:'접근검토 합산 시총',
+      filterGroupType:'분류',filterGroupCt:'국가',filterGroupGn:'장르',filterGroupMa:'접근 유형',filterGroupIp:'자체 IP 보유여부',contactOnly:'📋 컨택 이력 있는 기업만',
+      countLabel:c=>`${c}개 기업 표시 중 (전체 ${DD.length}개)`,
+      critTitle:'📋 접근 유형 분류 (클릭하여 펼치기)',chartTitle:'📊 시총 / 매출 상위 기업 (데이터 있는 기업 기준)',chartExpand:'▼ 펼치기',chartCollapse:'▲ 접기',
+      tabMk:'시가총액',tabRv:'매출',srchPh:'회사명(한국어·일본어) · 타이틀 · 특징 · 판단근거 검색...',
+      sortDefault:'등록순',sortMkDesc:'시총 높은순 ↓',sortMkAsc:'시총 낮은순 ↑',sortRank:'등급순',sortName:'이름순',
+      critGLabel:'접근 검토 대상',critG1:'시가총액 현실적 범위 내 중소형사',critG2:'창업자·대주주가 외부 자본·파트너에 열린 자세 (또는 상황 변화 가능성)',critG3:'특정 대기업의 전략 핵심 자산 아님',critG4:'우호적 협상 진행 가능한 환경',critG5:'가능한 딜 형태: ',critG5b:'M&amp;A 인수 / 소수지분 투자 / 조인트벤처(JV) / 전략적 파트너십',
+      critRLabel:'직접 접근 불가',critR1:'대기업 그룹 100% 자회사 + 전략 핵심 자산',critR2:'오너 독립 경영 의지 극히 강 + 재정 여유',critR3:'시가총액·인수가격이 현실적 범위 초과',critR4:'경쟁관계로 인수 시 이해충돌 불가피',critR5:'※ 퍼블리싱·IP 콜라보는 별도 검토 가능',
+      critDLabel:'미검토',critD1:'재무·주주구조 데이터 불충분으로 보류',critD2:'시장성 높아 포함하되 우선순위 미결정',critD3:'주요 파트너로만 파악 (직접 타깃 아님)',critD4:'해외 기업으로 정보 제한적',critD5:'향후 추가 조사 후 재분류 예정'},
+  jp:{ch:'企業特徴',pr:'強み（M&amp;A / パブリッシング）',cn:'弱み・リスク',sh:'株主構成',mr:'戦略検討根拠',partnerReason:'パートナーシップ根拠',tt:'主要タイトル',rep:'代表',rep2:'代表取締役',ip:'自社IP',accel:'アクセラレーション',mk:'時価総額',rv:'年間売上',mg:'営業利益率',cmp:'+比較',cmpTitle:'比較に追加',fix:'📌 データ修正: ',site:'🌐 公式サイト',stock:'📈 株価を確認',stockOf:n=>`📈 親会社株価（${n}）`,emp:'名',noPlan:'（作成予定）',
+      statAll:'全企業',statApprove:'アプローチ検討（○+△）',statOwnIP:'自社IP保有',statMkSum:'アプローチ検討 合算時価総額',
+      filterGroupType:'分類',filterGroupCt:'国',filterGroupGn:'ジャンル',filterGroupMa:'アプローチ種別',filterGroupIp:'自社IP保有有無',contactOnly:'📋 コンタクト履歴のある企業のみ',
+      countLabel:c=>`${c}社を表示中（全${DD.length}社）`,
+      critTitle:'📋 アプローチ種別分類（クリックで展開）',chartTitle:'📊 時価総額 / 売上上位企業（データのある企業基準）',chartExpand:'▼ 展開',chartCollapse:'▲ 閉じる',
+      tabMk:'時価総額',tabRv:'売上',srchPh:'会社名（韓国語・日本語）・タイトル・特徴・判断根拠で検索...',
+      sortDefault:'登録順',sortMkDesc:'時価総額高い順 ↓',sortMkAsc:'時価総額低い順 ↑',sortRank:'ランク順',sortName:'名前順',
+      critGLabel:'アプローチ検討対象',critG1:'時価総額が現実的な範囲内の中小型企業',critG2:'創業者・大株主が外部資本・パートナーに開かれた姿勢（または状況変化の可能性）',critG3:'特定大企業の戦略上の中核資産ではない',critG4:'友好的な交渉が可能な環境',critG5:'想定されるディール形態：',critG5b:'M&amp;A買収 / 少数持分投資 / ジョイントベンチャー(JV) / 戦略的パートナーシップ',
+      critRLabel:'直接アプローチ不可',critR1:'大企業グループの100%子会社 + 戦略上の中核資産',critR2:'オーナーの独立経営意志が極めて強い + 資金的余裕あり',critR3:'時価総額・買収価格が現実的な範囲を超過',critR4:'競合関係により買収時に利益相反が不可避',critR5:'※パブリッシング・IPコラボは別途検討可能',
+      critDLabel:'未検討',critD1:'財務・株主構成データ不足のため保留',critD2:'市場性は高いが優先順位未確定',critD3:'主要パートナーとしてのみ把握（直接ターゲットではない）',critD4:'海外企業のため情報が限定的',critD5:'今後追加調査の上で再分類予定'}
 };
 function t(key){return UI[LANG][key];}
+const FILTER_LABEL={
+  jp:{'전체':'すべて','분석':'分析','엑셀레이션':'アクセラレーション','일본':'日本','한국':'韓国','중국':'中国','유럽/싱가포르':'ヨーロッパ/シンガポール',
+      '서브컬처':'サブカルチャー','비서브컬처':'非サブカルチャー','IP판권':'IP版権','AI기술':'AI技術',
+      '접근검토':'アプローチ検討','직접불가':'直接不可','미검토':'未検討',
+      '자체IP 보유':'自社IP保有','수탁/라이선스':'受託/ライセンス'}
+};
+function fl(key){return (LANG==='jp'&&FILTER_LABEL.jp[key])||key;}
 function F(c,field){ // 언어별 필드 선택 — 일본어 번역 없으면 한국어로 폴백
   if(LANG==='jp'){const v=c[field+'_jp'];return v||c[field];}
   return c[field];
+}
+function applyStaticI18n(){
+  const map={
+    'i18n-crit-title':'critTitle','i18n-chart-title':'chartTitle','i18n-tab-mk':'tabMk','i18n-tab-rv':'tabRv',
+    'i18n-sort-default':'sortDefault','i18n-sort-mkdesc':'sortMkDesc','i18n-sort-mkasc':'sortMkAsc','i18n-sort-rank':'sortRank','i18n-sort-name':'sortName',
+    'i18n-crit-g-label':'critGLabel','i18n-crit-g-1':'critG1','i18n-crit-g-2':'critG2','i18n-crit-g-3':'critG3','i18n-crit-g-4':'critG4',
+    'i18n-crit-r-label':'critRLabel','i18n-crit-r-1':'critR1','i18n-crit-r-2':'critR2','i18n-crit-r-3':'critR3','i18n-crit-r-4':'critR4','i18n-crit-r-5':'critR5',
+    'i18n-crit-d-label':'critDLabel','i18n-crit-d-1':'critD1','i18n-crit-d-2':'critD2','i18n-crit-d-3':'critD3','i18n-crit-d-4':'critD4','i18n-crit-d-5':'critD5',
+  };
+  for(const id in map){
+    const el=document.getElementById(id);
+    if(el) el.textContent=t(map[id]);
+  }
+  const g5=document.getElementById('i18n-crit-g-5');
+  if(g5) g5.innerHTML=t('critG5')+`<strong id="i18n-crit-g-5-b">${t('critG5b')}</strong>`;
+  const srch=document.getElementById('srch');
+  if(srch) srch.placeholder=t('srchPh');
+  const chartArr=document.getElementById('chart-arr');
+  const chartBodyEl=document.getElementById('chart-body');
+  if(chartArr) chartArr.textContent=(chartBodyEl&&!chartBodyEl.classList.contains('collapsed'))?t('chartCollapse'):t('chartExpand');
 }
 function setLang(l){
   LANG=l;
   localStorage.setItem('lang',l);
   const btnKo=document.getElementById('lang-ko'), btnJp=document.getElementById('lang-jp');
   if(btnKo&&btnJp){btnKo.classList.toggle('on',l==='ko');btnJp.classList.toggle('on',l==='jp');}
+  applyStaticI18n();
+  renderStats();
+  renderFilters();
   renderCards();
+  const cb=document.getElementById('chart-body');
+  if(cb&&!cb.classList.contains('collapsed')) renderChart();
 }
 
 const maOrder={O:0,T:0,X:1,N:2};
@@ -1191,12 +1241,12 @@ function renderStats(){
   const otSum=maList.filter(c=>(c.ma==='O'||c.ma==='T')&&c.mk!=null).reduce((s,c)=>s+c.mk,0);
   const otSumStr=otSum>=1e12?(otSum/1e12).toFixed(1)+'조엔':Math.round(otSum/1e8)+'억엔';
   document.getElementById('stats').innerHTML=
-    `<div class="stc" onclick="setF('tp','전체')"><div class="stl">전체 기업</div><div class="stv">${all.length}</div></div>`+
-    `<div class="stc" onclick="setF('tp','분석')"><div class="stl">분석</div><div class="stv" style="color:#1a56c4">${maList.length}</div></div>`+
-    `<div class="stc" onclick="setF('tp','엑셀레이션')"><div class="stl">엑셀레이션</div><div class="stv" style="color:#0a6e7a">${accelList.length}</div></div>`+
-    `<div class="stc" onclick="setF('ma','접근검토')"><div class="stl">접근 검토 (○+△)</div><div class="stv g">${maList.filter(c=>c.ma=='O'||c.ma=='T').length}</div></div>`+
-    `<div class="stc" onclick="setF('ip','자체IP 보유')"><div class="stl">자체 IP 보유</div><div class="stv" style="color:#8a5a00">${all.filter(c=>c.ip).length}</div></div>`+
-    `<div class="stc"><div class="stl">접근검토 합산 시총</div><div class="stv p" style="font-size:14px">${otSumStr}</div></div>`;
+    `<div class="stc" onclick="setF('tp','전체')"><div class="stl">${t('statAll')}</div><div class="stv">${all.length}</div></div>`+
+    `<div class="stc" onclick="setF('tp','분석')"><div class="stl">${fl('분석')}</div><div class="stv" style="color:#1a56c4">${maList.length}</div></div>`+
+    `<div class="stc" onclick="setF('tp','엑셀레이션')"><div class="stl">${fl('엑셀레이션')}</div><div class="stv" style="color:#0a6e7a">${accelList.length}</div></div>`+
+    `<div class="stc" onclick="setF('ma','접근검토')"><div class="stl">${t('statApprove')}</div><div class="stv g">${maList.filter(c=>c.ma=='O'||c.ma=='T').length}</div></div>`+
+    `<div class="stc" onclick="setF('ip','자체IP 보유')"><div class="stl">${t('statOwnIP')}</div><div class="stv" style="color:#8a5a00">${all.filter(c=>c.ip).length}</div></div>`+
+    `<div class="stc"><div class="stl">${t('statMkSum')}</div><div class="stv p" style="font-size:14px">${otSumStr}</div></div>`;
 }
 
 function renderFilters(){
@@ -1206,17 +1256,17 @@ function renderFilters(){
   const ips=['전체','자체IP 보유','수탁/라이선스'];
   const tps=['전체','분석','엑셀레이션'];
   document.getElementById('filters').innerHTML=
-    `<div class="fgl">분류</div><div class="sf">${tps.map(t=>`<span class="fp${fs.tp==t?' on':''}" onclick="setF('tp','${t}')">${t}</span>`).join('')}</div>`+
-    `<div class="fgl">국가</div><div class="sf">${cts.map(c=>`<span class="fp${fs.ct==c?' on':''}" onclick="setF('ct','${c}')">${c}</span>`).join('')}</div>`+
-    `<div class="fgl">장르</div><div class="sf">${gns.map(g=>`<span class="fp${fs.gn==g?' on':''}" onclick="setF('gn','${g}')">${g}</span>`).join('')}</div>`+
-    `<div class="fgl">접근 유형</div><div class="sf">${mas.map(m=>`<span class="fp${fs.ma==m?' on':''}" onclick="setF('ma','${m}')">${m}</span>`).join('')}</div>`+
-    `<div class="fgl">자체 IP 보유여부</div><div class="sf">${ips.map(i=>`<span class="fp${fs.ip==i?' on':''}" onclick="setF('ip','${i}')">${i}</span>`).join('')}</div>`+
-    `<div class="sf" style="margin-top:8px;margin-bottom:2px;"><span class="fp${fs.contact?' on':''}" onclick="fs.contact=!fs.contact;renderFilters();renderCards();">📋 컨택 이력 있는 기업만</span></div>`;
+    `<div class="fgl">${t('filterGroupType')}</div><div class="sf">${tps.map(v=>`<span class="fp${fs.tp==v?' on':''}" onclick="setF('tp','${v}')">${fl(v)}</span>`).join('')}</div>`+
+    `<div class="fgl">${t('filterGroupCt')}</div><div class="sf">${cts.map(c=>`<span class="fp${fs.ct==c?' on':''}" onclick="setF('ct','${c}')">${fl(c)}</span>`).join('')}</div>`+
+    `<div class="fgl">${t('filterGroupGn')}</div><div class="sf">${gns.map(g=>`<span class="fp${fs.gn==g?' on':''}" onclick="setF('gn','${g}')">${fl(g)}</span>`).join('')}</div>`+
+    `<div class="fgl">${t('filterGroupMa')}</div><div class="sf">${mas.map(m=>`<span class="fp${fs.ma==m?' on':''}" onclick="setF('ma','${m}')">${fl(m)}</span>`).join('')}</div>`+
+    `<div class="fgl">${t('filterGroupIp')}</div><div class="sf">${ips.map(i=>`<span class="fp${fs.ip==i?' on':''}" onclick="setF('ip','${i}')">${fl(i)}</span>`).join('')}</div>`+
+    `<div class="sf" style="margin-top:8px;margin-bottom:2px;"><span class="fp${fs.contact?' on':''}" onclick="fs.contact=!fs.contact;renderFilters();renderCards();">${t('contactOnly')}</span></div>`;
 }
 
 function renderCards(){
   const list=getSorted(filtered());
-  document.getElementById('ctb').textContent=list.length+'개 기업 표시 중 (전체 '+DD.length+'개)';
+  document.getElementById('ctb').textContent=t('countLabel')(list.length);
   document.getElementById('grid').innerHTML=list.map((c)=>{
     const idx=DD.indexOf(c);
     const hasContact=CONTACTS.some(ct=>ct.n===c.n);
@@ -1355,8 +1405,9 @@ function toggleCriteria(){
 }
 document.getElementById('srch').addEventListener('input',e=>{fs.q=e.target.value;renderCards();});
 
-renderStats();
 document.getElementById('lang-'+LANG).classList.add('on');
+applyStaticI18n();
+renderStats();
 renderFilters();
 renderCards();
 
@@ -1372,9 +1423,9 @@ function renderChart(){
   const data=base.filter(c=>c[field]!=null&&c[field]>0)
     .sort((a,b)=>b[field]-a[field])
     .slice(0,12);
-  const totalLabel=`(${base.length}개사 중 데이터 있는 기업 기준)`;
-  document.querySelector('.chart-title').textContent=`📊 시총 / 매출 상위 기업 ${totalLabel}`;
-  if(!data.length){document.getElementById('chart-bars').innerHTML='<div style="font-size:12px;color:#aaa;padding:8px 0">해당 필터에 데이터 있는 기업 없음</div>';return;}
+  const totalLabel=LANG==='jp'?`（${base.length}社中データのある企業基準）`:`(${base.length}개사 중 데이터 있는 기업 기준)`;
+  document.querySelector('.chart-title').textContent=`📊 ${LANG==='jp'?'時価総額 / 売上上位企業':'시총 / 매출 상위 기업'} ${totalLabel}`;
+  if(!data.length){document.getElementById('chart-bars').innerHTML=`<div style="font-size:12px;color:#aaa;padding:8px 0">${LANG==='jp'?'該当フィルターにデータのある企業がありません':'해당 필터에 데이터 있는 기업 없음'}</div>`;return;}
   const max=data[0][field];
   const bars=data.map(c=>{
     const pct=Math.round((c[field]/max)*100);
@@ -1402,12 +1453,12 @@ function toggleChart(){
   if(chartOpen){
     body.classList.remove('collapsed');
     body.style.maxHeight=body.scrollHeight+'px';
-    arr.textContent='▲ 접기';
+    arr.textContent=t('chartCollapse');
     renderChart();
   } else {
     body.style.maxHeight='0';
     body.classList.add('collapsed');
-    arr.textContent='▼ 펼치기';
+    arr.textContent=t('chartExpand');
   }
 }
 
